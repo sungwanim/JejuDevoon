@@ -1,0 +1,21 @@
+{
+  "id": "jeju_vegetable_cultivation",
+  "title": "제주 채소류 재배현황 (연산별 면적·생산량·조수입)",
+  "source": "제주데이터허브 제주채소류재배현황 (데이터 기준일 2021-08-09)",
+  "access": "file",
+  "file": "data/제주채소류재배현황.csv",
+  "license": "제주데이터허브 이용약관(확인 필요)",
+  "spatial_unit": "도 전체",
+  "temporal_unit": "연산(작기)",
+  "coverage": {"from": "15-16", "to": "20-21", "region": "제주특별자치도 전체"},
+  "columns": [
+    {"name": "연산", "meaning": "연산(작기). 'YY-YY' 표기, 예 20-21 = 2020~2021 작기. 6개(15-16~20-21)", "unit": "", "role_hint": "season"},
+    {"name": "채소구분대분류", "meaning": "재배 형태: 노지채소 | 시설채소", "unit": "", "role_hint": "crop_group"},
+    {"name": "채소구분소분류", "meaning": "작목 28종(월동무, 양배추, 당근, 구마늘, 양파_조생 등). '기타(…)'로 시작하는 2개는 여러 작목을 묶은 합계 성격", "unit": "", "role_hint": "crop"},
+    {"name": "면적(ha)", "meaning": "재배면적", "unit": "ha", "role_hint": "area", "parse": "numeric"},
+    {"name": "생산량(톤)", "meaning": "생산량", "unit": "톤", "role_hint": "production", "parse": "numeric"},
+    {"name": "조수입(백만원)", "meaning": "조수입(판매 총수입). 비용은 없다", "unit": "백만원", "role_hint": "revenue", "parse": "numeric"},
+    {"name": "데이터 기준일", "meaning": "원본 데이터 기준일 (YYYYMMDD)", "unit": "", "role_hint": "as_of"}
+  ],
+  "notes": "도 전체 단위라 지점·읍면동별 차이는 설명하지 못한다. 조수입 기준이며 비용·순이익 정보가 없다. 최신 연산은 20-21이고 데이터 기준일은 2021-08-09다. 연산 6개 x 노지/시설 x 작목 = 168행. 소분류 '기타(…)' 2개는 여러 작목의 합이라 개별 작목과 비교하지 않는다. 인코딩 utf-8-sig. 허브 가격 데이터의 품종 이름과는 이름이 같은 월동무만 연결한다(backend/jejuagent/catalog/crop_name_map.json)."
+}

@@ -1,0 +1,68 @@
+import json
+from types import SimpleNamespace
+
+import numpy as np
+import pandas as pd
+from fastapi.testclient import TestClient
+
+from jejuagent.api.app import create_app
+from jejuagent.llm import FakeLLM
+from jejuagent.runner import SnapshotRegistry
+from jejuagent.runner.stages import s3_load
+
+reg = SnapshotRegistry()
+
+
+def test_catalog_has_five_entries_with_required_fields():
+    cat = reg.catalog()
+    assert {e["id"] for e in cat} == {"seogwipo_citrus_production", "jdh_agri_daily_trade", "jdh_agri_trade_moving_avg",
+                                         "synthetic_aws_daily", "jeju_vegetable_cultivation"}
+    for e in cat:
+        assert all(k in e for k in ("title", "source", "access", "license", "spatial_unit", "temporal_unit", "coverage", "columns", "notes"))
+    assert "제주시" in next(e for e in cat if e["id"].startswith("seogwipo"))["notes"]
+    assert all(e["synthetic"] and "합성" in e["notes"] for e in cat if e["id"].startswith("jdh_"))
+    aws = next(e for e in cat if e["id"] == "synthetic_aws_daily")   # 티켓 16: 지점 기후용 합성 관측소 (실데이터 아님)
+    assert aws["synthetic"] and aws["spatial_unit"] == "관측소" and "합성" in aws["title"] + aws["source"] + aws["notes"]
+    assert reg.load("synthetic_aws_daily").attrs["synthetic"] is True
+    assert json.load(open(reg.snapshots_dir / "jdh_agri_daily_trade.json", encoding="utf-8"))["meta"]["synthetic"] is True
+
+
+def test_citrus_cp949_wide_and_profile():
+    df = reg.load("seogwipo_citrus_production")
+    assert df.attrs["encoding"] == "cp949" and len(df) == 495
+    assert df["읍면동"].nunique() == 15 and set(df["구분"]) == {"농가수", "면적", "생산량"}
+    from jejuagent.catalog import profile
+    p = profile(df, "seogwipo_citrus_production", next(e for e in reg.catalog() if e["id"].startswith("seogwipo")))
+    assert p["n_rows"] == 495 and p["encoding"] == "cp949" and len(p["version_hash"]) == 16
+    c = {x["name"]: x for x in p["columns"]}["노지온주(조생)"]
+    assert c["dtype"] == "float" and "ha" in c["unit"] and 3 <= len(c["samples"]) <= 5
+    assert c["n_unique"] > 3 and c["min"] <= c["max"]
+    assert p == profile(df, "seogwipo_citrus_production", next(e for e in reg.catalog() if e["id"].startswith("seogwipo")))
+    json.dumps(p)
+
+
+def test_trade_snapshot_string_numbers_and_zero_missing():
+    d = reg.load("jdh_agri_daily_trade")
+    assert d["averagePrice"].dtype == float and pd.api.types.is_datetime64_any_dtype(d["baseDate"])
+    m = reg.load("jdh_agri_trade_moving_avg")
+    assert m["priceMovingAverage"].isna().sum() >= 6 and (m["priceMovingAverage"].dropna() > 0).all()
+    from jejuagent.catalog import profile
+    pm = {x["name"]: x for x in profile(m, "x", next(e for e in reg.catalog() if e["id"].endswith("moving_avg")))["columns"]}
+    assert pm["priceMovingAverage"]["null_pct"] > 0 and pm["priceMovingAverage"]["unit"] == "원/kg"
+    assert pm["baseDate"]["dtype"] == "date"
+
+
+def test_s3_skips_failed_and_records():
+    class Tr:
+        def add(self, *a, **k): pass
+    ctx = SimpleNamespace(data=reg, trace=Tr())
+    st = SimpleNamespace(selection={"selected": [{"dataset_id": "jdh_agri_daily_trade"}, {"dataset_id": "nope"}]},
+                         data={}, profiles={}, load_failures=[])
+    st = s3_load.run(st, ctx)
+    assert list(st.data) == ["jdh_agri_daily_trade"] and list(st.profiles) == ["jdh_agri_daily_trade"]
+    assert st.load_failures[0]["dataset_id"] == "nope"
+
+
+def test_catalog_api_lists_entries():
+    r = TestClient(create_app(lambda: FakeLLM([]), data=reg)).get("/api/catalog").json()
+    assert len(r) == 5 and r[0]["title"]

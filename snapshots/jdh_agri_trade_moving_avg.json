@@ -1,0 +1,2748 @@
+{
+ "meta": {
+  "synthetic": true,
+  "note": "합성 샘플이며 실데이터가 아님. 허브 API 명세의 필드와 표기 규칙만 따랐다. 실데이터는 티켓 09가 받는다.",
+  "period": 7,
+  "cultivars_total": 18,
+  "cultivars_included": [
+   "당근(일반)",
+   "깐마늘",
+   "월동무",
+   "양배추(일반)",
+   "중만생양파",
+   "저장양파"
+  ]
+ },
+ "data": [
+  {
+   "baseDate": "20240101",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "0.00",
+   "volumeMovingAverage": "0.00",
+   "amountMovingAverage": "0.00"
+  },
+  {
+   "baseDate": "20240102",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1839.12",
+   "volumeMovingAverage": "1.29",
+   "amountMovingAverage": "2.37"
+  },
+  {
+   "baseDate": "20240103",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1872.48",
+   "volumeMovingAverage": "1.38",
+   "amountMovingAverage": "2.58"
+  },
+  {
+   "baseDate": "20240104",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1844.47",
+   "volumeMovingAverage": "0.95",
+   "amountMovingAverage": "1.78"
+  },
+  {
+   "baseDate": "20240105",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1824.13",
+   "volumeMovingAverage": "0.93",
+   "amountMovingAverage": "1.72"
+  },
+  {
+   "baseDate": "20240108",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1805.68",
+   "volumeMovingAverage": "0.76",
+   "amountMovingAverage": "1.40"
+  },
+  {
+   "baseDate": "20240109",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1800.62",
+   "volumeMovingAverage": "0.80",
+   "amountMovingAverage": "1.46"
+  },
+  {
+   "baseDate": "20240110",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1803.10",
+   "volumeMovingAverage": "0.72",
+   "amountMovingAverage": "1.32"
+  },
+  {
+   "baseDate": "20240111",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1807.50",
+   "volumeMovingAverage": "0.67",
+   "amountMovingAverage": "1.23"
+  },
+  {
+   "baseDate": "20240112",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1799.89",
+   "volumeMovingAverage": "0.63",
+   "amountMovingAverage": "1.15"
+  },
+  {
+   "baseDate": "20240115",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1805.39",
+   "volumeMovingAverage": "0.77",
+   "amountMovingAverage": "1.39"
+  },
+  {
+   "baseDate": "20240116",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1817.89",
+   "volumeMovingAverage": "0.66",
+   "amountMovingAverage": "1.20"
+  },
+  {
+   "baseDate": "20240117",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1832.46",
+   "volumeMovingAverage": "0.75",
+   "amountMovingAverage": "1.37"
+  },
+  {
+   "baseDate": "20240118",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1835.49",
+   "volumeMovingAverage": "0.74",
+   "amountMovingAverage": "1.36"
+  },
+  {
+   "baseDate": "20240119",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1835.76",
+   "volumeMovingAverage": "0.74",
+   "amountMovingAverage": "1.35"
+  },
+  {
+   "baseDate": "20240122",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1823.17",
+   "volumeMovingAverage": "0.64",
+   "amountMovingAverage": "1.17"
+  },
+  {
+   "baseDate": "20240123",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1800.81",
+   "volumeMovingAverage": "0.52",
+   "amountMovingAverage": "0.93"
+  },
+  {
+   "baseDate": "20240124",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1770.80",
+   "volumeMovingAverage": "0.50",
+   "amountMovingAverage": "0.87"
+  },
+  {
+   "baseDate": "20240125",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1740.86",
+   "volumeMovingAverage": "0.69",
+   "amountMovingAverage": "1.18"
+  },
+  {
+   "baseDate": "20240126",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1713.21",
+   "volumeMovingAverage": "0.72",
+   "amountMovingAverage": "1.22"
+  },
+  {
+   "baseDate": "20240129",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1690.52",
+   "volumeMovingAverage": "0.65",
+   "amountMovingAverage": "1.07"
+  },
+  {
+   "baseDate": "20240130",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1668.34",
+   "volumeMovingAverage": "0.64",
+   "amountMovingAverage": "1.05"
+  },
+  {
+   "baseDate": "20240131",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1668.82",
+   "volumeMovingAverage": "0.81",
+   "amountMovingAverage": "1.36"
+  },
+  {
+   "baseDate": "20240201",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1682.34",
+   "volumeMovingAverage": "0.97",
+   "amountMovingAverage": "1.65"
+  },
+  {
+   "baseDate": "20240202",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1721.97",
+   "volumeMovingAverage": "0.93",
+   "amountMovingAverage": "1.61"
+  },
+  {
+   "baseDate": "20240205",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1768.10",
+   "volumeMovingAverage": "0.81",
+   "amountMovingAverage": "1.44"
+  },
+  {
+   "baseDate": "20240206",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1822.91",
+   "volumeMovingAverage": "0.79",
+   "amountMovingAverage": "1.46"
+  },
+  {
+   "baseDate": "20240207",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1877.06",
+   "volumeMovingAverage": "0.81",
+   "amountMovingAverage": "1.51"
+  },
+  {
+   "baseDate": "20240208",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1937.72",
+   "volumeMovingAverage": "0.97",
+   "amountMovingAverage": "1.87"
+  },
+  {
+   "baseDate": "20240209",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1980.18",
+   "volumeMovingAverage": "0.92",
+   "amountMovingAverage": "1.82"
+  },
+  {
+   "baseDate": "20240212",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "2013.86",
+   "volumeMovingAverage": "0.88",
+   "amountMovingAverage": "1.78"
+  },
+  {
+   "baseDate": "20240213",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "2032.95",
+   "volumeMovingAverage": "0.81",
+   "amountMovingAverage": "1.65"
+  },
+  {
+   "baseDate": "20240214",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "2041.71",
+   "volumeMovingAverage": "0.90",
+   "amountMovingAverage": "1.84"
+  },
+  {
+   "baseDate": "20240215",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "2039.32",
+   "volumeMovingAverage": "0.79",
+   "amountMovingAverage": "1.63"
+  },
+  {
+   "baseDate": "20240216",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "2047.29",
+   "volumeMovingAverage": "0.74",
+   "amountMovingAverage": "1.51"
+  },
+  {
+   "baseDate": "20240219",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "2022.42",
+   "volumeMovingAverage": "0.58",
+   "amountMovingAverage": "1.17"
+  },
+  {
+   "baseDate": "20240220",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1988.88",
+   "volumeMovingAverage": "0.60",
+   "amountMovingAverage": "1.18"
+  },
+  {
+   "baseDate": "20240221",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1956.21",
+   "volumeMovingAverage": "0.62",
+   "amountMovingAverage": "1.18"
+  },
+  {
+   "baseDate": "20240222",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1915.54",
+   "volumeMovingAverage": "0.63",
+   "amountMovingAverage": "1.20"
+  },
+  {
+   "baseDate": "20240223",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1877.15",
+   "volumeMovingAverage": "0.47",
+   "amountMovingAverage": "0.87"
+  },
+  {
+   "baseDate": "20240226",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1844.60",
+   "volumeMovingAverage": "0.59",
+   "amountMovingAverage": "1.07"
+  },
+  {
+   "baseDate": "20240227",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1799.43",
+   "volumeMovingAverage": "0.66",
+   "amountMovingAverage": "1.19"
+  },
+  {
+   "baseDate": "20240228",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1780.53",
+   "volumeMovingAverage": "0.64",
+   "amountMovingAverage": "1.16"
+  },
+  {
+   "baseDate": "20240229",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1772.30",
+   "volumeMovingAverage": "0.58",
+   "amountMovingAverage": "1.03"
+  },
+  {
+   "baseDate": "20240301",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1771.45",
+   "volumeMovingAverage": "0.56",
+   "amountMovingAverage": "1.00"
+  },
+  {
+   "baseDate": "20240304",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1788.12",
+   "volumeMovingAverage": "0.54",
+   "amountMovingAverage": "0.97"
+  },
+  {
+   "baseDate": "20240305",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1796.42",
+   "volumeMovingAverage": "0.70",
+   "amountMovingAverage": "1.25"
+  },
+  {
+   "baseDate": "20240306",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1800.73",
+   "volumeMovingAverage": "0.68",
+   "amountMovingAverage": "1.23"
+  },
+  {
+   "baseDate": "20240307",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1805.93",
+   "volumeMovingAverage": "0.76",
+   "amountMovingAverage": "1.37"
+  },
+  {
+   "baseDate": "20240308",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1806.04",
+   "volumeMovingAverage": "0.78",
+   "amountMovingAverage": "1.41"
+  },
+  {
+   "baseDate": "20240311",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1824.01",
+   "volumeMovingAverage": "0.82",
+   "amountMovingAverage": "1.49"
+  },
+  {
+   "baseDate": "20240312",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1835.75",
+   "volumeMovingAverage": "0.72",
+   "amountMovingAverage": "1.33"
+  },
+  {
+   "baseDate": "20240313",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1831.80",
+   "volumeMovingAverage": "0.84",
+   "amountMovingAverage": "1.54"
+  },
+  {
+   "baseDate": "20240314",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1827.60",
+   "volumeMovingAverage": "0.78",
+   "amountMovingAverage": "1.43"
+  },
+  {
+   "baseDate": "20240315",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1819.37",
+   "volumeMovingAverage": "0.82",
+   "amountMovingAverage": "1.49"
+  },
+  {
+   "baseDate": "20240318",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1825.91",
+   "volumeMovingAverage": "0.82",
+   "amountMovingAverage": "1.50"
+  },
+  {
+   "baseDate": "20240319",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1840.14",
+   "volumeMovingAverage": "0.82",
+   "amountMovingAverage": "1.50"
+  },
+  {
+   "baseDate": "20240320",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1832.35",
+   "volumeMovingAverage": "0.82",
+   "amountMovingAverage": "1.50"
+  },
+  {
+   "baseDate": "20240321",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1827.66",
+   "volumeMovingAverage": "0.95",
+   "amountMovingAverage": "1.73"
+  },
+  {
+   "baseDate": "20240322",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1829.58",
+   "volumeMovingAverage": "0.90",
+   "amountMovingAverage": "1.64"
+  },
+  {
+   "baseDate": "20240325",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1836.80",
+   "volumeMovingAverage": "0.88",
+   "amountMovingAverage": "1.61"
+  },
+  {
+   "baseDate": "20240326",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1848.41",
+   "volumeMovingAverage": "0.83",
+   "amountMovingAverage": "1.54"
+  },
+  {
+   "baseDate": "20240327",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1842.18",
+   "volumeMovingAverage": "0.89",
+   "amountMovingAverage": "1.64"
+  },
+  {
+   "baseDate": "20240328",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1832.43",
+   "volumeMovingAverage": "0.86",
+   "amountMovingAverage": "1.58"
+  },
+  {
+   "baseDate": "20240329",
+   "cultivar": "당근(일반)",
+   "priceMovingAverage": "1817.02",
+   "volumeMovingAverage": "0.81",
+   "amountMovingAverage": "1.47"
+  },
+  {
+   "baseDate": "20240101",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "0.00",
+   "volumeMovingAverage": "0.00",
+   "amountMovingAverage": "0.00"
+  },
+  {
+   "baseDate": "20240102",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "6240.25",
+   "volumeMovingAverage": "0.30",
+   "amountMovingAverage": "1.87"
+  },
+  {
+   "baseDate": "20240103",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "6301.82",
+   "volumeMovingAverage": "0.43",
+   "amountMovingAverage": "2.75"
+  },
+  {
+   "baseDate": "20240104",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "6445.02",
+   "volumeMovingAverage": "0.48",
+   "amountMovingAverage": "3.09"
+  },
+  {
+   "baseDate": "20240105",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "6541.27",
+   "volumeMovingAverage": "0.40",
+   "amountMovingAverage": "2.62"
+  },
+  {
+   "baseDate": "20240108",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "6598.97",
+   "volumeMovingAverage": "0.48",
+   "amountMovingAverage": "3.18"
+  },
+  {
+   "baseDate": "20240109",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "6632.26",
+   "volumeMovingAverage": "0.52",
+   "amountMovingAverage": "3.48"
+  },
+  {
+   "baseDate": "20240110",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "6633.30",
+   "volumeMovingAverage": "0.51",
+   "amountMovingAverage": "3.39"
+  },
+  {
+   "baseDate": "20240111",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "6736.75",
+   "volumeMovingAverage": "0.67",
+   "amountMovingAverage": "4.53"
+  },
+  {
+   "baseDate": "20240112",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "6803.66",
+   "volumeMovingAverage": "0.76",
+   "amountMovingAverage": "5.22"
+  },
+  {
+   "baseDate": "20240115",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "6813.51",
+   "volumeMovingAverage": "0.85",
+   "amountMovingAverage": "5.78"
+  },
+  {
+   "baseDate": "20240116",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "6750.28",
+   "volumeMovingAverage": "0.86",
+   "amountMovingAverage": "5.84"
+  },
+  {
+   "baseDate": "20240117",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "6681.06",
+   "volumeMovingAverage": "0.87",
+   "amountMovingAverage": "5.86"
+  },
+  {
+   "baseDate": "20240118",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "6637.71",
+   "volumeMovingAverage": "0.78",
+   "amountMovingAverage": "5.25"
+  },
+  {
+   "baseDate": "20240119",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "6603.18",
+   "volumeMovingAverage": "0.89",
+   "amountMovingAverage": "5.95"
+  },
+  {
+   "baseDate": "20240122",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "6487.83",
+   "volumeMovingAverage": "0.70",
+   "amountMovingAverage": "4.64"
+  },
+  {
+   "baseDate": "20240123",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "6380.20",
+   "volumeMovingAverage": "0.68",
+   "amountMovingAverage": "4.36"
+  },
+  {
+   "baseDate": "20240124",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "6277.67",
+   "volumeMovingAverage": "0.58",
+   "amountMovingAverage": "3.62"
+  },
+  {
+   "baseDate": "20240125",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "6244.22",
+   "volumeMovingAverage": "0.66",
+   "amountMovingAverage": "4.14"
+  },
+  {
+   "baseDate": "20240126",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "6204.78",
+   "volumeMovingAverage": "0.56",
+   "amountMovingAverage": "3.45"
+  },
+  {
+   "baseDate": "20240129",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "6142.95",
+   "volumeMovingAverage": "0.60",
+   "amountMovingAverage": "3.72"
+  },
+  {
+   "baseDate": "20240130",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "6093.50",
+   "volumeMovingAverage": "0.48",
+   "amountMovingAverage": "2.90"
+  },
+  {
+   "baseDate": "20240131",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "6062.10",
+   "volumeMovingAverage": "0.62",
+   "amountMovingAverage": "3.78"
+  },
+  {
+   "baseDate": "20240201",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "6019.91",
+   "volumeMovingAverage": "0.62",
+   "amountMovingAverage": "3.68"
+  },
+  {
+   "baseDate": "20240202",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "5952.53",
+   "volumeMovingAverage": "0.77",
+   "amountMovingAverage": "4.51"
+  },
+  {
+   "baseDate": "20240205",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "5895.79",
+   "volumeMovingAverage": "0.69",
+   "amountMovingAverage": "4.03"
+  },
+  {
+   "baseDate": "20240206",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "5854.98",
+   "volumeMovingAverage": "0.87",
+   "amountMovingAverage": "5.02"
+  },
+  {
+   "baseDate": "20240207",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "5809.37",
+   "volumeMovingAverage": "0.84",
+   "amountMovingAverage": "4.88"
+  },
+  {
+   "baseDate": "20240208",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "5757.23",
+   "volumeMovingAverage": "0.88",
+   "amountMovingAverage": "5.08"
+  },
+  {
+   "baseDate": "20240209",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "5713.01",
+   "volumeMovingAverage": "0.75",
+   "amountMovingAverage": "4.28"
+  },
+  {
+   "baseDate": "20240212",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "5701.09",
+   "volumeMovingAverage": "0.66",
+   "amountMovingAverage": "3.74"
+  },
+  {
+   "baseDate": "20240213",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "5762.12",
+   "volumeMovingAverage": "0.46",
+   "amountMovingAverage": "2.66"
+  },
+  {
+   "baseDate": "20240214",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "5743.91",
+   "volumeMovingAverage": "0.55",
+   "amountMovingAverage": "3.16"
+  },
+  {
+   "baseDate": "20240215",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "5698.56",
+   "volumeMovingAverage": "0.50",
+   "amountMovingAverage": "2.82"
+  },
+  {
+   "baseDate": "20240216",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "5667.98",
+   "volumeMovingAverage": "0.49",
+   "amountMovingAverage": "2.77"
+  },
+  {
+   "baseDate": "20240219",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "5692.66",
+   "volumeMovingAverage": "0.53",
+   "amountMovingAverage": "3.00"
+  },
+  {
+   "baseDate": "20240220",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "5715.28",
+   "volumeMovingAverage": "0.60",
+   "amountMovingAverage": "3.41"
+  },
+  {
+   "baseDate": "20240221",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "5781.42",
+   "volumeMovingAverage": "0.73",
+   "amountMovingAverage": "4.21"
+  },
+  {
+   "baseDate": "20240222",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "5787.81",
+   "volumeMovingAverage": "0.83",
+   "amountMovingAverage": "4.82"
+  },
+  {
+   "baseDate": "20240223",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "5819.98",
+   "volumeMovingAverage": "0.83",
+   "amountMovingAverage": "4.85"
+  },
+  {
+   "baseDate": "20240226",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "5885.11",
+   "volumeMovingAverage": "0.74",
+   "amountMovingAverage": "4.41"
+  },
+  {
+   "baseDate": "20240227",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "5935.83",
+   "volumeMovingAverage": "0.73",
+   "amountMovingAverage": "4.36"
+  },
+  {
+   "baseDate": "20240228",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "5949.68",
+   "volumeMovingAverage": "0.81",
+   "amountMovingAverage": "4.85"
+  },
+  {
+   "baseDate": "20240229",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "6007.23",
+   "volumeMovingAverage": "0.74",
+   "amountMovingAverage": "4.48"
+  },
+  {
+   "baseDate": "20240301",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "6014.17",
+   "volumeMovingAverage": "0.62",
+   "amountMovingAverage": "3.73"
+  },
+  {
+   "baseDate": "20240304",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "6003.15",
+   "volumeMovingAverage": "0.53",
+   "amountMovingAverage": "3.17"
+  },
+  {
+   "baseDate": "20240305",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "6017.35",
+   "volumeMovingAverage": "0.55",
+   "amountMovingAverage": "3.28"
+  },
+  {
+   "baseDate": "20240306",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "5998.57",
+   "volumeMovingAverage": "0.69",
+   "amountMovingAverage": "4.10"
+  },
+  {
+   "baseDate": "20240307",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "5973.58",
+   "volumeMovingAverage": "0.75",
+   "amountMovingAverage": "4.45"
+  },
+  {
+   "baseDate": "20240308",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "5966.91",
+   "volumeMovingAverage": "0.75",
+   "amountMovingAverage": "4.45"
+  },
+  {
+   "baseDate": "20240311",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "5970.96",
+   "volumeMovingAverage": "0.83",
+   "amountMovingAverage": "4.93"
+  },
+  {
+   "baseDate": "20240312",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "5952.94",
+   "volumeMovingAverage": "0.86",
+   "amountMovingAverage": "5.09"
+  },
+  {
+   "baseDate": "20240313",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "5996.86",
+   "volumeMovingAverage": "0.86",
+   "amountMovingAverage": "5.10"
+  },
+  {
+   "baseDate": "20240314",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "6015.14",
+   "volumeMovingAverage": "0.81",
+   "amountMovingAverage": "4.83"
+  },
+  {
+   "baseDate": "20240315",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "6060.26",
+   "volumeMovingAverage": "0.81",
+   "amountMovingAverage": "4.87"
+  },
+  {
+   "baseDate": "20240318",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "6149.73",
+   "volumeMovingAverage": "0.86",
+   "amountMovingAverage": "5.25"
+  },
+  {
+   "baseDate": "20240319",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "6215.32",
+   "volumeMovingAverage": "0.75",
+   "amountMovingAverage": "4.64"
+  },
+  {
+   "baseDate": "20240320",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "6233.39",
+   "volumeMovingAverage": "0.72",
+   "amountMovingAverage": "4.46"
+  },
+  {
+   "baseDate": "20240321",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "6284.39",
+   "volumeMovingAverage": "0.76",
+   "amountMovingAverage": "4.77"
+  },
+  {
+   "baseDate": "20240322",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "6299.50",
+   "volumeMovingAverage": "0.86",
+   "amountMovingAverage": "5.41"
+  },
+  {
+   "baseDate": "20240325",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "6323.56",
+   "volumeMovingAverage": "0.84",
+   "amountMovingAverage": "5.32"
+  },
+  {
+   "baseDate": "20240326",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "6365.51",
+   "volumeMovingAverage": "0.68",
+   "amountMovingAverage": "4.36"
+  },
+  {
+   "baseDate": "20240327",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "6376.91",
+   "volumeMovingAverage": "0.75",
+   "amountMovingAverage": "4.80"
+  },
+  {
+   "baseDate": "20240328",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "6389.34",
+   "volumeMovingAverage": "0.80",
+   "amountMovingAverage": "5.13"
+  },
+  {
+   "baseDate": "20240329",
+   "cultivar": "깐마늘",
+   "priceMovingAverage": "6381.00",
+   "volumeMovingAverage": "0.86",
+   "amountMovingAverage": "5.47"
+  },
+  {
+   "baseDate": "20240101",
+   "cultivar": "월동무",
+   "priceMovingAverage": "0.00",
+   "volumeMovingAverage": "0.00",
+   "amountMovingAverage": "0.00"
+  },
+  {
+   "baseDate": "20240102",
+   "cultivar": "월동무",
+   "priceMovingAverage": "933.24",
+   "volumeMovingAverage": "0.96",
+   "amountMovingAverage": "0.90"
+  },
+  {
+   "baseDate": "20240103",
+   "cultivar": "월동무",
+   "priceMovingAverage": "952.66",
+   "volumeMovingAverage": "0.86",
+   "amountMovingAverage": "0.82"
+  },
+  {
+   "baseDate": "20240104",
+   "cultivar": "월동무",
+   "priceMovingAverage": "942.88",
+   "volumeMovingAverage": "0.63",
+   "amountMovingAverage": "0.60"
+  },
+  {
+   "baseDate": "20240105",
+   "cultivar": "월동무",
+   "priceMovingAverage": "935.38",
+   "volumeMovingAverage": "0.82",
+   "amountMovingAverage": "0.77"
+  },
+  {
+   "baseDate": "20240108",
+   "cultivar": "월동무",
+   "priceMovingAverage": "927.81",
+   "volumeMovingAverage": "0.87",
+   "amountMovingAverage": "0.80"
+  },
+  {
+   "baseDate": "20240109",
+   "cultivar": "월동무",
+   "priceMovingAverage": "932.04",
+   "volumeMovingAverage": "0.78",
+   "amountMovingAverage": "0.73"
+  },
+  {
+   "baseDate": "20240110",
+   "cultivar": "월동무",
+   "priceMovingAverage": "934.95",
+   "volumeMovingAverage": "0.80",
+   "amountMovingAverage": "0.75"
+  },
+  {
+   "baseDate": "20240111",
+   "cultivar": "월동무",
+   "priceMovingAverage": "932.33",
+   "volumeMovingAverage": "0.88",
+   "amountMovingAverage": "0.81"
+  },
+  {
+   "baseDate": "20240112",
+   "cultivar": "월동무",
+   "priceMovingAverage": "926.42",
+   "volumeMovingAverage": "0.80",
+   "amountMovingAverage": "0.73"
+  },
+  {
+   "baseDate": "20240115",
+   "cultivar": "월동무",
+   "priceMovingAverage": "929.71",
+   "volumeMovingAverage": "0.92",
+   "amountMovingAverage": "0.85"
+  },
+  {
+   "baseDate": "20240116",
+   "cultivar": "월동무",
+   "priceMovingAverage": "930.69",
+   "volumeMovingAverage": "0.83",
+   "amountMovingAverage": "0.77"
+  },
+  {
+   "baseDate": "20240117",
+   "cultivar": "월동무",
+   "priceMovingAverage": "928.72",
+   "volumeMovingAverage": "0.87",
+   "amountMovingAverage": "0.80"
+  },
+  {
+   "baseDate": "20240118",
+   "cultivar": "월동무",
+   "priceMovingAverage": "914.64",
+   "volumeMovingAverage": "0.93",
+   "amountMovingAverage": "0.85"
+  },
+  {
+   "baseDate": "20240119",
+   "cultivar": "월동무",
+   "priceMovingAverage": "904.74",
+   "volumeMovingAverage": "1.01",
+   "amountMovingAverage": "0.91"
+  },
+  {
+   "baseDate": "20240122",
+   "cultivar": "월동무",
+   "priceMovingAverage": "901.18",
+   "volumeMovingAverage": "0.95",
+   "amountMovingAverage": "0.85"
+  },
+  {
+   "baseDate": "20240123",
+   "cultivar": "월동무",
+   "priceMovingAverage": "893.53",
+   "volumeMovingAverage": "1.08",
+   "amountMovingAverage": "0.96"
+  },
+  {
+   "baseDate": "20240124",
+   "cultivar": "월동무",
+   "priceMovingAverage": "886.43",
+   "volumeMovingAverage": "0.97",
+   "amountMovingAverage": "0.86"
+  },
+  {
+   "baseDate": "20240125",
+   "cultivar": "월동무",
+   "priceMovingAverage": "892.22",
+   "volumeMovingAverage": "1.02",
+   "amountMovingAverage": "0.91"
+  },
+  {
+   "baseDate": "20240126",
+   "cultivar": "월동무",
+   "priceMovingAverage": "910.07",
+   "volumeMovingAverage": "1.01",
+   "amountMovingAverage": "0.92"
+  },
+  {
+   "baseDate": "20240129",
+   "cultivar": "월동무",
+   "priceMovingAverage": "932.63",
+   "volumeMovingAverage": "0.90",
+   "amountMovingAverage": "0.83"
+  },
+  {
+   "baseDate": "20240130",
+   "cultivar": "월동무",
+   "priceMovingAverage": "941.11",
+   "volumeMovingAverage": "0.83",
+   "amountMovingAverage": "0.78"
+  },
+  {
+   "baseDate": "20240131",
+   "cultivar": "월동무",
+   "priceMovingAverage": "947.43",
+   "volumeMovingAverage": "0.78",
+   "amountMovingAverage": "0.74"
+  },
+  {
+   "baseDate": "20240201",
+   "cultivar": "월동무",
+   "priceMovingAverage": "954.22",
+   "volumeMovingAverage": "0.81",
+   "amountMovingAverage": "0.77"
+  },
+  {
+   "baseDate": "20240202",
+   "cultivar": "월동무",
+   "priceMovingAverage": "957.69",
+   "volumeMovingAverage": "0.91",
+   "amountMovingAverage": "0.86"
+  },
+  {
+   "baseDate": "20240205",
+   "cultivar": "월동무",
+   "priceMovingAverage": "955.50",
+   "volumeMovingAverage": "0.96",
+   "amountMovingAverage": "0.91"
+  },
+  {
+   "baseDate": "20240206",
+   "cultivar": "월동무",
+   "priceMovingAverage": "944.54",
+   "volumeMovingAverage": "0.84",
+   "amountMovingAverage": "0.78"
+  },
+  {
+   "baseDate": "20240207",
+   "cultivar": "월동무",
+   "priceMovingAverage": "934.36",
+   "volumeMovingAverage": "1.01",
+   "amountMovingAverage": "0.94"
+  },
+  {
+   "baseDate": "20240208",
+   "cultivar": "월동무",
+   "priceMovingAverage": "933.14",
+   "volumeMovingAverage": "0.96",
+   "amountMovingAverage": "0.89"
+  },
+  {
+   "baseDate": "20240209",
+   "cultivar": "월동무",
+   "priceMovingAverage": "933.14",
+   "volumeMovingAverage": "1.04",
+   "amountMovingAverage": "0.98"
+  },
+  {
+   "baseDate": "20240212",
+   "cultivar": "월동무",
+   "priceMovingAverage": "936.48",
+   "volumeMovingAverage": "1.05",
+   "amountMovingAverage": "0.99"
+  },
+  {
+   "baseDate": "20240213",
+   "cultivar": "월동무",
+   "priceMovingAverage": "938.62",
+   "volumeMovingAverage": "1.12",
+   "amountMovingAverage": "1.05"
+  },
+  {
+   "baseDate": "20240214",
+   "cultivar": "월동무",
+   "priceMovingAverage": "938.37",
+   "volumeMovingAverage": "1.08",
+   "amountMovingAverage": "1.01"
+  },
+  {
+   "baseDate": "20240215",
+   "cultivar": "월동무",
+   "priceMovingAverage": "937.33",
+   "volumeMovingAverage": "1.11",
+   "amountMovingAverage": "1.05"
+  },
+  {
+   "baseDate": "20240216",
+   "cultivar": "월동무",
+   "priceMovingAverage": "935.17",
+   "volumeMovingAverage": "1.07",
+   "amountMovingAverage": "1.01"
+  },
+  {
+   "baseDate": "20240219",
+   "cultivar": "월동무",
+   "priceMovingAverage": "940.65",
+   "volumeMovingAverage": "1.15",
+   "amountMovingAverage": "1.08"
+  },
+  {
+   "baseDate": "20240220",
+   "cultivar": "월동무",
+   "priceMovingAverage": "942.20",
+   "volumeMovingAverage": "1.07",
+   "amountMovingAverage": "1.01"
+  },
+  {
+   "baseDate": "20240221",
+   "cultivar": "월동무",
+   "priceMovingAverage": "943.67",
+   "volumeMovingAverage": "0.93",
+   "amountMovingAverage": "0.88"
+  },
+  {
+   "baseDate": "20240222",
+   "cultivar": "월동무",
+   "priceMovingAverage": "951.11",
+   "volumeMovingAverage": "0.78",
+   "amountMovingAverage": "0.74"
+  },
+  {
+   "baseDate": "20240223",
+   "cultivar": "월동무",
+   "priceMovingAverage": "958.30",
+   "volumeMovingAverage": "0.67",
+   "amountMovingAverage": "0.64"
+  },
+  {
+   "baseDate": "20240226",
+   "cultivar": "월동무",
+   "priceMovingAverage": "968.49",
+   "volumeMovingAverage": "0.76",
+   "amountMovingAverage": "0.74"
+  },
+  {
+   "baseDate": "20240227",
+   "cultivar": "월동무",
+   "priceMovingAverage": "979.91",
+   "volumeMovingAverage": "0.72",
+   "amountMovingAverage": "0.71"
+  },
+  {
+   "baseDate": "20240228",
+   "cultivar": "월동무",
+   "priceMovingAverage": "986.05",
+   "volumeMovingAverage": "0.74",
+   "amountMovingAverage": "0.73"
+  },
+  {
+   "baseDate": "20240229",
+   "cultivar": "월동무",
+   "priceMovingAverage": "997.75",
+   "volumeMovingAverage": "0.79",
+   "amountMovingAverage": "0.79"
+  },
+  {
+   "baseDate": "20240301",
+   "cultivar": "월동무",
+   "priceMovingAverage": "1002.11",
+   "volumeMovingAverage": "0.79",
+   "amountMovingAverage": "0.79"
+  },
+  {
+   "baseDate": "20240304",
+   "cultivar": "월동무",
+   "priceMovingAverage": "1004.37",
+   "volumeMovingAverage": "0.81",
+   "amountMovingAverage": "0.81"
+  },
+  {
+   "baseDate": "20240305",
+   "cultivar": "월동무",
+   "priceMovingAverage": "1003.95",
+   "volumeMovingAverage": "0.75",
+   "amountMovingAverage": "0.76"
+  },
+  {
+   "baseDate": "20240306",
+   "cultivar": "월동무",
+   "priceMovingAverage": "995.24",
+   "volumeMovingAverage": "0.76",
+   "amountMovingAverage": "0.75"
+  },
+  {
+   "baseDate": "20240307",
+   "cultivar": "월동무",
+   "priceMovingAverage": "981.47",
+   "volumeMovingAverage": "0.81",
+   "amountMovingAverage": "0.79"
+  },
+  {
+   "baseDate": "20240308",
+   "cultivar": "월동무",
+   "priceMovingAverage": "972.15",
+   "volumeMovingAverage": "0.73",
+   "amountMovingAverage": "0.70"
+  },
+  {
+   "baseDate": "20240311",
+   "cultivar": "월동무",
+   "priceMovingAverage": "967.10",
+   "volumeMovingAverage": "0.71",
+   "amountMovingAverage": "0.68"
+  },
+  {
+   "baseDate": "20240312",
+   "cultivar": "월동무",
+   "priceMovingAverage": "966.62",
+   "volumeMovingAverage": "0.71",
+   "amountMovingAverage": "0.68"
+  },
+  {
+   "baseDate": "20240313",
+   "cultivar": "월동무",
+   "priceMovingAverage": "965.48",
+   "volumeMovingAverage": "0.77",
+   "amountMovingAverage": "0.74"
+  },
+  {
+   "baseDate": "20240314",
+   "cultivar": "월동무",
+   "priceMovingAverage": "968.54",
+   "volumeMovingAverage": "0.91",
+   "amountMovingAverage": "0.88"
+  },
+  {
+   "baseDate": "20240315",
+   "cultivar": "월동무",
+   "priceMovingAverage": "981.74",
+   "volumeMovingAverage": "0.93",
+   "amountMovingAverage": "0.91"
+  },
+  {
+   "baseDate": "20240318",
+   "cultivar": "월동무",
+   "priceMovingAverage": "1010.50",
+   "volumeMovingAverage": "0.84",
+   "amountMovingAverage": "0.85"
+  },
+  {
+   "baseDate": "20240319",
+   "cultivar": "월동무",
+   "priceMovingAverage": "1023.48",
+   "volumeMovingAverage": "0.79",
+   "amountMovingAverage": "0.80"
+  },
+  {
+   "baseDate": "20240320",
+   "cultivar": "월동무",
+   "priceMovingAverage": "1031.39",
+   "volumeMovingAverage": "0.71",
+   "amountMovingAverage": "0.73"
+  },
+  {
+   "baseDate": "20240321",
+   "cultivar": "월동무",
+   "priceMovingAverage": "1039.74",
+   "volumeMovingAverage": "0.82",
+   "amountMovingAverage": "0.85"
+  },
+  {
+   "baseDate": "20240322",
+   "cultivar": "월동무",
+   "priceMovingAverage": "1040.93",
+   "volumeMovingAverage": "0.79",
+   "amountMovingAverage": "0.81"
+  },
+  {
+   "baseDate": "20240325",
+   "cultivar": "월동무",
+   "priceMovingAverage": "1033.36",
+   "volumeMovingAverage": "0.76",
+   "amountMovingAverage": "0.78"
+  },
+  {
+   "baseDate": "20240326",
+   "cultivar": "월동무",
+   "priceMovingAverage": "1028.75",
+   "volumeMovingAverage": "0.59",
+   "amountMovingAverage": "0.61"
+  },
+  {
+   "baseDate": "20240327",
+   "cultivar": "월동무",
+   "priceMovingAverage": "1010.30",
+   "volumeMovingAverage": "0.62",
+   "amountMovingAverage": "0.62"
+  },
+  {
+   "baseDate": "20240328",
+   "cultivar": "월동무",
+   "priceMovingAverage": "999.40",
+   "volumeMovingAverage": "0.60",
+   "amountMovingAverage": "0.60"
+  },
+  {
+   "baseDate": "20240329",
+   "cultivar": "월동무",
+   "priceMovingAverage": "986.83",
+   "volumeMovingAverage": "0.55",
+   "amountMovingAverage": "0.55"
+  },
+  {
+   "baseDate": "20240101",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "0.00",
+   "volumeMovingAverage": "0.00",
+   "amountMovingAverage": "0.00"
+  },
+  {
+   "baseDate": "20240102",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "695.34",
+   "volumeMovingAverage": "0.15",
+   "amountMovingAverage": "0.10"
+  },
+  {
+   "baseDate": "20240103",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "701.32",
+   "volumeMovingAverage": "0.14",
+   "amountMovingAverage": "0.09"
+  },
+  {
+   "baseDate": "20240104",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "705.39",
+   "volumeMovingAverage": "0.33",
+   "amountMovingAverage": "0.24"
+  },
+  {
+   "baseDate": "20240105",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "704.23",
+   "volumeMovingAverage": "0.56",
+   "amountMovingAverage": "0.40"
+  },
+  {
+   "baseDate": "20240108",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "708.14",
+   "volumeMovingAverage": "0.53",
+   "amountMovingAverage": "0.38"
+  },
+  {
+   "baseDate": "20240109",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "705.31",
+   "volumeMovingAverage": "0.54",
+   "amountMovingAverage": "0.38"
+  },
+  {
+   "baseDate": "20240110",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "700.24",
+   "volumeMovingAverage": "0.62",
+   "amountMovingAverage": "0.43"
+  },
+  {
+   "baseDate": "20240111",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "695.97",
+   "volumeMovingAverage": "0.61",
+   "amountMovingAverage": "0.42"
+  },
+  {
+   "baseDate": "20240112",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "683.52",
+   "volumeMovingAverage": "0.77",
+   "amountMovingAverage": "0.52"
+  },
+  {
+   "baseDate": "20240115",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "669.40",
+   "volumeMovingAverage": "0.79",
+   "amountMovingAverage": "0.52"
+  },
+  {
+   "baseDate": "20240116",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "656.46",
+   "volumeMovingAverage": "0.81",
+   "amountMovingAverage": "0.52"
+  },
+  {
+   "baseDate": "20240117",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "648.52",
+   "volumeMovingAverage": "0.76",
+   "amountMovingAverage": "0.49"
+  },
+  {
+   "baseDate": "20240118",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "646.35",
+   "volumeMovingAverage": "0.86",
+   "amountMovingAverage": "0.55"
+  },
+  {
+   "baseDate": "20240119",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "648.51",
+   "volumeMovingAverage": "0.80",
+   "amountMovingAverage": "0.51"
+  },
+  {
+   "baseDate": "20240122",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "653.09",
+   "volumeMovingAverage": "0.80",
+   "amountMovingAverage": "0.51"
+  },
+  {
+   "baseDate": "20240123",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "665.78",
+   "volumeMovingAverage": "0.83",
+   "amountMovingAverage": "0.55"
+  },
+  {
+   "baseDate": "20240124",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "682.76",
+   "volumeMovingAverage": "0.84",
+   "amountMovingAverage": "0.57"
+  },
+  {
+   "baseDate": "20240125",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "697.54",
+   "volumeMovingAverage": "0.75",
+   "amountMovingAverage": "0.53"
+  },
+  {
+   "baseDate": "20240126",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "707.78",
+   "volumeMovingAverage": "0.83",
+   "amountMovingAverage": "0.59"
+  },
+  {
+   "baseDate": "20240129",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "722.06",
+   "volumeMovingAverage": "0.72",
+   "amountMovingAverage": "0.52"
+  },
+  {
+   "baseDate": "20240130",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "734.39",
+   "volumeMovingAverage": "0.77",
+   "amountMovingAverage": "0.56"
+  },
+  {
+   "baseDate": "20240131",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "742.20",
+   "volumeMovingAverage": "0.82",
+   "amountMovingAverage": "0.61"
+  },
+  {
+   "baseDate": "20240201",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "744.12",
+   "volumeMovingAverage": "0.76",
+   "amountMovingAverage": "0.56"
+  },
+  {
+   "baseDate": "20240202",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "740.56",
+   "volumeMovingAverage": "0.64",
+   "amountMovingAverage": "0.47"
+  },
+  {
+   "baseDate": "20240205",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "735.32",
+   "volumeMovingAverage": "0.53",
+   "amountMovingAverage": "0.40"
+  },
+  {
+   "baseDate": "20240206",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "726.99",
+   "volumeMovingAverage": "0.57",
+   "amountMovingAverage": "0.42"
+  },
+  {
+   "baseDate": "20240207",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "710.64",
+   "volumeMovingAverage": "0.54",
+   "amountMovingAverage": "0.39"
+  },
+  {
+   "baseDate": "20240208",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "693.74",
+   "volumeMovingAverage": "0.42",
+   "amountMovingAverage": "0.30"
+  },
+  {
+   "baseDate": "20240209",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "676.77",
+   "volumeMovingAverage": "0.45",
+   "amountMovingAverage": "0.31"
+  },
+  {
+   "baseDate": "20240212",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "666.03",
+   "volumeMovingAverage": "0.37",
+   "amountMovingAverage": "0.25"
+  },
+  {
+   "baseDate": "20240213",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "655.40",
+   "volumeMovingAverage": "0.55",
+   "amountMovingAverage": "0.36"
+  },
+  {
+   "baseDate": "20240214",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "645.39",
+   "volumeMovingAverage": "0.64",
+   "amountMovingAverage": "0.41"
+  },
+  {
+   "baseDate": "20240215",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "635.90",
+   "volumeMovingAverage": "0.60",
+   "amountMovingAverage": "0.38"
+  },
+  {
+   "baseDate": "20240216",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "628.00",
+   "volumeMovingAverage": "0.57",
+   "amountMovingAverage": "0.36"
+  },
+  {
+   "baseDate": "20240219",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "625.44",
+   "volumeMovingAverage": "0.71",
+   "amountMovingAverage": "0.45"
+  },
+  {
+   "baseDate": "20240220",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "625.50",
+   "volumeMovingAverage": "0.65",
+   "amountMovingAverage": "0.41"
+  },
+  {
+   "baseDate": "20240221",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "625.11",
+   "volumeMovingAverage": "0.68",
+   "amountMovingAverage": "0.43"
+  },
+  {
+   "baseDate": "20240222",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "630.97",
+   "volumeMovingAverage": "0.51",
+   "amountMovingAverage": "0.32"
+  },
+  {
+   "baseDate": "20240223",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "639.51",
+   "volumeMovingAverage": "0.58",
+   "amountMovingAverage": "0.37"
+  },
+  {
+   "baseDate": "20240226",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "649.40",
+   "volumeMovingAverage": "0.64",
+   "amountMovingAverage": "0.42"
+  },
+  {
+   "baseDate": "20240227",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "660.87",
+   "volumeMovingAverage": "0.67",
+   "amountMovingAverage": "0.44"
+  },
+  {
+   "baseDate": "20240228",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "664.50",
+   "volumeMovingAverage": "0.66",
+   "amountMovingAverage": "0.44"
+  },
+  {
+   "baseDate": "20240229",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "669.89",
+   "volumeMovingAverage": "0.77",
+   "amountMovingAverage": "0.52"
+  },
+  {
+   "baseDate": "20240301",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "673.43",
+   "volumeMovingAverage": "0.79",
+   "amountMovingAverage": "0.53"
+  },
+  {
+   "baseDate": "20240304",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "671.20",
+   "volumeMovingAverage": "0.80",
+   "amountMovingAverage": "0.54"
+  },
+  {
+   "baseDate": "20240305",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "671.19",
+   "volumeMovingAverage": "0.76",
+   "amountMovingAverage": "0.51"
+  },
+  {
+   "baseDate": "20240306",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "666.70",
+   "volumeMovingAverage": "0.76",
+   "amountMovingAverage": "0.51"
+  },
+  {
+   "baseDate": "20240307",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "660.42",
+   "volumeMovingAverage": "0.82",
+   "amountMovingAverage": "0.54"
+  },
+  {
+   "baseDate": "20240308",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "661.23",
+   "volumeMovingAverage": "0.72",
+   "amountMovingAverage": "0.48"
+  },
+  {
+   "baseDate": "20240311",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "660.04",
+   "volumeMovingAverage": "0.60",
+   "amountMovingAverage": "0.39"
+  },
+  {
+   "baseDate": "20240312",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "655.96",
+   "volumeMovingAverage": "0.68",
+   "amountMovingAverage": "0.44"
+  },
+  {
+   "baseDate": "20240313",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "660.89",
+   "volumeMovingAverage": "0.76",
+   "amountMovingAverage": "0.50"
+  },
+  {
+   "baseDate": "20240314",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "668.26",
+   "volumeMovingAverage": "0.70",
+   "amountMovingAverage": "0.46"
+  },
+  {
+   "baseDate": "20240315",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "677.47",
+   "volumeMovingAverage": "0.74",
+   "amountMovingAverage": "0.50"
+  },
+  {
+   "baseDate": "20240318",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "687.34",
+   "volumeMovingAverage": "0.79",
+   "amountMovingAverage": "0.54"
+  },
+  {
+   "baseDate": "20240319",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "688.73",
+   "volumeMovingAverage": "0.93",
+   "amountMovingAverage": "0.64"
+  },
+  {
+   "baseDate": "20240320",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "691.13",
+   "volumeMovingAverage": "1.08",
+   "amountMovingAverage": "0.74"
+  },
+  {
+   "baseDate": "20240321",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "699.61",
+   "volumeMovingAverage": "1.02",
+   "amountMovingAverage": "0.71"
+  },
+  {
+   "baseDate": "20240322",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "700.15",
+   "volumeMovingAverage": "0.98",
+   "amountMovingAverage": "0.68"
+  },
+  {
+   "baseDate": "20240325",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "697.07",
+   "volumeMovingAverage": "0.95",
+   "amountMovingAverage": "0.66"
+  },
+  {
+   "baseDate": "20240326",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "691.05",
+   "volumeMovingAverage": "0.85",
+   "amountMovingAverage": "0.58"
+  },
+  {
+   "baseDate": "20240327",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "683.71",
+   "volumeMovingAverage": "0.88",
+   "amountMovingAverage": "0.60"
+  },
+  {
+   "baseDate": "20240328",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "675.92",
+   "volumeMovingAverage": "0.81",
+   "amountMovingAverage": "0.55"
+  },
+  {
+   "baseDate": "20240329",
+   "cultivar": "양배추(일반)",
+   "priceMovingAverage": "663.52",
+   "volumeMovingAverage": "0.67",
+   "amountMovingAverage": "0.44"
+  },
+  {
+   "baseDate": "20240101",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "0.00",
+   "volumeMovingAverage": "0.00",
+   "amountMovingAverage": "0.00"
+  },
+  {
+   "baseDate": "20240102",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1119.81",
+   "volumeMovingAverage": "0.85",
+   "amountMovingAverage": "0.95"
+  },
+  {
+   "baseDate": "20240103",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1153.00",
+   "volumeMovingAverage": "0.96",
+   "amountMovingAverage": "1.10"
+  },
+  {
+   "baseDate": "20240104",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1170.72",
+   "volumeMovingAverage": "0.69",
+   "amountMovingAverage": "0.80"
+  },
+  {
+   "baseDate": "20240105",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1177.85",
+   "volumeMovingAverage": "0.70",
+   "amountMovingAverage": "0.82"
+  },
+  {
+   "baseDate": "20240108",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1177.60",
+   "volumeMovingAverage": "0.79",
+   "amountMovingAverage": "0.92"
+  },
+  {
+   "baseDate": "20240109",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1174.89",
+   "volumeMovingAverage": "0.67",
+   "amountMovingAverage": "0.79"
+  },
+  {
+   "baseDate": "20240110",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1169.68",
+   "volumeMovingAverage": "0.66",
+   "amountMovingAverage": "0.77"
+  },
+  {
+   "baseDate": "20240111",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1176.98",
+   "volumeMovingAverage": "0.55",
+   "amountMovingAverage": "0.64"
+  },
+  {
+   "baseDate": "20240112",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1186.58",
+   "volumeMovingAverage": "0.54",
+   "amountMovingAverage": "0.65"
+  },
+  {
+   "baseDate": "20240115",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1200.01",
+   "volumeMovingAverage": "0.67",
+   "amountMovingAverage": "0.82"
+  },
+  {
+   "baseDate": "20240116",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1229.25",
+   "volumeMovingAverage": "0.66",
+   "amountMovingAverage": "0.82"
+  },
+  {
+   "baseDate": "20240117",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1257.12",
+   "volumeMovingAverage": "0.52",
+   "amountMovingAverage": "0.67"
+  },
+  {
+   "baseDate": "20240118",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1285.61",
+   "volumeMovingAverage": "0.58",
+   "amountMovingAverage": "0.75"
+  },
+  {
+   "baseDate": "20240119",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1319.83",
+   "volumeMovingAverage": "0.53",
+   "amountMovingAverage": "0.69"
+  },
+  {
+   "baseDate": "20240122",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1348.91",
+   "volumeMovingAverage": "0.66",
+   "amountMovingAverage": "0.88"
+  },
+  {
+   "baseDate": "20240123",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1358.25",
+   "volumeMovingAverage": "0.62",
+   "amountMovingAverage": "0.84"
+  },
+  {
+   "baseDate": "20240124",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1364.97",
+   "volumeMovingAverage": "0.66",
+   "amountMovingAverage": "0.89"
+  },
+  {
+   "baseDate": "20240125",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1361.34",
+   "volumeMovingAverage": "0.77",
+   "amountMovingAverage": "1.05"
+  },
+  {
+   "baseDate": "20240126",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1374.02",
+   "volumeMovingAverage": "0.89",
+   "amountMovingAverage": "1.22"
+  },
+  {
+   "baseDate": "20240129",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1385.19",
+   "volumeMovingAverage": "1.02",
+   "amountMovingAverage": "1.42"
+  },
+  {
+   "baseDate": "20240130",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1390.49",
+   "volumeMovingAverage": "1.21",
+   "amountMovingAverage": "1.69"
+  },
+  {
+   "baseDate": "20240131",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1398.78",
+   "volumeMovingAverage": "1.15",
+   "amountMovingAverage": "1.61"
+  },
+  {
+   "baseDate": "20240201",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1422.84",
+   "volumeMovingAverage": "1.05",
+   "amountMovingAverage": "1.48"
+  },
+  {
+   "baseDate": "20240202",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1442.71",
+   "volumeMovingAverage": "1.06",
+   "amountMovingAverage": "1.52"
+  },
+  {
+   "baseDate": "20240205",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1453.11",
+   "volumeMovingAverage": "1.02",
+   "amountMovingAverage": "1.48"
+  },
+  {
+   "baseDate": "20240206",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1450.17",
+   "volumeMovingAverage": "0.90",
+   "amountMovingAverage": "1.30"
+  },
+  {
+   "baseDate": "20240207",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1444.93",
+   "volumeMovingAverage": "0.73",
+   "amountMovingAverage": "1.06"
+  },
+  {
+   "baseDate": "20240208",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1441.78",
+   "volumeMovingAverage": "0.55",
+   "amountMovingAverage": "0.80"
+  },
+  {
+   "baseDate": "20240209",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1436.44",
+   "volumeMovingAverage": "0.52",
+   "amountMovingAverage": "0.76"
+  },
+  {
+   "baseDate": "20240212",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1423.68",
+   "volumeMovingAverage": "0.52",
+   "amountMovingAverage": "0.76"
+  },
+  {
+   "baseDate": "20240213",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1402.09",
+   "volumeMovingAverage": "0.51",
+   "amountMovingAverage": "0.71"
+  },
+  {
+   "baseDate": "20240214",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1384.83",
+   "volumeMovingAverage": "0.37",
+   "amountMovingAverage": "0.50"
+  },
+  {
+   "baseDate": "20240215",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1372.03",
+   "volumeMovingAverage": "0.37",
+   "amountMovingAverage": "0.50"
+  },
+  {
+   "baseDate": "20240216",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1361.09",
+   "volumeMovingAverage": "0.43",
+   "amountMovingAverage": "0.59"
+  },
+  {
+   "baseDate": "20240219",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1348.19",
+   "volumeMovingAverage": "0.48",
+   "amountMovingAverage": "0.64"
+  },
+  {
+   "baseDate": "20240220",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1338.33",
+   "volumeMovingAverage": "0.47",
+   "amountMovingAverage": "0.62"
+  },
+  {
+   "baseDate": "20240221",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1330.15",
+   "volumeMovingAverage": "0.61",
+   "amountMovingAverage": "0.82"
+  },
+  {
+   "baseDate": "20240222",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1341.03",
+   "volumeMovingAverage": "0.49",
+   "amountMovingAverage": "0.65"
+  },
+  {
+   "baseDate": "20240223",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1358.45",
+   "volumeMovingAverage": "0.65",
+   "amountMovingAverage": "0.90"
+  },
+  {
+   "baseDate": "20240226",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1368.77",
+   "volumeMovingAverage": "0.68",
+   "amountMovingAverage": "0.93"
+  },
+  {
+   "baseDate": "20240227",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1385.92",
+   "volumeMovingAverage": "0.61",
+   "amountMovingAverage": "0.84"
+  },
+  {
+   "baseDate": "20240228",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1399.74",
+   "volumeMovingAverage": "0.65",
+   "amountMovingAverage": "0.92"
+  },
+  {
+   "baseDate": "20240229",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1413.96",
+   "volumeMovingAverage": "0.79",
+   "amountMovingAverage": "1.11"
+  },
+  {
+   "baseDate": "20240301",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1419.40",
+   "volumeMovingAverage": "0.65",
+   "amountMovingAverage": "0.93"
+  },
+  {
+   "baseDate": "20240304",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1409.64",
+   "volumeMovingAverage": "0.74",
+   "amountMovingAverage": "1.05"
+  },
+  {
+   "baseDate": "20240305",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1399.54",
+   "volumeMovingAverage": "0.63",
+   "amountMovingAverage": "0.88"
+  },
+  {
+   "baseDate": "20240306",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1399.97",
+   "volumeMovingAverage": "0.65",
+   "amountMovingAverage": "0.91"
+  },
+  {
+   "baseDate": "20240307",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1398.65",
+   "volumeMovingAverage": "0.75",
+   "amountMovingAverage": "1.04"
+  },
+  {
+   "baseDate": "20240308",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1399.67",
+   "volumeMovingAverage": "0.81",
+   "amountMovingAverage": "1.13"
+  },
+  {
+   "baseDate": "20240311",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1406.43",
+   "volumeMovingAverage": "0.75",
+   "amountMovingAverage": "1.05"
+  },
+  {
+   "baseDate": "20240312",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1427.06",
+   "volumeMovingAverage": "0.90",
+   "amountMovingAverage": "1.29"
+  },
+  {
+   "baseDate": "20240313",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1455.68",
+   "volumeMovingAverage": "0.96",
+   "amountMovingAverage": "1.41"
+  },
+  {
+   "baseDate": "20240314",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1482.12",
+   "volumeMovingAverage": "0.94",
+   "amountMovingAverage": "1.40"
+  },
+  {
+   "baseDate": "20240315",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1503.96",
+   "volumeMovingAverage": "1.08",
+   "amountMovingAverage": "1.63"
+  },
+  {
+   "baseDate": "20240318",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1532.94",
+   "volumeMovingAverage": "1.15",
+   "amountMovingAverage": "1.77"
+  },
+  {
+   "baseDate": "20240319",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1575.37",
+   "volumeMovingAverage": "1.02",
+   "amountMovingAverage": "1.60"
+  },
+  {
+   "baseDate": "20240320",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1611.52",
+   "volumeMovingAverage": "1.11",
+   "amountMovingAverage": "1.78"
+  },
+  {
+   "baseDate": "20240321",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1638.62",
+   "volumeMovingAverage": "1.08",
+   "amountMovingAverage": "1.77"
+  },
+  {
+   "baseDate": "20240322",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1659.29",
+   "volumeMovingAverage": "0.91",
+   "amountMovingAverage": "1.51"
+  },
+  {
+   "baseDate": "20240325",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1692.21",
+   "volumeMovingAverage": "0.87",
+   "amountMovingAverage": "1.45"
+  },
+  {
+   "baseDate": "20240326",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1722.21",
+   "volumeMovingAverage": "0.75",
+   "amountMovingAverage": "1.29"
+  },
+  {
+   "baseDate": "20240327",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1745.03",
+   "volumeMovingAverage": "0.57",
+   "amountMovingAverage": "0.99"
+  },
+  {
+   "baseDate": "20240328",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1767.36",
+   "volumeMovingAverage": "0.66",
+   "amountMovingAverage": "1.15"
+  },
+  {
+   "baseDate": "20240329",
+   "cultivar": "중만생양파",
+   "priceMovingAverage": "1804.38",
+   "volumeMovingAverage": "0.53",
+   "amountMovingAverage": "0.97"
+  },
+  {
+   "baseDate": "20240101",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "0.00",
+   "volumeMovingAverage": "0.00",
+   "amountMovingAverage": "0.00"
+  },
+  {
+   "baseDate": "20240102",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1037.09",
+   "volumeMovingAverage": "1.04",
+   "amountMovingAverage": "1.08"
+  },
+  {
+   "baseDate": "20240103",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1040.99",
+   "volumeMovingAverage": "0.66",
+   "amountMovingAverage": "0.69"
+  },
+  {
+   "baseDate": "20240104",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1054.44",
+   "volumeMovingAverage": "0.47",
+   "amountMovingAverage": "0.49"
+  },
+  {
+   "baseDate": "20240105",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1072.60",
+   "volumeMovingAverage": "0.46",
+   "amountMovingAverage": "0.48"
+  },
+  {
+   "baseDate": "20240108",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1088.15",
+   "volumeMovingAverage": "0.59",
+   "amountMovingAverage": "0.65"
+  },
+  {
+   "baseDate": "20240109",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1093.33",
+   "volumeMovingAverage": "0.68",
+   "amountMovingAverage": "0.75"
+  },
+  {
+   "baseDate": "20240110",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1094.90",
+   "volumeMovingAverage": "0.74",
+   "amountMovingAverage": "0.81"
+  },
+  {
+   "baseDate": "20240111",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1110.09",
+   "volumeMovingAverage": "0.70",
+   "amountMovingAverage": "0.79"
+  },
+  {
+   "baseDate": "20240112",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1120.84",
+   "volumeMovingAverage": "0.82",
+   "amountMovingAverage": "0.92"
+  },
+  {
+   "baseDate": "20240115",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1138.16",
+   "volumeMovingAverage": "0.84",
+   "amountMovingAverage": "0.95"
+  },
+  {
+   "baseDate": "20240116",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1150.05",
+   "volumeMovingAverage": "0.96",
+   "amountMovingAverage": "1.09"
+  },
+  {
+   "baseDate": "20240117",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1156.58",
+   "volumeMovingAverage": "0.99",
+   "amountMovingAverage": "1.14"
+  },
+  {
+   "baseDate": "20240118",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1167.91",
+   "volumeMovingAverage": "0.86",
+   "amountMovingAverage": "1.00"
+  },
+  {
+   "baseDate": "20240119",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1182.73",
+   "volumeMovingAverage": "0.80",
+   "amountMovingAverage": "0.94"
+  },
+  {
+   "baseDate": "20240122",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1191.20",
+   "volumeMovingAverage": "0.75",
+   "amountMovingAverage": "0.89"
+  },
+  {
+   "baseDate": "20240123",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1198.70",
+   "volumeMovingAverage": "0.79",
+   "amountMovingAverage": "0.94"
+  },
+  {
+   "baseDate": "20240124",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1197.38",
+   "volumeMovingAverage": "0.92",
+   "amountMovingAverage": "1.10"
+  },
+  {
+   "baseDate": "20240125",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1193.85",
+   "volumeMovingAverage": "0.86",
+   "amountMovingAverage": "1.02"
+  },
+  {
+   "baseDate": "20240126",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1194.95",
+   "volumeMovingAverage": "0.69",
+   "amountMovingAverage": "0.82"
+  },
+  {
+   "baseDate": "20240129",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1197.33",
+   "volumeMovingAverage": "0.84",
+   "amountMovingAverage": "1.01"
+  },
+  {
+   "baseDate": "20240130",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1191.48",
+   "volumeMovingAverage": "0.82",
+   "amountMovingAverage": "0.98"
+  },
+  {
+   "baseDate": "20240131",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1183.51",
+   "volumeMovingAverage": "0.89",
+   "amountMovingAverage": "1.05"
+  },
+  {
+   "baseDate": "20240201",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1170.63",
+   "volumeMovingAverage": "0.75",
+   "amountMovingAverage": "0.89"
+  },
+  {
+   "baseDate": "20240202",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1152.12",
+   "volumeMovingAverage": "0.74",
+   "amountMovingAverage": "0.85"
+  },
+  {
+   "baseDate": "20240205",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1138.28",
+   "volumeMovingAverage": "0.78",
+   "amountMovingAverage": "0.88"
+  },
+  {
+   "baseDate": "20240206",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1120.81",
+   "volumeMovingAverage": "0.79",
+   "amountMovingAverage": "0.89"
+  },
+  {
+   "baseDate": "20240207",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1096.48",
+   "volumeMovingAverage": "0.74",
+   "amountMovingAverage": "0.80"
+  },
+  {
+   "baseDate": "20240208",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1078.90",
+   "volumeMovingAverage": "0.71",
+   "amountMovingAverage": "0.77"
+  },
+  {
+   "baseDate": "20240209",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1063.49",
+   "volumeMovingAverage": "0.77",
+   "amountMovingAverage": "0.81"
+  },
+  {
+   "baseDate": "20240212",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1062.40",
+   "volumeMovingAverage": "0.77",
+   "amountMovingAverage": "0.82"
+  },
+  {
+   "baseDate": "20240213",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1059.04",
+   "volumeMovingAverage": "0.73",
+   "amountMovingAverage": "0.77"
+  },
+  {
+   "baseDate": "20240214",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1051.62",
+   "volumeMovingAverage": "0.60",
+   "amountMovingAverage": "0.63"
+  },
+  {
+   "baseDate": "20240215",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1049.60",
+   "volumeMovingAverage": "0.60",
+   "amountMovingAverage": "0.63"
+  },
+  {
+   "baseDate": "20240216",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1060.14",
+   "volumeMovingAverage": "0.67",
+   "amountMovingAverage": "0.71"
+  },
+  {
+   "baseDate": "20240219",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1075.59",
+   "volumeMovingAverage": "0.73",
+   "amountMovingAverage": "0.79"
+  },
+  {
+   "baseDate": "20240220",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1098.19",
+   "volumeMovingAverage": "0.55",
+   "amountMovingAverage": "0.60"
+  },
+  {
+   "baseDate": "20240221",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1109.44",
+   "volumeMovingAverage": "0.70",
+   "amountMovingAverage": "0.78"
+  },
+  {
+   "baseDate": "20240222",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1123.65",
+   "volumeMovingAverage": "0.75",
+   "amountMovingAverage": "0.85"
+  },
+  {
+   "baseDate": "20240223",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1134.31",
+   "volumeMovingAverage": "0.77",
+   "amountMovingAverage": "0.87"
+  },
+  {
+   "baseDate": "20240226",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1145.36",
+   "volumeMovingAverage": "0.92",
+   "amountMovingAverage": "1.05"
+  },
+  {
+   "baseDate": "20240227",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1142.44",
+   "volumeMovingAverage": "0.81",
+   "amountMovingAverage": "0.93"
+  },
+  {
+   "baseDate": "20240228",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1132.35",
+   "volumeMovingAverage": "0.76",
+   "amountMovingAverage": "0.86"
+  },
+  {
+   "baseDate": "20240229",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1103.36",
+   "volumeMovingAverage": "0.82",
+   "amountMovingAverage": "0.92"
+  },
+  {
+   "baseDate": "20240301",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1081.27",
+   "volumeMovingAverage": "0.65",
+   "amountMovingAverage": "0.71"
+  },
+  {
+   "baseDate": "20240304",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1065.07",
+   "volumeMovingAverage": "0.66",
+   "amountMovingAverage": "0.71"
+  },
+  {
+   "baseDate": "20240305",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1048.91",
+   "volumeMovingAverage": "0.69",
+   "amountMovingAverage": "0.74"
+  },
+  {
+   "baseDate": "20240306",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1032.53",
+   "volumeMovingAverage": "0.66",
+   "amountMovingAverage": "0.68"
+  },
+  {
+   "baseDate": "20240307",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1019.88",
+   "volumeMovingAverage": "0.60",
+   "amountMovingAverage": "0.61"
+  },
+  {
+   "baseDate": "20240308",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1005.49",
+   "volumeMovingAverage": "0.60",
+   "amountMovingAverage": "0.61"
+  },
+  {
+   "baseDate": "20240311",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "1007.23",
+   "volumeMovingAverage": "0.73",
+   "amountMovingAverage": "0.74"
+  },
+  {
+   "baseDate": "20240312",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "999.69",
+   "volumeMovingAverage": "0.79",
+   "amountMovingAverage": "0.80"
+  },
+  {
+   "baseDate": "20240313",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "996.42",
+   "volumeMovingAverage": "0.69",
+   "amountMovingAverage": "0.69"
+  },
+  {
+   "baseDate": "20240314",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "994.73",
+   "volumeMovingAverage": "0.83",
+   "amountMovingAverage": "0.83"
+  },
+  {
+   "baseDate": "20240315",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "986.12",
+   "volumeMovingAverage": "0.86",
+   "amountMovingAverage": "0.85"
+  },
+  {
+   "baseDate": "20240318",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "979.72",
+   "volumeMovingAverage": "0.86",
+   "amountMovingAverage": "0.85"
+  },
+  {
+   "baseDate": "20240319",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "980.36",
+   "volumeMovingAverage": "0.96",
+   "amountMovingAverage": "0.94"
+  },
+  {
+   "baseDate": "20240320",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "973.97",
+   "volumeMovingAverage": "0.84",
+   "amountMovingAverage": "0.82"
+  },
+  {
+   "baseDate": "20240321",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "980.69",
+   "volumeMovingAverage": "0.92",
+   "amountMovingAverage": "0.90"
+  },
+  {
+   "baseDate": "20240322",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "971.81",
+   "volumeMovingAverage": "0.97",
+   "amountMovingAverage": "0.94"
+  },
+  {
+   "baseDate": "20240325",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "960.99",
+   "volumeMovingAverage": "0.92",
+   "amountMovingAverage": "0.88"
+  },
+  {
+   "baseDate": "20240326",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "949.81",
+   "volumeMovingAverage": "0.91",
+   "amountMovingAverage": "0.86"
+  },
+  {
+   "baseDate": "20240327",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "939.68",
+   "volumeMovingAverage": "0.90",
+   "amountMovingAverage": "0.85"
+  },
+  {
+   "baseDate": "20240328",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "927.03",
+   "volumeMovingAverage": "0.95",
+   "amountMovingAverage": "0.88"
+  },
+  {
+   "baseDate": "20240329",
+   "cultivar": "저장양파",
+   "priceMovingAverage": "913.95",
+   "volumeMovingAverage": "0.92",
+   "amountMovingAverage": "0.84"
+  }
+ ]
+}

@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ title }}</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+:root{--fg:#1d2733;--mut:#5b6773;--line:#d9dee3;--bg:#fff;--soft:#f4f6f8;--acc:#1f6f4a;--warn:#b42318;--warnbg:#fff1f0}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,"Malgun Gothic",sans-serif;color:var(--fg);background:var(--bg);line-height:1.65}
+main{max-width:920px;margin:0 auto;padding:20px 16px 60px}
+h1{font-size:1.6rem;margin:.2em 0 .4em} h2{font-size:1.2rem;margin:1.6em 0 .5em;border-bottom:2px solid var(--line);padding-bottom:.2em}
+h3{font-size:1.02rem;margin:1.2em 0 .3em}
+.banner{border:2px solid var(--warn);background:var(--warnbg);color:var(--warn);padding:12px 14px;border-radius:8px;font-weight:700;margin:0 0 16px}
+.banner small{display:block;font-weight:400;color:var(--fg)}
+.notice,.partial{border-left:4px solid var(--acc);background:var(--soft);padding:10px 14px;margin:12px 0;border-radius:4px}
+.partial{border-color:#b54708}
+.callout{border-left:4px solid var(--acc);background:var(--soft);padding:10px 14px;margin:12px 0;border-radius:4px}
+.summary{font-size:1.08rem;margin:.6em 0}
+.fmt-visual .summary{font-size:1.6rem;font-weight:700;line-height:1.4;background:var(--soft);padding:20px;border-radius:12px}
+table{border-collapse:collapse;width:100%;font-size:.92rem;margin:.4em 0} th,td{border:1px solid var(--line);padding:5px 8px;text-align:left;vertical-align:top}
+th{background:var(--soft)} .tw{overflow-x:auto}
+.muted{color:var(--mut);font-size:.9rem}
+.chart{position:relative;height:300px;margin:8px 0} .map{height:380px;border:1px solid var(--line);border-radius:6px;margin:8px 0}
+.flow-svg svg{max-width:100%;height:auto}
+.libfail{display:none;color:var(--warn);font-size:.9rem}
+.tag{display:inline-block;font-size:.78rem;border:1px solid var(--warn);color:var(--warn);border-radius:4px;padding:0 5px;margin-left:6px}
+details{margin:.4em 0} summary{cursor:pointer}
+ul,ol{padding-left:1.3em}
+@media(max-width:600px){h1{font-size:1.3rem}.fmt-visual .summary{font-size:1.25rem}}
+</style>
+</head>
+<body class="fmt-{{ fmt }}">
+<main>
+{% macro table(t) -%}
+<div class="tw"><table><thead><tr>{% for c in t.cols %}<th>{{ c }}</th>{% endfor %}</tr></thead>
+<tbody>{% for r in t.rows %}<tr>{% for c in r %}<td>{{ c }}</td>{% endfor %}</tr>{% endfor %}</tbody></table></div>
+{% if t.total > t.rows|length %}<p class="muted">전체 {{ t.total }}행 중 {{ t.rows|length }}행만 보여줍니다.</p>{% endif %}
+{%- endmacro %}
+
+{% macro flowbox(b) -%}
+<div class="flowbox" data-flow="{{ b.uid }}">
+  {% if b.title %}<h3>{{ b.title }}</h3>{% endif %}
+  <ol class="flow-list">{% for s in b.steps %}<li>{{ s }}</li>{% endfor %}</ol>
+  <div class="flow-svg"></div>
+  <script type="application/json" id="d-{{ b.uid }}">{{ b.mermaid|safe }}</script>
+</div>
+{%- endmacro %}
+
+{% macro block(b) -%}
+{% if b.type == 'callout' %}<div class="callout">{{ b.text }}</div>
+{% elif b.type == 'flow' %}{{ flowbox(b) }}
+{% elif b.type == 'chart' %}
+  {% if b.title %}<h3>{{ b.title }}</h3>{% endif %}
+  <div class="chart" data-chart="{{ b.uid }}"><canvas></canvas></div>
+  <p class="libfail">차트 라이브러리를 불러오지 못했습니다. 아래 표로 값을 확인하세요.</p>
+  <script type="application/json" id="d-{{ b.uid }}">{{ b.chart|safe }}</script>
+  <details open><summary>표로 보기</summary>{{ table(b.table) }}</details>
+{% elif b.type == 'table' %}
+  {% if b.title %}<h3>{{ b.title }}</h3>{% endif %}{{ table(b.table) }}
+{% elif b.type == 'map' %}
+  {% if b.title %}<h3>{{ b.title }}</h3>{% endif %}
+  <div class="map" data-map="{{ b.uid }}"></div>
+  <p class="libfail">지도 라이브러리를 불러오지 못했습니다. 아래 좌표를 확인하세요.</p>
+  <script type="application/json" id="d-{{ b.uid }}">{{ b.map|safe }}</script>
+  {% if b.points %}<details open><summary>좌표</summary><div class="tw"><table><thead><tr><th>이름</th><th>위도</th><th>경도</th></tr></thead><tbody>
+  {% for p in b.points %}<tr><td>{{ p.label }}</td><td>{{ p.lat }}</td><td>{{ p.lon }}</td></tr>{% endfor %}</tbody></table></div></details>
+  {% else %}<p class="muted">표시할 위치 정보가 없습니다.</p>{% endif %}
+{% endif %}
+{%- endmacro %}
+
+{% if synth %}
+<div class="banner" role="alert">{{ synth_warning }}.
+  <small>합성 샘플 데이터: {{ synth_ids|join(', ') }}. 아래 모든 숫자와 그래프는 실제 거래·시세가 아니며 의사결정에 쓸 수 없습니다.</small></div>
+{% endif %}
+<h1>{{ title }}</h1>
+{% for n in notices %}<div class="notice">{{ n }}</div>{% endfor %}
+{% if unanswered %}<div class="partial">일부만 답했습니다. 답하지 못한 부분은 아래 '답하지 못한 부분'에 이유와 함께 적었습니다.</div>{% endif %}
+{% if fallback %}<div class="notice">이 결과는 AI 요약 없이 중간산출물을 그대로 정리한 기본 형태입니다.</div>{% endif %}
+
+{% for part in parts %}
+{% if part == 'map' %}
+  <section id="map">{% for b in map_blocks %}{{ block(b) }}{% endfor %}</section>
+{% elif part == 'summary' %}
+  {% if summary %}<section id="summary"><h2>{{ '큰 결론' if fmt == 'visual' else '요약' }}</h2><p class="summary">{{ summary }}</p></section>{% endif %}
+{% elif part == 'flow' %}
+  <section id="flow"><h2>분석 흐름</h2>{{ block(flow) }}</section>
+{% elif part == 'results' %}
+  <section id="results"><h2>{{ '쉬운 설명' if fmt == 'visual' else '결과' }}</h2>
+  {% for s in sections %}
+    <h3>{{ s.heading }}</h3>{% if s.text %}<p>{{ s.text }}</p>{% endif %}
+    {% for b in s.blocks %}{{ block(b) }}{% endfor %}
+  {% endfor %}
+  {% if not sections %}<p class="muted">보여줄 결과가 없습니다.</p>{% endif %}</section>
+{% elif part == 'unanswered' %}
+  <section id="unanswered"><h2>답하지 못한 부분과 이유</h2>
+  {% if unanswered %}<ul>{% for u in unanswered %}<li><strong>{{ u.what }}</strong>: {{ u.why }}</li>{% endfor %}</ul>
+  {% else %}<p class="muted">없음. 요청한 모든 부분에 답했습니다.</p>{% endif %}</section>
+{% elif part == 'method' %}
+  <section id="method"><h2>사용한 데이터</h2>
+  {% if used %}<ul>{% for d in used %}<li><strong>{{ d.title }}</strong>{% if d.synthetic %}<span class="tag">합성 샘플</span>{% endif %}
+    {% if d.reason %} 선택 이유: {{ d.reason }}{% endif %}{% if d.role == 'auxiliary' %} (보조 자료){% endif %}</li>{% endfor %}</ul>
+  {% else %}<p class="muted">사용한 데이터가 없습니다.</p>{% endif %}
+  <h2>제외한 데이터와 이유</h2>
+  {% if excluded %}<ul>{% for x in excluded %}<li><strong>{{ x.title }}</strong>: {{ x.why }}{% if x.note %} ({{ x.note }}){% endif %}</li>{% endfor %}</ul>
+  {% else %}<p class="muted">제외한 데이터가 없습니다.</p>{% endif %}
+  <h2>분석 과정</h2>
+  {% if tasks %}<div class="tw"><table><thead><tr><th>작업</th><th>결과</th><th>시도 횟수</th><th>모듈</th><th>버전(코드 해시)</th><th>산출물</th></tr></thead><tbody>
+  {% for t in tasks %}<tr><td>{{ t.title or t.id }}</td><td>{{ t.status }}</td><td>{{ t.attempts }}</td><td>{{ t.module }}</td><td>{{ t.version }}</td><td>{{ t.artifacts|join(', ') }}</td></tr>{% endfor %}
+  </tbody></table></div>
+  {% else %}<p class="muted">실행한 분석 작업이 없습니다.</p>{% endif %}
+  {% if fmt != 'visual' %}{{ block(flow) }}{% endif %}</section>
+{% elif part == 'limits' %}
+  <section id="limits"><h2>근거와 한계</h2>
+  <p class="muted">본문 문장의 숫자는 분석 중간산출물의 값과 대조했고, 근거를 찾지 못한 문장 {{ removed }}개는 뺐습니다.</p>
+  {% if limits %}<ul>{% for l in limits %}<li>{{ l }}</li>{% endfor %}</ul>{% else %}<p class="muted">추가로 알려진 한계가 없습니다.</p>{% endif %}</section>
+{% elif part == 'sources' %}
+  <section id="sources"><h2>데이터 출처와 이용조건</h2>
+  {% if used %}<div class="tw"><table><thead><tr><th>데이터</th><th>출처</th><th>이용조건</th></tr></thead><tbody>
+  {% for d in used %}<tr><td>{{ d.title }}</td><td>{{ d.source }}</td><td>{{ d.license }}</td></tr>{% endfor %}</tbody></table></div>
+  {% else %}<p class="muted">사용한 데이터가 없습니다.</p>{% endif %}</section>
+{% endif %}
+{% endfor %}
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.3/dist/mermaid.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function(){
+  var $=function(id){return JSON.parse(document.getElementById('d-'+id).textContent);};
+  var fail=function(el){var n=el.nextElementSibling;if(n&&n.classList.contains('libfail'))n.style.display='block';};
+  var COLORS=['#1f6f4a','#c2570c','#2563eb','#9333ea'];
+  document.querySelectorAll('[data-chart]').forEach(function(el){
+    try{
+      var d=$(el.dataset.chart);
+      new Chart(el.querySelector('canvas'),{type:d.type,data:{labels:d.labels,datasets:d.series.map(function(s,i){
+        return {label:s.name,data:s.data,borderColor:COLORS[i%4],backgroundColor:COLORS[i%4],tension:.2,pointRadius:2};})},
+        options:{responsive:true,maintainAspectRatio:false}});
+    }catch(e){el.style.display='none';fail(el);}
+  });
+  document.querySelectorAll('[data-map]').forEach(function(el){
+    try{
+      var pts=$(el.dataset.map);
+      var m=L.map(el).setView([33.38,126.55],9);
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'&copy; OpenStreetMap'}).addTo(m);
+      var b=[];
+      pts.forEach(function(p){var c=L.circleMarker([p.lat,p.lon],{radius:7}).addTo(m);
+        var t=document.createElement('div');t.textContent=p.label||'';if(p.label)c.bindPopup(t);b.push([p.lat,p.lon]);});
+      if(b.length)m.fitBounds(b,{maxZoom:12,padding:[30,30]});
+    }catch(e){el.style.display='none';fail(el);}
+  });
+  if(window.mermaid){
+    try{mermaid.initialize({startOnLoad:false,securityLevel:'strict'});}catch(e){}
+    document.querySelectorAll('[data-flow]').forEach(function(el,i){
+      try{
+        mermaid.render('mm'+i,$(el.dataset.flow)).then(function(r){
+          el.querySelector('.flow-svg').innerHTML=r.svg;el.querySelector('.flow-list').style.display='none';
+        }).catch(function(){});
+      }catch(e){}
+    });
+  }
+})();
+</script>
+</body>
+</html>
