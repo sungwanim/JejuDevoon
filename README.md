@@ -65,13 +65,12 @@ notepad .env
 | `JEJU_DATA_MODE` | 선택 | `live`이면 허브 API 호출 + 실패 시 스냅샷 폴백. 비우면 스냅샷만 | `.env.example`에 있음 |
 | `JEJU_LLM` | 선택 | `fake`이면 키 없이 화면만 확인하는 데모(도메인 판정만 키워드로 흉내) | 실제 분석 불가. 화면 확인용 |
 | `JEJU_MODULE_STORE` | 선택 | 분석 모듈 저장소 폴더. `1`/`on`/`true`는 기본 `module_store/` | `api/main.py`는 `ModuleStore()`를 직접 연결하므로 웹앱 실행에서는 이 변수 없이도 `module_store/`를 씀 |
-| `JEJU_SUITABILITY` | 선택 | `1`이면 문헌 기반 재배 적합도 표를 켬 | **기본 꺼짐.** 데이터 원칙(공공데이터포털 + 허브만)에 맞지 않아 제출 구성에서는 켜지 않음 |
 
-`.env.example`에는 앞의 네 변수(`OPENAI_API_KEY`, `JEJU_HUB_PROJECT_KEY`, `DATA_GO_KR_SERVICE_KEY`, `JEJU_DATA_MODE`)만 있습니다. 나머지 세 개는 코드가 읽지만 예시 파일에는 없습니다(필요할 때만 `.env`에 줄을 추가하거나 셸 환경변수로 지정).
+`.env.example`에는 `OPENAI_API_KEY`, `JEJU_HUB_PROJECT_KEY`, `DATA_GO_KR_SERVICE_KEY`, `JEJU_DATA_MODE`만 있습니다. `JEJU_LLM`은 필요할 때만 셸 환경변수로 지정합니다(`run-demo.bat`이 지정).
 
 ## 4. 실행
 
-**가장 간단한 방법:** 프로젝트 루트의 `실행.bat`을 더블클릭합니다. 서버가 `127.0.0.1:8000`에서 켜지고 브라우저가 자동으로 열립니다. 키 없이 화면만 보려면 `실행-데모.bat`입니다. 사용자 PC에는 Python만 있으면 되고 Node는 필요 없습니다(화면은 `frontend/dist`에 미리 빌드되어 있고 백엔드가 같은 포트로 서빙합니다).
+**가장 간단한 방법:** 프로젝트 루트의 `run.bat`을 더블클릭합니다. 서버가 `127.0.0.1:8000`에서 켜지고 브라우저가 자동으로 열립니다. 키 없이 화면만 보려면 `run-demo.bat`입니다. 사용자 PC에는 Python만 있으면 되고 Node는 필요 없습니다(화면은 `frontend/dist`에 미리 빌드되어 있고 백엔드가 같은 포트로 서빙합니다).
 
 같은 동작을 명령으로 실행하려면:
 
@@ -82,7 +81,7 @@ cd backend
 
 서버는 `127.0.0.1`에만 열리고 API에 인증이 없으므로 공용 PC나 원격 접속에서는 쓰지 마세요. 지도 타일(OpenStreetMap)은 인터넷이 필요합니다. 포트가 사용 중이면 안내 메시지가 나옵니다.
 
-키 없이 화면만 보려면 `JEJU_LLM=fake`로 실행합니다(`실행-데모.bat`, 또는 PowerShell: `$env:JEJU_LLM="fake"` 후 같은 명령). 이때는 도메인 밖 요청("주식 추천해줘")을 거절하는 동작 정도만 확인됩니다.
+키 없이 화면만 보려면 `JEJU_LLM=fake`로 실행합니다(`run-demo.bat`, 또는 PowerShell: `$env:JEJU_LLM="fake"` 후 같은 명령). 이때는 도메인 밖 요청("주식 추천해줘")을 거절하는 동작 정도만 확인됩니다.
 
 ### 개발자용 (화면 코드를 고칠 때)
 
@@ -113,7 +112,7 @@ cd backend
 .venv\Scripts\python.exe -m pytest backend/tests -q
 ```
 
-격리 실행기(sandbox) 테스트가 길어(약 70~80초) 전체는 3분 안팎입니다. 영역별로는 `backend/tests/<영역>`(`runner`, `catalog`, `parse`, `selection`, `data`, `sandbox`, `analysis`, `modules`, `render`, `geo`, `criteria`, `climate`, `live`, `e2e`)을 지정해 돌립니다. 마지막으로 기록된 전체 실행(티켓 17): 199개 통과. 제출 전에 전체를 한 번 다시 돌리세요.
+격리 실행기(sandbox) 테스트가 길어(약 70~80초) 전체는 3분 안팎입니다. 영역별로는 `backend/tests/<영역>`(`runner`, `catalog`, `parse`, `selection`, `data`, `sandbox`, `analysis`, `modules`, `render`, `geo`, `climate`, `live`, `e2e`)을 지정해 돌립니다. 마지막으로 기록된 전체 실행(티켓 17): 199개 통과. 제출 전에 전체를 한 번 다시 돌리세요.
 
 프런트엔드는 별도 테스트가 없고 `npm run build`(타입 검사 포함)만 확인합니다.
 
@@ -134,7 +133,6 @@ backend/
     modules_seed/ 사람이 검토한 verified 모듈 소스
     render/       보고서 스펙, 숫자 근거 대조, HTML 템플릿
     geo/          DEM 고도, 지점 기후 추정
-    criteria/     문헌 기반 재배 기준표(기본 꺼짐)
   tests/<영역>/
 frontend/         Vite + React (지도, 채팅 입력, 진행 표시, 결과 iframe, 실행 기록)
 catalog/          데이터셋 카탈로그 JSON
@@ -156,7 +154,7 @@ scripts/          make_submission.py (제출 zip 생성·비밀값 점검)
 - **채소재배현황:** 도 전체 단위, 조수입 기준(순이익 아님), 연산 15-16~20-21(기준일 2021-08-09)입니다. 허브 가격 품종과의 이름 연결은 월동무뿐입니다.
 - **범위:** 제주 본섬(우도·가파도 포함 격자). 추자도·마라도는 범위 밖입니다. 지점은 지도 클릭으로만 지정합니다(주소·지명 검색 없음).
 - **DEM:** 90m 격자 고도 조회뿐이며 경사·사면·일사는 반영하지 않습니다. 바다 마스크는 추정입니다(`docs/dem.md`).
-- **판정하지 않는 것:** 한계온도로 재배 가능 여부, 재배 적합도(기본 꺼짐), 수익. 감귤 생산 데이터는 서귀포시뿐입니다.
+- **판정하지 않는 것:** 한계온도로 재배 가능 여부, 재배 적합도, 수익. 감귤 생산 데이터는 서귀포시뿐입니다.
 - **서버 재시작:** 진행 중 실행 상태와 되묻기 대화 상태는 메모리에만 있습니다(`runs/`에는 trace가 남음).
 - **보안:** 단일 사용자 로컬 사용을 가정합니다. 생성 코드 실행기는 보안 샌드박스가 아닙니다. 외부에 노출하지 마세요.
 - **저작권·귀속:** 결과물은 제주빅데이터센터에 귀속됩니다(대회 규정).

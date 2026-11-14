@@ -16,7 +16,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 TOP = "everyoneJeju-submission"
-INCLUDE = ["backend", "frontend", "catalog", "snapshots", "docs", "data", "README.md", "DESIGN.md", ".env.example", "실행.bat", "실행-데모.bat"]
+INCLUDE = ["backend", "frontend", "catalog", "snapshots", "docs", "data", "README.md", "DESIGN.md", ".env.example", "run.bat", "run-demo.bat"]
 EXCLUDE_DIRS = {".git", ".venv", ".cache", "runs", "module_store", "node_modules", "__pycache__",
                 ".pytest_cache", ".scratch", ".idea", ".vscode"}
 EXCLUDE_SUFFIX = {".key", ".pem", ".pyc", ".pyo", ".pkl"}

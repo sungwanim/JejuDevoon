@@ -1,12 +1,11 @@
-# 지점 기후 추정과 적합도 (티켓 12)
+# 지점 기후 추정 (티켓 12)
 
-코드: 계산 전부 `backend/jejuagent/modules_seed/site/site_climate.py`(verified 모듈 소스, 코드 계약 `MANIFEST/run/check`, numpy/pandas만). 부모 쪽 얇은 층은 `geo/climate.py`(`estimate_site`, `site_inputs`, `synthetic_aws`, `limitations`), 기준표 선택은 `criteria/suitability.py`(`criteria_rows`, `evaluate`).
+코드: 계산 전부 `backend/jejuagent/modules_seed/site/site_climate.py`(verified 모듈 소스, 코드 계약 `MANIFEST/run/check`, numpy/pandas만). 부모 쪽 얇은 층은 `geo/climate.py`(`estimate_site`, `site_inputs`, `synthetic_aws`, `limitations`), 
 
 ## 입력 표준 스키마 (사용자가 AWS 일자료를 이 형식으로 변환한다)
 실제 API·CSV 형식은 확인된 적이 없어 변환기는 없다.
 - `aws`(관측소 x 일 한 행): `station`(str) `lat` `lon` `elevation_m`(m) `date` `tmean` `tmin` `tmax`(현재 미사용) `precip`(mm). 기온 ℃. 관측소 좌표·고도는 관측소별로 같아야 한다(첫 행 사용).
 - `site`(1행): `lat` `lon` `elevation_m`. 격리 프로세스는 rasterio를 못 쓰므로 부모가 `get_elevation`으로 미리 구해 넘긴다(`site_inputs`). 바다·격자 밖이면 `ValueError`(안내문).
-- `criteria`: `criteria_rows()`가 만든다.
 - 파라미터: `lapse_c_per_km`(6.5), `idw_power`(2), `growing_months`("10,11,12,1,2,3"), `synthetic`(bool).
 
 ## 방법
@@ -16,15 +15,14 @@
 - 지표: 연평균기온(일평균 평균), 극최저기온(일최저 최솟값), -5℃·0℃ 이하 일수(일최저 기준, 연평균 일수), 생육기간 평균기온(`growing_months`의 일평균 평균. 월 기본값은 월동 채소 중심 가정이며 기준표 작형을 읽지 않는다), 강수량(연). 관측기간이 1년 미만이면 연 지표가 계절 편향이므로 `n_years`를 확인한다.
 - **한계온도 판정은 하지 않는다.** 극최저·-5℃·0℃ 일수는 참고 지표(`reference_note`)일 뿐이고 합격/불합격·'한계 초과' 문구가 없다.
 
-## 적합도 (점수 없음, LLM 계산 없음)
-기준표 중 항목 이름이 `suitability.ITEM_INDICATOR`에 있는 것만 읽는다: `연평균기온`(연평균기온과 비교), `생육적온`·`생육온도`·`생육적온(지상부)`·`생육적온(재배 전기간)`(생육기간 평균기온과 비교). 생육적온(낮/밤/지온)·동해·극최저·저온일수·발아·pH 등은 읽지 않는다. 행마다 `충족/미충족/근거 부족`, 기준 문구, 출처 id·제목, 신뢰도, 위치를 낸다. 기준표 '미확보'(예: 마늘 생육적온 전기간)는 `근거 부족`. 감귤 연평균기온은 2015 하한(14.5)과 2017 등급(적지·재배가능) 행이 모두 나온다(어느 쪽을 쓸지는 표시만, 선택하지 않음). 일평균 기온과 낮 적온 등 성격이 다른 비교는 하지 않았다.
+재배 적합도는 판정하지 않는다(공공데이터 근거 없음, 문헌 기준표 기능은 제거했다).
 
 ## 교차검증
 관측소를 하나씩 빼고 그 관측소의 일 tmean·tmin을 추정, 관측소 평균 MAE(`mae_daily_c`)와 기간 평균 오차(`mae_period_mean_c`)를 방법별로 낸다: `idw_lapse_fixed`, `idw_lapse_fitted`, `idw_no_elevation`, `nearest_station`. 합성 데이터면 모든 행의 `note`에 "합성" 표시.
 합성 24개 관측소(seed 0, 365일) 참고: tmean 일 MAE 0.50(고정 감률) vs 최근접 1.35. **이 숫자는 합성 데이터의 진값이 6.5℃/km이기 때문에 나온 것이라 실제 성능이 아니다.**
 
 ## 산출물 (kind)
-`site_markers`(geo: name, role=site|station, lat, lon, elevation_m, annual_mean_c), `site_indicators`(metrics), `suitability`(table), `cross_validation`(table), `limitations`(table, 컬럼 `text`). 08 `map` 템플릿 연결은 하지 않았다(마커 컬럼 이름은 위와 같다).
+`site_markers`(geo: name, role=site|station, lat, lon, elevation_m, annual_mean_c), `site_indicators`(metrics), `cross_validation`(table), `limitations`(table, 컬럼 `text`). 08 `map` 템플릿 연결은 하지 않았다(마커 컬럼 이름은 위와 같다).
 
 ## 한계 문구 (렌더 단계가 쓰도록)
 데이터: `site_climate.LIMITATIONS` 리스트(+합성이면 `SYNTHETIC_NOTE`). 접근: `jejuagent.geo.climate.limitations(synthetic)` 또는 모듈 출력 `limitations` 표의 `text`. 결과에는 자동으로 들어 있다(90m DEM, 경사·일사 미반영, 관측소 밀도, 강수 보정 없음, 한계온도 판정 안 함, 기준 근거 부족 처리). 렌더는 이 문구들을 결과 옆에 그대로 보이면 된다.

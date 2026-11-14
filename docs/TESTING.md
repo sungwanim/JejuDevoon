@@ -55,7 +55,7 @@ cd backend
 ..\.venv\Scripts\python.exe -m uvicorn demo_app:app --app-dir tests/e2e --port 8000
 ```
 
-(더 단순한 확인은 루트의 `실행-데모.bat`이지만 거절 동작 정도만 보입니다.)
+(더 단순한 확인은 루트의 `run-demo.bat`이지만 거절 동작 정도만 보입니다.)
 
 브라우저에서 `http://127.0.0.1:8000`을 열고 아래를 확인합니다.
 
@@ -73,7 +73,7 @@ cd backend
 
 ## 3. 실제 GPT-4o로 앱 돌리기
 
-`.env`에 `OPENAI_API_KEY`를 넣은 뒤, 루트의 `실행.bat`을 더블클릭하거나 아래 명령을 씁니다.
+`.env`에 `OPENAI_API_KEY`를 넣은 뒤, 루트의 `run.bat`을 더블클릭하거나 아래 명령을 씁니다.
 
 ```powershell
 cd backend

@@ -1,4 +1,4 @@
-"""지점 기후 추정 (티켓 12). 부모 프로세스 쪽 얇은 층: DEM 고도를 미리 구하고, 기준표를 표로 만들어 모듈을 부른다.
+"""지점 기후 추정 (티켓 12). 부모 프로세스 쪽 얇은 층: DEM 고도를 미리 구해 모듈을 부른다.
 
 계산은 modules_seed/site/site_climate.py 하나에 있다(격리 프로세스에서도 같은 코드). 방법·파라미터 근거는 docs/climate.md.
 입력 표준 스키마와 한계 문구는 아래 AWS_SCHEMA / LIMITATIONS (렌더 단계가 쓰도록 데이터로 제공. 연결은 08 몫).
@@ -6,7 +6,6 @@
 from __future__ import annotations
 
 import importlib.util
-import os
 from pathlib import Path
 
 import numpy as np
@@ -35,39 +34,21 @@ def limitations(synthetic: bool = False) -> list[str]:
     return list(m.LIMITATIONS) + ([m.SYNTHETIC_NOTE] if synthetic else [])
 
 
-def suitability_enabled() -> bool:
-    """문헌 기준표 기반 적합도 비교. 공공데이터·제주데이터허브만 쓴다는 원칙에 따라 기본 꺼짐. JEJU_SUITABILITY=1 로만 켠다."""
-    return os.environ.get("JEJU_SUITABILITY") == "1"
-
-
-def criteria_for_pipeline(crop_text: str | None) -> pd.DataFrame:
-    """파이프라인(③)이 모듈의 criteria 입력으로 넘기는 표. 꺼져 있으면(기본) 문헌 값 없이 '미확보' 자리표시 행 하나만 넘긴다
-    (격리 실행기는 빈 입력·빈 출력을 거부하므로 빈 표는 못 쓴다). 그러면 적합도 표에는 '근거 부족' 한 줄만 나온다."""
-    from ..criteria.loader import CROPS
-    from ..criteria.suitability import COLUMNS, criteria_rows
-    if not suitability_enabled():
-        row = {c: "" for c in COLUMNS} | {"crop": "(없음)", "item": "재배 적합도", "indicator": "annual_mean",
-                                          "value_type": "range", "min": float("nan"), "max": float("nan"), "status": "미확보"}
-        return pd.DataFrame([row], columns=COLUMNS)
-    return criteria_rows([c for c in CROPS if c in (crop_text or "")] or None)
-
-
-def site_inputs(aws: pd.DataFrame, lat: float, lon: float, crops=None) -> dict:
+def site_inputs(aws: pd.DataFrame, lat: float, lon: float) -> dict:
     """run()의 inputs. 지점 고도는 여기서(부모) DEM으로 구한다. 바다·격자 밖이면 ValueError(안내문)."""
-    from ..criteria.suitability import criteria_rows
     z = get_elevation(lat, lon)
     if z is None:
         raise ValueError(out_of_range_message(lat, lon) or "고도를 구할 수 없는 위치")
-    return {"aws": aws, "site": pd.DataFrame([{"lat": lat, "lon": lon, "elevation_m": z}]), "criteria": criteria_rows(crops)}
+    return {"aws": aws, "site": pd.DataFrame([{"lat": lat, "lon": lon, "elevation_m": z}])}
 
 
-def estimate_site(aws: pd.DataFrame, lat: float, lon: float, crops=None, *, lapse_c_per_km: float = 6.5,
+def estimate_site(aws: pd.DataFrame, lat: float, lon: float, *, lapse_c_per_km: float = 6.5,
                   idw_power: float = 2.0, growing_months: str = "10,11,12,1,2,3", synthetic: bool | None = None) -> dict:
-    """지점 기후 지표·적합도·교차검증 결과(dict, 모듈 출력과 같은 형식). synthetic=None이면 aws.attrs['synthetic']를 따른다."""
+    """지점 기후 지표·교차검증 결과(dict, 모듈 출력과 같은 형식). synthetic=None이면 aws.attrs['synthetic']를 따른다."""
     syn = bool(aws.attrs.get("synthetic")) if synthetic is None else synthetic
     m = seed_module()
     params = {"lapse_c_per_km": lapse_c_per_km, "idw_power": idw_power, "growing_months": growing_months, "synthetic": syn}
-    inputs = site_inputs(aws, lat, lon, crops)
+    inputs = site_inputs(aws, lat, lon)
     out = m.run(inputs, params)
     problems = m.check(out, inputs)
     if problems:

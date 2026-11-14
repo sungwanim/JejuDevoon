@@ -3,7 +3,6 @@
 실제 GPT-4o가 아니다. 단계 연결(① 규격화 ... ⑤ 렌더)과 모듈 재사용 경로를 키·네트워크 없이 확인하는 용도다.
 """
 import json
-import os
 
 from jejuagent.geo.climate import seed_module
 from jejuagent.llm import FakeLLM
@@ -40,10 +39,9 @@ def _select(user: str) -> dict:
 def _tasks(user: str) -> dict:
     chosen = user.split("[Profile")[0]
     site = {"id": "site", "title": "지점 기후 추정", "description": "AWS 관측소 값을 고도 보정 보간으로 지점 기온 지표와 교차검증 오차를 낸다",
-            "inputs": ["synthetic_aws_daily", "site_point", "crop_criteria"],
+            "inputs": ["synthetic_aws_daily", "site_point"],
             "outputs": [{"id": "site_markers", "kind": "geo", "description": "지점과 관측소 위치", "columns": [COL("lat"), COL("lon")]},
                         {"id": "site_indicators", "kind": "metrics", "description": "지점 기온 지표", "columns": []},
-                        {"id": "suitability", "kind": "table", "description": "기준 비교(꺼져 있으면 빈 표)", "columns": [COL("result", "str")]},
                         {"id": "cross_validation", "kind": "table", "description": "교차검증 오차", "columns": [COL("mae_daily_c")]},
                         {"id": "site_limitations", "kind": "table", "description": "한계 문구", "columns": [COL("text", "str")]}]}
     price = {"id": "price", "title": "품목별 가격 추세와 변동성", "description": "월동무 일별 도매가격의 추세와 변동성",
@@ -59,8 +57,7 @@ def _decide(user: str) -> dict:
         roles = seed_module().MANIFEST["input_roles"]
         return {"decision": "reuse", "module_id": "site_climate", "reason": "verified 모듈이 그대로 맞다",
                 "input_binding": [{"module_input": "aws", "task_input": "synthetic_aws_daily"},
-                                  {"module_input": "site", "task_input": "site_point"},
-                                  {"module_input": "criteria", "task_input": "crop_criteria"}],
+                                  {"module_input": "site", "task_input": "site_point"}],
                 "role_mapping": [{"input": i, "role": r, "column": r} for i, rs in roles.items() for r in rs]}
     return {"decision": "reuse", "module_id": "market-price-trend-volatility", "reason": "verified 모듈이 그대로 맞다",
             "input_binding": [{"module_input": "trade", "task_input": "jdh_agri_daily_trade"}],
@@ -75,8 +72,6 @@ def _report(user: str) -> dict:
         blocks += [{"type": "map", "artifact_id": "site_markers", "title": "지점과 관측소"},
                    {"type": "table", "artifact_id": "site_indicators", "title": "지점 기온 지표"},
                    {"type": "table", "artifact_id": "cross_validation", "title": "교차검증"}]
-        if os.environ.get("JEJU_SUITABILITY") == "1":
-            blocks.append({"type": "table", "artifact_id": "suitability", "title": "기준 비교"})
     if "variety_daily_price" in user:
         blocks.append({"type": "chart", "artifact_id": "variety_daily_price", "x": "date", "y": ["price"],
                        "chart_type": "line", "title": "품종별 일별 가격"})

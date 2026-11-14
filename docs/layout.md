@@ -19,7 +19,6 @@ backend/
     modules_lib/              # 07 소유. 모듈 저장·검색·재사용
     render/                   # 08 소유. ReportSpec, 숫자 근거, 템플릿
     geo/                      # 10 소유(dem.py), 12가 climate.py 추가
-    criteria/                 # 11 소유(기준표 데이터 + 로더), 12가 규칙 코드 추가
   tests/<영역>/               # 영역 이름은 위 패키지와 같다. 자기 영역만 쓴다
 frontend/                     # Vite + React. 01이 뼈대를 만들고, 02/04/08이 각자 컴포넌트를 추가
 catalog/                      # 데이터셋 카탈로그 JSON (03)

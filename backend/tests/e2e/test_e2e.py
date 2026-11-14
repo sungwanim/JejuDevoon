@@ -4,7 +4,6 @@ import html
 import pytest
 from fakes import make_llm
 
-from jejuagent.criteria.loader import load_criteria
 from jejuagent.geo import dem, is_land
 from jejuagent.modules_lib import ModuleStore
 from jejuagent.runner import run_agent
@@ -46,18 +45,8 @@ def test_click_and_radish_question_gives_map_with_site_climate_and_price(tmp_pat
     assert SYN in html and html.index(SYN) < html.index("<h1")
     assert "재배 적합도는 공공데이터셋 근거가 없어 판정하지 않는다" in html
     assert "합성 데이터로 계산한 결과다" in html                       # 모듈 출력의 합성 표시(파라미터로 전달됨)
-    # 기본 상태에서는 문헌 기준 적합도(충족 여부·출처)가 나오지 않는다
-    su = st.artifacts["suitability"].value
-    assert su.result.eq("근거 부족").all() and su.source_title.eq("").all() and "충족" not in html
-    assert not any(s.title in html for s in load_criteria().sources.values())
+    assert "suitability" not in st.artifacts and "충족" not in html   # 문헌 기준 적합도는 없다
 
-
-def test_suitability_is_opt_in(tmp_path, monkeypatch):
-    monkeypatch.setenv("JEJU_SUITABILITY", "1")
-    res, _ = go(tmp_path, "여기에 월동무 어때?", SOUTH)
-    s = res.state.artifacts["suitability"].value
-    assert res.status == "answered" and len(s) > 0 and s.source_title.ne("").any()
-    assert s.crop.eq("무").all() and html.escape(s.source_title.iloc[0]) in res.html
 
 
 def test_missing_location_clarifies_then_continues(tmp_path):

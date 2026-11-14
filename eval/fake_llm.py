@@ -71,10 +71,9 @@ class ExpectationLLM(LLMClient):
         tasks = []
         if '"dataset_id": "synthetic_aws_daily"' in chosen and '"site_point"' in user:
             tasks.append({"id": "site", "title": "지점 기후 추정", "description": "AWS 관측소 값을 고도 보정 보간으로 지점 기온 지표와 교차검증 오차를 낸다",
-                          "inputs": ["synthetic_aws_daily", "site_point", "crop_criteria"], "outputs": [
+                          "inputs": ["synthetic_aws_daily", "site_point"], "outputs": [
                               _out("site_markers", "geo", "지점과 관측소 위치", [_col("lat"), _col("lon")]),
                               _out("site_indicators", "metrics", "지점 기온 지표", []),
-                              _out("suitability", "table", "기준 비교(꺼져 있으면 빈 표)", [_col("result", "str")]),
                               _out("cross_validation", "table", "교차검증 오차", [_col("mae_daily_c")]),
                               _out("site_limitations", "table", "한계 문구", [_col("text", "str")])]})
         if '"dataset_id": "jdh_agri_daily_trade"' in chosen:
@@ -106,8 +105,7 @@ class ExpectationLLM(LLMClient):
             roles = seed_module().MANIFEST["input_roles"]
             return {"decision": "reuse", "module_id": "site_climate", "reason": "verified 모듈이 맞다",
                     "input_binding": [{"module_input": "aws", "task_input": "synthetic_aws_daily"},
-                                      {"module_input": "site", "task_input": "site_point"},
-                                      {"module_input": "criteria", "task_input": "crop_criteria"}],
+                                      {"module_input": "site", "task_input": "site_point"}],
                     "role_mapping": [{"input": i, "role": r, "column": r} for i, rs in roles.items() for r in rs]}
         if "[작업] 품목별 가격" in user:
             return {"decision": "reuse", "module_id": "market-price-trend-volatility", "reason": "verified 모듈이 맞다",

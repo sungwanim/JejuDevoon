@@ -1,12 +1,11 @@
-"""지점 기후 추정 + 적합도 + 교차검증 (티켓 12). verified 모듈 소스: 코드 계약(MANIFEST, run, check)을 지킨다.
+"""지점 기후 추정 + 교차검증 (티켓 12). verified 모듈 소스: 코드 계약(MANIFEST, run, check)을 지킨다.
 
-단일 소스: 순수 계산(numpy/pandas만)이 전부 이 파일에 있다. jejuagent.geo.climate / criteria.suitability가 이 파일을
+단일 소스: 순수 계산(numpy/pandas만)이 전부 이 파일에 있다. jejuagent.geo.climate가 이 파일을
 경로로 불러 쓴다 (격리 프로세스는 jejuagent를 import할 수 없으므로 거꾸로 이 파일이 자립한다).
 
 입력 표준 스키마(실제 AWS API·CSV를 추측해 만든 변환기는 없다. 사용자가 이 스키마로 변환한다):
   aws  (관측소 x 일): station(str) lat lon elevation_m(m) date tmean tmin [tmax] precip(mm)  (기온 ℃)
   site (1행): lat lon elevation_m   <- 부모 프로세스가 get_elevation으로 미리 계산해 넘긴다 (DEM은 여기서 못 읽음)
-  criteria(작목 기준 행): suitability.criteria_rows()가 만든다
 방법: 관측소 값에 +감률*고도로 해면 환산 -> IDW(거리^-p)로 보간 -> 지점 고도에서 -감률*고도로 되돌림.
 """
 try:
@@ -19,26 +18,21 @@ import pandas as pd
 
 MANIFEST = {
     "title": "지점 기후 추정",
-    "description": "AWS 관측값을 고도 보정 IDW로 지점에 보간해 기온 지표(연평균·극최저·생육기간 평균)를 내고, 관측소 하나씩 빼는 교차검증 오차를 낸다. criteria 입력에 기준 행이 있을 때만 그 범위와 비교한다",
-    "tags": ["climate", "suitability", "interpolation", "aws", "elevation"],
+    "description": "AWS 관측값을 고도 보정 IDW로 지점에 보간해 기온 지표(연평균·극최저·생육기간 평균)를 내고, 관측소 하나씩 빼는 교차검증 오차를 낸다.",
+    "tags": ["climate", "interpolation", "aws", "elevation"],
     "input_roles": {
         "aws": {"station": "str", "lat": "float", "lon": "float", "elevation_m": "float", "date": "date",
                 "tmean": "float", "tmin": "float", "precip": "float"},
         "site": {"lat": "float", "lon": "float", "elevation_m": "float"},
-        "criteria": {"crop": "str", "item": "str", "stage": "str", "indicator": "str", "value_type": "str",
-                     "min": "float", "max": "float", "unit": "str", "status": "str", "source_id": "str",
-                     "source_title": "str", "confidence": "str", "location": "str", "grade": "str"},
     },
     "params": {"lapse_c_per_km": "float", "idw_power": "float", "growing_months": "str", "synthetic": "bool"},
-    "outputs": ["site_markers", "site_indicators", "suitability", "cross_validation", "limitations"],
+    "outputs": ["site_markers", "site_indicators", "cross_validation", "limitations"],
     "output_schema": [
         {"id": "site_markers", "kind": "geo", "columns": [
             {"name": "name", "dtype": "str", "unit": ""}, {"name": "role", "dtype": "str", "unit": ""},
             {"name": "lat", "dtype": "float", "unit": "도"}, {"name": "lon", "dtype": "float", "unit": "도"},
             {"name": "elevation_m", "dtype": "float", "unit": "m"}, {"name": "annual_mean_c", "dtype": "float", "unit": "℃"}]},
         {"id": "site_indicators", "kind": "metrics", "columns": []},
-        {"id": "suitability", "kind": "table", "columns": [
-            {"name": "result", "dtype": "str", "unit": ""}, {"name": "source_title", "dtype": "str", "unit": ""}]},
         {"id": "cross_validation", "kind": "table", "columns": [
             {"name": "method", "dtype": "str", "unit": ""}, {"name": "mae_daily_c", "dtype": "float", "unit": "℃"}]},
         {"id": "limitations", "kind": "table", "columns": [{"name": "text", "dtype": "str", "unit": ""}]},
@@ -59,13 +53,8 @@ LIMITATIONS = [
     "극최저기온·-5℃ 이하 일수·0℃ 이하 일수는 참고 지표다. 동해·저온 한계온도로 합격/불합격을 판정하지 않는다(신뢰할 만한 한계온도 자료가 없다).",
     "재배 적합도는 공공데이터셋 근거가 없어 판정하지 않는다.",
 ]
-CRITERIA_NOTES = [
-    "적합도는 기준표의 생육적온·연평균기온 범위와 비교한 결과다. 기준표에 값이 없는 항목은 '근거 부족'으로 표시하고 판정하지 않는다.",
-    "기준값은 문헌(출처·신뢰도 표시)을 따르며 지점의 재배 성패를 보장하지 않는다. 공공데이터가 아닌 문헌 출처가 섞여 있다.",
-]
 SYNTHETIC_NOTE = "합성 데이터로 계산한 결과다. 오차 수치를 실제 성능으로 해석하면 안 된다."
 REFERENCE_NOTE = "참고 지표(판정 아님)"
-RESULTS = ("충족", "미충족", "근거 부족")
 
 
 def _km(lat0, lon0, lat, lon):
@@ -184,42 +173,6 @@ def site_indicators(st, dates, arrays, lat, lon, z, lapse, power, growing_months
     }
 
 
-def _fmt(r):
-    lo, hi, u = r["min"], r["max"], r["unit"]
-    if r["value_type"] == "range":
-        return f"{lo:g}~{hi:g}{u}"
-    if r["value_type"] == "threshold_min":
-        return f"{lo:g}{u} 이상"
-    if r["value_type"] == "threshold_max":
-        return f"{hi:g}{u} 이하"
-    return f"{lo:g}{u}"
-
-
-_TESTS = {"range": lambda r, v: r["min"] <= v <= r["max"], "threshold_min": lambda r, v: v >= r["min"],
-          "threshold_max": lambda r, v: v <= r["max"]}
-
-
-def evaluate_suitability(criteria, ind):
-    """기준 행 x 지표 -> 충족 여부. 점수 없음. 미확보·지표 결측·비교할 수 없는 형식은 '근거 부족'.
-    한계온도 항목은 이 함수에 들어오지 않는다(criteria.suitability가 거른다)."""
-    key = {"annual_mean": ind.get("annual_mean_c"), "growing_mean": ind.get("growing_mean_c")}
-    out = []
-    for _, r in criteria.iterrows():
-        v = key.get(r["indicator"])
-        v = None if v is None or pd.isna(v) else float(v)
-        test = _TESTS.get(r["value_type"])
-        if r["status"] != "확보" or v is None or test is None:
-            res, crit = "근거 부족", ("기준표에 값 없음(미확보)" if r["status"] != "확보" else "")
-        else:
-            res, crit = ("충족" if test(r, v) else "미충족"), _fmt(r)
-        out.append({"crop": r["crop"], "item": r["item"], "stage": r["stage"], "grade": r["grade"] or "",
-                    "indicator": r["indicator"], "site_value": None if v is None else round(v, 2),
-                    "criterion": crit, "result": res, "source_id": r["source_id"] or "",
-                    "source_title": r["source_title"] or "", "confidence": r["confidence"], "location": r["location"] or ""})
-    cols = ["crop", "item", "stage", "grade", "indicator", "site_value", "criterion", "result", "source_id",
-            "source_title", "confidence", "location"]
-    return pd.DataFrame(out, columns=cols)
-
 
 def run(inputs, params):
     lapse = float(params.get("lapse_c_per_km", LAPSE_DEFAULT))
@@ -246,11 +199,10 @@ def run(inputs, params):
         pd.DataFrame({"name": st.index, "role": "station", "lat": st.lat.to_numpy(), "lon": st.lon.to_numpy(),
                       "elevation_m": st.elevation_m.to_numpy(), "annual_mean_c": np.nanmean(arrays["tmean"], 0)}),
     ], ignore_index=True)
-    lim = list(LIMITATIONS) + (CRITERIA_NOTES if (inputs["criteria"]["status"] == "확보").any() else []) + ([SYNTHETIC_NOTE] if syn else []) + [f"관측소 {len(st)}개, 관측 {ind['n_years']}년분으로 추정했다."]
+    lim = list(LIMITATIONS) + ([SYNTHETIC_NOTE] if syn else []) + [f"관측소 {len(st)}개, 관측 {ind['n_years']}년분으로 추정했다."]
     return {
         "site_markers": markers,
         "site_indicators": ind,
-        "suitability": evaluate_suitability(inputs["criteria"], ind),
         "cross_validation": cv,
         "limitations": pd.DataFrame({"text": lim}),
     }
@@ -261,11 +213,6 @@ def check(outputs, inputs):
     ind = outputs["site_indicators"]
     if not np.isfinite(ind["annual_mean_c"]) or not -30 < ind["annual_mean_c"] < 40:
         p.append(f"연평균기온 {ind['annual_mean_c']}℃가 비었거나 상식 범위를 벗어났다")
-    s = outputs["suitability"]
-    if set(s["result"]) - set(RESULTS):
-        p.append("적합도 결과 값이 정의 밖이다")
-    if (s["result"] == "충족").any() and s.loc[s["result"] == "충족", "source_id"].eq("").any():
-        p.append("근거 출처 없이 '충족'으로 판정된 항목이 있다")
     if outputs["limitations"].empty:
         p.append("한계 문구가 없다")
     return p

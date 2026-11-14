@@ -2,7 +2,6 @@ import numpy as np
 import pytest
 
 from jejuagent.catalog.profile import profile
-from jejuagent.criteria.suitability import ITEM_INDICATOR, criteria_rows, evaluate
 from jejuagent.geo import dem
 from jejuagent.geo.climate import SEED_PATH, estimate_site, limitations, seed_module, site_inputs, synthetic_aws
 from jejuagent.sandbox import run_generated_code
@@ -60,26 +59,8 @@ def test_derived_indicators_are_reference_only(aws):
               "growing_mean_c", "precip_mm_per_year"):
         assert np.isfinite(ind[k])
     assert ind["days_le_0_per_year"] >= ind["days_le_minus5_per_year"] and ind["synthetic"]
-    text = " ".join(map(str, out["limitations"].text)) + str(out["suitability"].to_dict())
+    text = " ".join(map(str, out["limitations"].text))
     assert "한계 초과" not in text and "동해 위험" not in text
-
-
-def test_suitability_reads_only_temperature_items_and_marks_missing():
-    rows = criteria_rows()
-    assert set(rows.item) <= set(ITEM_INDICATOR)
-    assert not rows.item.str.contains("동해|한계|극최저|저온일수").any()
-    s = evaluate({"annual_mean_c": 15.5, "growing_mean_c": 19.0})
-    garlic = s[s.crop == "마늘"]
-    assert (garlic.result == "근거 부족").all() and garlic.site_value.notna().all() and garlic.source_id.eq("").all()
-    cit = s[(s.crop == "감귤") & (s.stage == "재배 가능 하한")]
-    assert cit.result.iloc[0] == "충족" and cit.source_id.iloc[0] == "moon2015" and cit.confidence.iloc[0] == "높음"
-    low = evaluate({"annual_mean_c": 13.0, "growing_mean_c": 19.0}, ["감귤"])
-    assert low[low.stage == "재배 가능 하한"].result.iloc[0] == "미충족"
-    carrot = s[(s.crop == "당근") & (s.item == "생육적온")]
-    assert carrot.result.iloc[0] == "충족"                          # 18~21 안의 19.0
-    assert (s[s.criterion == "기준표에 값 없음(미확보)"].result == "근거 부족").all()
-    assert set(s.result) <= {"충족", "미충족", "근거 부족"}
-    assert evaluate({"annual_mean_c": 15.5, "growing_mean_c": float("nan")}, ["무"]).result.eq("근거 부족").all()
 
 
 def test_out_of_range_site_rejected(aws):
@@ -98,7 +79,6 @@ ARTIFACTS = [
     {"id": "site_markers", "kind": "geo", "columns": [{"name": "lat", "dtype": "float"}, {"name": "lon", "dtype": "float"},
                                                        {"name": "annual_mean_c", "dtype": "float"}]},
     {"id": "site_indicators", "kind": "metrics"},
-    {"id": "suitability", "kind": "table", "columns": [{"name": "result", "dtype": "str"}]},
     {"id": "cross_validation", "kind": "table", "columns": [{"name": "mae_daily_c", "dtype": "float"}]},
     {"id": "limitations", "kind": "table", "columns": [{"name": "text", "dtype": "str"}]},
 ]
