@@ -2,7 +2,7 @@
 
 기본 출력은 시스템 임시 폴더(프로젝트 안에 zip을 남기지 않는다). 점검에서 문제가 나오면 zip을 지우고 종료코드 1.
 포함: backend frontend catalog snapshots docs data README.md DESIGN.md .env.example
-제외: .env .venv .cache runs/ module_store/ node_modules dist __pycache__ .pytest_cache .git .scratch *.key *.pem *.pyc
+제외: .env .venv .cache runs/ module_store/ node_modules __pycache__ .pytest_cache .git .scratch *.key *.pem *.pyc
 """
 from __future__ import annotations
 
@@ -16,8 +16,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 TOP = "everyoneJeju-submission"
-INCLUDE = ["backend", "frontend", "catalog", "snapshots", "docs", "data", "README.md", "DESIGN.md", ".env.example"]
-EXCLUDE_DIRS = {".git", ".venv", ".cache", "runs", "module_store", "node_modules", "dist", "__pycache__",
+INCLUDE = ["backend", "frontend", "catalog", "snapshots", "docs", "data", "README.md", "DESIGN.md", ".env.example", "실행.bat", "실행-데모.bat"]
+EXCLUDE_DIRS = {".git", ".venv", ".cache", "runs", "module_store", "node_modules", "__pycache__",
                 ".pytest_cache", ".scratch", ".idea", ".vscode"}
 EXCLUDE_SUFFIX = {".key", ".pem", ".pyc", ".pyo", ".pkl"}
 FORBIDDEN_NAMES = {".env"}   # 이름이 .env 인 파일이 zip에 있으면 실패
@@ -69,7 +69,7 @@ def scan(zpath: Path) -> tuple[list[str], list[str]]:
             parts = info.filename.split("/")
             if parts[-1] in FORBIDDEN_NAMES or (parts[-1].startswith(".env") and parts[-1] != ".env.example"):
                 bad.append(f"금지 파일: {info.filename}")
-            if set(parts[:-1]) & (EXCLUDE_DIRS - {"dist"}):  # dist 는 frontend/dist 만 제외했으므로 아래에서 별도 확인
+            if set(parts[:-1]) & EXCLUDE_DIRS:
                 bad.append(f"금지 폴더: {info.filename}")
             if parts[-1].endswith(tuple(EXCLUDE_SUFFIX - {".pkl"})):
                 bad.append(f"금지 확장자: {info.filename}")

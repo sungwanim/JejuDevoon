@@ -5,5 +5,4 @@ __pycache__/
 .env
 runs/
 .cache/
-frontend/dist/
 eval/results/

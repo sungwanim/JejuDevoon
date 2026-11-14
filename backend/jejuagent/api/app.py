@@ -7,11 +7,15 @@ from pathlib import Path
 from typing import Callable
 
 from fastapi import FastAPI, HTTPException
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from ..llm.base import LLMClient
 from ..runner import DataSourceRegistry, EmptyRegistry, run_agent
 from ..runner.runner import DEFAULT_RUNS_DIR
+
+DEFAULT_WEB_DIR = Path(__file__).resolve().parents[3] / "frontend" / "dist"   # npm run build 결과
+NO_WEB = "화면이 빌드되지 않았습니다. frontend 폴더에서 `npm install` 후 `npm run build` 를 실행하세요. (API는 정상 동작 중)"
 
 
 class RunRequest(BaseModel):
@@ -22,7 +26,8 @@ class RunRequest(BaseModel):
 
 
 def create_app(llm_factory: Callable[[], LLMClient], data: DataSourceRegistry | None = None,
-               runs_dir: str | Path | None = DEFAULT_RUNS_DIR, modules=None) -> FastAPI:
+               runs_dir: str | Path | None = DEFAULT_RUNS_DIR, modules=None,
+               web_dir: str | Path | None = DEFAULT_WEB_DIR) -> FastAPI:
     app = FastAPI(title="제주 농업 데이터 분석 Agent")
     registry = data or EmptyRegistry()
     runs: dict[str, dict] = {}                 # run_id -> {"state": dict, "events": list, "done": bool}
@@ -82,5 +87,13 @@ def create_app(llm_factory: Callable[[], LLMClient], data: DataSourceRegistry | 
     @app.get("/api/catalog")
     def catalog():
         return registry.catalog()
+
+    # 빌드된 화면을 같은 포트로 서빙한다. /api 라우트가 먼저 등록돼 있어 가려지지 않고, 없는 /api/... 는 404.
+    if web_dir and (Path(web_dir) / "index.html").is_file():
+        app.mount("/", StaticFiles(directory=web_dir, html=True), name="web")
+    else:
+        @app.get("/")
+        def no_web():
+            return {"message": NO_WEB}
 
     return app

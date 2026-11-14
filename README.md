@@ -19,7 +19,7 @@
 |---|---|
 | OS | Windows 10/11 (개발·확인은 Windows 11). 다른 OS는 확인하지 않았습니다 |
 | Python | 3.14 (개발 환경 3.14.8) |
-| Node.js | 24 (개발 환경 v24.21.0, npm 11.19.0) |
+| Node.js | 화면 코드를 고칠 때만 필요 (개발 환경 v24.21.0, npm 11.19.0). 실행만 한다면 불필요 |
 | 네트워크 | OpenAI API 호출과, 결과 화면의 지도 타일·차트 라이브러리(CDN) 로딩에 인터넷이 필요합니다 |
 | 키 | `OPENAI_API_KEY` 필수(실제 분석). 허브·공공데이터포털 키는 실데이터 수집 때만 |
 
@@ -32,7 +32,7 @@
 py -3.14 -m venv .venv
 .venv\Scripts\python.exe -m pip install -r backend\requirements.txt
 
-# 2) 프런트엔드 의존성 (frontend/package-lock.json 기준)
+# 2) 프런트엔드 의존성 (화면 코드를 고칠 때만. 실행만 한다면 건너뛰어도 됩니다)
 cd frontend
 npm ci
 cd ..
@@ -71,27 +71,22 @@ notepad .env
 
 ## 4. 실행
 
-터미널 두 개를 엽니다.
+**가장 간단한 방법:** 프로젝트 루트의 `실행.bat`을 더블클릭합니다. 서버가 `127.0.0.1:8000`에서 켜지고 브라우저가 자동으로 열립니다. 키 없이 화면만 보려면 `실행-데모.bat`입니다. 사용자 PC에는 Python만 있으면 되고 Node는 필요 없습니다(화면은 `frontend/dist`에 미리 빌드되어 있고 백엔드가 같은 포트로 서빙합니다).
 
-**백엔드 (포트 8000)** — `backend/` 폴더에서:
+같은 동작을 명령으로 실행하려면:
 
 ```powershell
 cd backend
-..\.venv\Scripts\python.exe -m uvicorn jejuagent.api.main:app --port 8000
+..\.venv\Scripts\python.exe -m jejuagent            # --port 8001, --no-browser 옵션 가능
 ```
 
-**프런트엔드 (포트 5173)** — `frontend/` 폴더에서:
+서버는 `127.0.0.1`에만 열리고 API에 인증이 없으므로 공용 PC나 원격 접속에서는 쓰지 마세요. 지도 타일(OpenStreetMap)은 인터넷이 필요합니다. 포트가 사용 중이면 안내 메시지가 나옵니다.
 
-```powershell
-cd frontend
-npm run dev
-```
+키 없이 화면만 보려면 `JEJU_LLM=fake`로 실행합니다(`실행-데모.bat`, 또는 PowerShell: `$env:JEJU_LLM="fake"` 후 같은 명령). 이때는 도메인 밖 요청("주식 추천해줘")을 거절하는 동작 정도만 확인됩니다.
 
-브라우저에서 `http://localhost:5173`을 엽니다. 개발 서버가 `/api`를 `127.0.0.1:8000`(백엔드)으로 넘깁니다(`frontend/vite.config.ts`).
+### 개발자용 (화면 코드를 고칠 때)
 
-프런트엔드 빌드(타입 검사 + 번들): `cd frontend; npm run build` → `frontend/dist/`. 빌드 결과를 서빙하는 설정(백엔드의 정적 서빙 등)은 없습니다. 실행은 위의 개발 서버 방식입니다.
-
-키 없이 화면만 보려면 백엔드를 `JEJU_LLM=fake`로 띄웁니다(PowerShell: `$env:JEJU_LLM="fake"` 후 같은 uvicorn 명령). 이때는 도메인 밖 요청("주식 추천해줘")을 거절하는 동작 정도만 확인됩니다.
+화면을 고친 뒤에는 **반드시 `cd frontend; npm run build`로 `frontend/dist`를 다시 만들어 함께 커밋**합니다(저장소에 빌드 결과를 포함합니다. 파일 이름에 해시가 붙어 매번 바뀝니다). 핫리로드가 필요하면 백엔드를 위 명령으로 `--no-browser`로 띄우고 `cd frontend; npm run dev`를 쓴 뒤 `http://localhost:5173`을 엽니다(`frontend/vite.config.ts`가 `/api`를 8000으로 넘깁니다).
 
 ### 스냅샷 모드와 라이브 모드
 
@@ -130,7 +125,7 @@ backend/
   jejuagent/
     runner/       상태 머신(run_agent), 5단계(stages/s1~s5), RunState, trace, 데이터 레지스트리
     llm/          LLM 어댑터(OpenAI GPT-4o, 테스트용 가짜)
-    api/          FastAPI (main.py가 uvicorn 진입점)
+    api/          FastAPI (main.py가 앱 생성, `python -m jejuagent`가 실행 진입점, 빌드된 화면 서빙)
     sandbox/      생성 코드 실행기 (보안 샌드박스 아님, docs/submission/ai-usage.md 참고)
     catalog/      카탈로그 로더, Profile
     data/         고정 도구, live/ (허브·공공데이터포털 수집, 스냅샷 폴백)
