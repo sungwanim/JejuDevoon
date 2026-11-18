@@ -16,6 +16,14 @@ ROLES = {"season": "연산", "crop_group": "채소구분대분류", "crop": "채
          "area": "면적(ha)", "production": "생산량(톤)", "revenue": "조수입(백만원)"}
 
 
+# 비농업 도메인: 데이터셋 -> (역할, 컬럼, 출력 id, 둘째 요약 컬럼, 작업 제목). 드라이런은 행 수·고유값 수 요약 코드만 낸다
+NEW_DOMAIN = {
+    "jeju_airport_noise": ("station", "소음측정소", "airport_noise_summary", "n_stations", "제주공항 소음 요약"),
+    "jeju_urban_forest": ("year", "기준 연도", "urban_forest_summary", "n_years", "도시숲 조성 요약"),
+    "jeju_environmental_noise": ("point", "측정지점", "env_noise_summary", "n_points", "환경소음 요약"),
+}
+
+
 def _col(n, d="float", u=""):
     return {"name": n, "dtype": d, "unit": u, "min": None, "max": None}
 
@@ -87,6 +95,10 @@ class ExpectationLLM(LLMClient):
                               _out("crop_ranking", "table", "작목 순위", [_col("crop", "str")]),
                               _out("crop_area_trend", "series", "재배면적 추세", [_col("season", "str")]),
                               _out("limitations", "table", "한계", [_col("text", "str")])]})
+        for ds, (_, _, out, second, title) in NEW_DOMAIN.items():
+            if f'"dataset_id": "{ds}"' in chosen:
+                tasks.append({"id": out, "title": title, "description": f"{title}: 행 수와 고유값 수", "inputs": [ds],
+                              "outputs": [_out(out, "table", title, [_col("n_rows", "int"), _col(second, "int")])]})
         if '"dataset_id": "seogwipo_citrus_production"' in chosen:
             tasks.append({"id": "citrus", "title": "감귤 생산 요약", "description": "서귀포시 감귤 생산 데이터의 행 수와 연도 수",
                           "inputs": ["seogwipo_citrus_production"],
@@ -118,7 +130,10 @@ class ExpectationLLM(LLMClient):
         return new
 
     def _code(self, user: str) -> dict:
-        if "감귤" in user:
+        nd = next((d for d in NEW_DOMAIN if d in user), None)
+        if nd:
+            ds, (role, col, out, second, _) = nd, NEW_DOMAIN[nd]
+        elif "감귤" in user:
             ds, role, col, out, second = "seogwipo_citrus_production", "year", "연도", "citrus_summary", "n_years"
         else:
             ds, role, col, out, second = "jdh_agri_trade_moving_avg", "variety", "cultivar", "ma_summary", "n_varieties"

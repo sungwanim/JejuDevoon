@@ -99,7 +99,7 @@ def test_api_wires_registry_modules_and_notices(tmp_path, monkeypatch):
     monkeypatch.setenv("JEJU_LLM", "fake")
     monkeypatch.setenv("JEJU_DATA_MODE", "live")
     main = importlib.reload(importlib.import_module("jejuagent.api.main"))
-    assert len(TestClient(main.app).get("/api/catalog").json()) == 5
+    assert len(TestClient(main.app).get("/api/catalog").json()) == 8
     from jejuagent.data.live import LiveRegistry
     from jejuagent.runner.datasource import make_registry
     assert isinstance(make_registry(), LiveRegistry)

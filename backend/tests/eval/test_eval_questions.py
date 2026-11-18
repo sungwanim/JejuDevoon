@@ -15,7 +15,7 @@ EXPECT_KEYS = {"status", "output_format", "needs", "clarify", "must_include", "m
 
 
 def test_count_and_distribution():
-    assert 30 <= len(QS) <= 50
+    assert 30 <= len(QS) <= 60
     assert len({q["id"] for q in QS}) == len(QS)
     cats = Counter(q["category"] for q in QS)
     assert set(cats) >= {"대표", "처음보는조합", "도메인밖", "수익보장", "범위밖좌표", "되묻기", "해상도함정", "데이터없음"}

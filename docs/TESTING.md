@@ -131,7 +131,7 @@ cd backend
 
 ## 5. 평가 도구로 한꺼번에 돌리기 (47개 질문)
 
-화면에서 하나씩 보는 대신 질문 47개를 일괄로 돌려 지표를 봅니다. 자세한 설명은 `docs/eval.md`에 있습니다.
+화면에서 하나씩 보는 대신 질문 54개를 일괄로 돌려 지표를 봅니다. 자세한 설명은 `docs/eval.md`에 있습니다.
 
 ```powershell
 # 1) 드라이런 (가짜 LLM, 무료, 약 2분). 도구가 도는지만 확인. 지표는 의미 없음
@@ -140,7 +140,7 @@ cd backend
 # 2) 소량 (실제 GPT-4o, 5개). 실행 전에 예상 비용을 보여주고 y/N을 묻는다
 .venv\Scripts\python.exe eval\run_eval.py --llm openai --limit 5
 
-# 3) 전체 (실제 GPT-4o, 47개)
+# 3) 전체 (실제 GPT-4o, 54개)
 .venv\Scripts\python.exe eval\run_eval.py --llm openai
 
 # 4) 재현성 검사 (LLM 호출 없음)

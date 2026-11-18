@@ -1,0 +1,152 @@
+{
+  "id": "jeju_environmental_noise",
+  "title": "제주특별자치도 환경소음 측정결과 (2024년 분기별 측정지점·시간대별 소음도)",
+  "source": "제주특별자치도 환경소음측정결과 (데이터 기준일 2024-12-31, 제공처·이용허락 확인 필요)",
+  "access": "file",
+  "file": "data/제주특별자치도_환경소음측정결과.csv",
+  "derive_latlon": {
+    "x": "횡축 메르카토르(T.M)좌표 가로",
+    "y": "횡축 메르카토르(T.M)좌표 세로",
+    "lat": "위도",
+    "lon": "경도"
+  },
+  "license": "확인 필요",
+  "spatial_unit": "지점",
+  "temporal_unit": "분기",
+  "coverage": {
+    "from": "2024",
+    "to": "2024",
+    "region": "제주시·서귀포시 측정지점 35곳"
+  },
+  "columns": [
+    {
+      "name": "해당연도",
+      "meaning": "측정 연도(2024 하나)",
+      "unit": "년",
+      "role_hint": "year"
+    },
+    {
+      "name": "구분",
+      "meaning": "분기: 1분기~4분기",
+      "unit": "",
+      "role_hint": "quarter"
+    },
+    {
+      "name": "행정시",
+      "meaning": "제주시 | 서귀포시",
+      "unit": "",
+      "role_hint": "city"
+    },
+    {
+      "name": "적용대상 법적구분",
+      "meaning": "소음 기준 적용 지역 구분: 가 | 나 | 다",
+      "unit": "",
+      "role_hint": "legal_class"
+    },
+    {
+      "name": "적용대상 용도구분",
+      "meaning": "종합병원 | 학교 | 일반주거 | 상업지역",
+      "unit": "",
+      "role_hint": "land_use"
+    },
+    {
+      "name": "측정지역",
+      "meaning": "측정 지역(시설 이름과 주소 또는 동 일대). 7곳",
+      "unit": "",
+      "role_hint": "area"
+    },
+    {
+      "name": "지역구분",
+      "meaning": "일반 | 도로",
+      "unit": "",
+      "role_hint": "area_type"
+    },
+    {
+      "name": "측정지점",
+      "meaning": "측정지점 이름. 35곳",
+      "unit": "",
+      "role_hint": "point_name"
+    },
+    {
+      "name": "측정시작일",
+      "meaning": "측정 시작일 (YYYY-MM-DD 문자열)",
+      "unit": "",
+      "role_hint": "start_date"
+    },
+    {
+      "name": "측정종료일",
+      "meaning": "측정 종료일 (YYYY-MM-DD 문자열)",
+      "unit": "",
+      "role_hint": "end_date"
+    },
+    {
+      "name": "횡축 메르카토르(T.M)좌표 가로",
+      "meaning": "TM 좌표 가로(동서). 단위 km로 보인다. 원본 값 그대로",
+      "unit": "km(추정)",
+      "role_hint": "tm_x",
+      "parse": "numeric"
+    },
+    {
+      "name": "횡축 메르카토르(T.M)좌표 세로",
+      "meaning": "TM 좌표 세로(남북). 단위 km로 보인다. 원본 값 그대로",
+      "unit": "km(추정)",
+      "role_hint": "tm_y",
+      "parse": "numeric"
+    },
+    {
+      "name": "낮시간대 소음도 (9시)",
+      "meaning": "낮 9시 소음도",
+      "unit": "dB(추정)",
+      "role_hint": "noise_day"
+    },
+    {
+      "name": "낮시간대 소음도 (12시)",
+      "meaning": "낮 12시 소음도",
+      "unit": "dB(추정)",
+      "role_hint": "noise_day"
+    },
+    {
+      "name": "낮시간대 소음도 (16시)",
+      "meaning": "낮 16시 소음도",
+      "unit": "dB(추정)",
+      "role_hint": "noise_day"
+    },
+    {
+      "name": "낮시간대 소음도 (20시)",
+      "meaning": "낮 20시 소음도",
+      "unit": "dB(추정)",
+      "role_hint": "noise_day"
+    },
+    {
+      "name": "밤시간대 소음도 (23시)",
+      "meaning": "밤 23시 소음도",
+      "unit": "dB(추정)",
+      "role_hint": "noise_night"
+    },
+    {
+      "name": "밤시간대 소음도 (1시)",
+      "meaning": "밤 1시 소음도",
+      "unit": "dB(추정)",
+      "role_hint": "noise_night"
+    },
+    {
+      "name": "데이터기준일자",
+      "meaning": "원본 데이터 기준일",
+      "unit": "",
+      "role_hint": "as_of"
+    },
+    {
+      "name": "위도",
+      "meaning": "TM 좌표를 변환해 로더가 만든 위도(추정, 오차 약 1km 이내)",
+      "unit": "도",
+      "role_hint": "lat"
+    },
+    {
+      "name": "경도",
+      "meaning": "TM 좌표를 변환해 로더가 만든 경도(추정, 오차 약 1km 이내)",
+      "unit": "도",
+      "role_hint": "lon"
+    }
+  ],
+  "notes": "2024년 한 해, 분기 4 x 측정지점 35곳(행 140). 위도·경도는 원본 TM 좌표를 중부원점 TM(경도 127도·위도 38도·동서 가산 200,000m·남북 가산 550,000m)으로 보고 변환한 추정값이다. 남북 가산값은 문서가 아니라 알려진 위치와의 대조로 정했고 오차가 약 1km일 수 있다. 소음도 단위는 원본에 표기가 없고 dB(A)로 보이나 확인하지 못했다. 원본 인코딩 cp949."
+}

@@ -224,6 +224,6 @@ def test_verified_catalog_explorer_runs_on_catalog_summary_table():
     real = run_generated_code(code, {"catalog": table}, {}, artifacts=schema)
     assert mock.ok, mock.message
     assert real.ok, real.message
-    assert real.outputs["catalog_counts"]["n_datasets"] == len(table) == 5
+    assert real.outputs["catalog_counts"]["n_datasets"] == len(table) == 8
     assert real.outputs["catalog_overview"]["span_days"].iloc[0] > 0
     assert json.dumps(real.outputs["catalog_counts"])

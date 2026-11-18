@@ -13,10 +13,11 @@ from jejuagent.runner.stages import s3_load
 reg = SnapshotRegistry()
 
 
-def test_catalog_has_five_entries_with_required_fields():
+def test_catalog_has_entries_with_required_fields():
     cat = reg.catalog()
     assert {e["id"] for e in cat} == {"seogwipo_citrus_production", "jdh_agri_daily_trade", "jdh_agri_trade_moving_avg",
-                                         "synthetic_aws_daily", "jeju_vegetable_cultivation"}
+                                         "synthetic_aws_daily", "jeju_vegetable_cultivation", "jeju_airport_noise",
+                                         "jeju_urban_forest", "jeju_environmental_noise"}
     for e in cat:
         assert all(k in e for k in ("title", "source", "access", "license", "spatial_unit", "temporal_unit", "coverage", "columns", "notes"))
     assert "제주시" in next(e for e in cat if e["id"].startswith("seogwipo"))["notes"]
@@ -65,4 +66,14 @@ def test_s3_skips_failed_and_records():
 
 def test_catalog_api_lists_entries():
     r = TestClient(create_app(lambda: FakeLLM([]), data=reg)).get("/api/catalog").json()
-    assert len(r) == 5 and r[0]["title"]
+    assert len(r) == 8 and r[0]["title"]
+
+
+def test_new_domain_datasets_load():
+    reg = SnapshotRegistry()
+    air = reg.load("jeju_airport_noise")
+    assert air["공항"].eq("제주공항").all() and len(air) == 849 and air["소음도(단위:WECPNL)"].isna().sum() == 275
+    forest = reg.load("jeju_urban_forest")
+    assert len(forest) == 28 and forest["사업량(ha)"].dtype.kind == "f"
+    noise = reg.load("jeju_environmental_noise")
+    assert len(noise) == 140 and noise["위도"].between(33.2, 33.6).all() and noise["경도"].between(126.4, 126.7).all()
