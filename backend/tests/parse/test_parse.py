@@ -11,7 +11,7 @@ def plan(**kw):
          "needs": {"point_analysis": False, "time_series": False, "spatial_comparison": False},
          "location": {"kind": "none", "text": None, "lat": None, "lon": None},
          "crop": "감귤", "period": None, "style": "unspecified", "missing": [], "clarify_question": None,
-         "in_domain": True, "domain_reason": "", "profit_guarantee": False, "tags": []}
+         "profit_guarantee": False, "tags": []}
     for k, v in kw.items():
         p[k] = {**p[k], **v} if isinstance(v, dict) else v
     return p
@@ -20,11 +20,6 @@ def plan(**kw):
 def go(req, responses, tmp_path, **kw):
     fake = FakeLLM(responses)
     return run_agent(req, llm=fake, runs_dir=tmp_path, **kw), fake
-
-
-def test_out_of_domain(tmp_path):
-    res, _ = go("주식 추천", [plan(in_domain=False, domain_reason="주식은 범위 밖입니다.")], tmp_path)
-    assert res.status == "infeasible" and "주식" in res.message
 
 
 def test_missing_location_clarify_then_continue(tmp_path):

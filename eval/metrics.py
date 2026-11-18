@@ -22,7 +22,6 @@ def check_question(q: dict, r: dict) -> dict:
     out["needs"] = None if not exp_needs else bool(got_needs) and all(got_needs.get(k) == v for k, v in exp_needs.items())
     out["format"] = None if ex.get("output_format") is None else r.get("output_format") == ex["output_format"]
     out["clarify"] = None if ex.get("clarify") is None else (r.get("status") == "clarify") == ex["clarify"]
-    out["domain"] = None if ex.get("in_domain") is None else r.get("in_domain") == ex["in_domain"]
     sel = {s["dataset_id"]: s.get("role") for s in r.get("selected") or []}
     inc, exc = ex.get("must_include") or [], ex.get("must_exclude") or []
     out["include"] = (sum(d in sel for d in inc), len(inc))
@@ -66,10 +65,10 @@ def compute(questions: list[dict], records: list[dict]) -> dict:
         vals = [c[name] for c in ck if c[name] is not None]
         return rate(sum(vals), len(vals))
 
-    for k in ("status", "needs", "format", "clarify", "domain", "infeasible", "synthetic", "profit", "granularity"):
+    for k in ("status", "needs", "format", "clarify", "infeasible", "synthetic", "profit", "granularity"):
         m[k] = frac(k)
-    parse = [all(v for v in (c["needs"], c["format"], c["clarify"], c["domain"]) if v is not None)
-             for c in ck if any(c[k] is not None for k in ("needs", "format", "clarify", "domain"))]
+    parse = [all(v for v in (c["needs"], c["format"], c["clarify"]) if v is not None)
+             for c in ck if any(c[k] is not None for k in ("needs", "format", "clarify"))]
     m["parse_all"] = rate(sum(parse), len(parse))
     m["include_recall"] = rate(sum(c["include"][0] for c in ck), sum(c["include"][1] for c in ck))
     m["exclude_accuracy"] = rate(sum(c["exclude"][0] for c in ck), sum(c["exclude"][1] for c in ck))

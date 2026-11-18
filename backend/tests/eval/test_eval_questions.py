@@ -10,7 +10,7 @@ from jejuagent.runner.state import STATUSES
 
 QS = load_questions(QUESTIONS)
 IDS = {e["id"] for e in SnapshotRegistry().catalog()}
-EXPECT_KEYS = {"status", "output_format", "needs", "clarify", "in_domain", "must_include", "must_exclude", "infeasible",
+EXPECT_KEYS = {"status", "output_format", "needs", "clarify", "must_include", "must_exclude", "infeasible",
                "synthetic_warning", "profit_guarantee"}
 
 

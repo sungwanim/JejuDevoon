@@ -73,8 +73,6 @@ HTML 산출물 + 실행 기록(trace.json)
   "period": {"from": null, "to": null},
   "audience_style": "report | easy",
   "missing": ["location"],
-  "in_domain": true,
-  "out_of_domain_reason": null,
   "tags": ["price", "climate"]
 }
 ```
@@ -84,7 +82,7 @@ HTML 산출물 + 실행 기록(trace.json)
 - 코드 규칙 (LLM 출력 뒤에 적용):
   - `output_format` 결정: 공간 정보가 필요하면(`needs.point_analysis` 또는 `needs.spatial_comparison`) **무조건 `map`**. 아니면 `audience_style`이 `report`면 `report`, `easy`면 `visual`.
   - `missing`이 비어 있지 않으면 되묻기 (예: 지점 분석이 필요한데 위치 없음). LLM이 목표를 보고 무엇이 빠졌는지 직접 판단한다.
-  - `in_domain=false`(제주 농업·기후·시장과 무관) → 불가.
+  - 도메인 밖 질문은 따로 판정하지 않는다. ②에서 맞는 데이터가 없으면 불가로 끝난다(판정 게이트 제거).
   - 제주시 범위 밖 좌표 → 불가.
   - "수익 보장", "얼마 벌 수 있나" 같은 요청 → 불가가 아니라 **재구성 안내** ("수익은 보장할 수 없고, 적합도와 시세 신호를 보여드릴 수 있습니다").
 

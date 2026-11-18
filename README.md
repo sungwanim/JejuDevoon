@@ -63,7 +63,7 @@ notepad .env
 | `JEJU_HUB_PROJECT_KEY` | 실데이터 수집 때 | 제주데이터허브 API 프로젝트 키 | 키가 호출 URL 경로에 쓰이므로 예외·로그에 URL을 남기지 않게 처리됨 |
 | `DATA_GO_KR_SERVICE_KEY` | 선택 | 공공데이터포털 API 서비스 키 | 현재 기능에서 필수 아님. 지점정보 수집 코드가 읽음 |
 | `JEJU_DATA_MODE` | 선택 | `live`이면 허브 API 호출 + 실패 시 스냅샷 폴백. 비우면 스냅샷만 | `.env.example`에 있음 |
-| `JEJU_LLM` | 선택 | `fake`이면 키 없이 화면만 확인하는 데모(도메인 판정만 키워드로 흉내) | 실제 분석 불가. 화면 확인용 |
+| `JEJU_LLM` | 선택 | `fake`이면 키 없이 화면만 확인하는 데모(단계 진행 화면만 확인) | 실제 분석 불가. 화면 확인용 |
 | `JEJU_MODULE_STORE` | 선택 | 분석 모듈 저장소 폴더. `1`/`on`/`true`는 기본 `module_store/` | `api/main.py`는 `ModuleStore()`를 직접 연결하므로 웹앱 실행에서는 이 변수 없이도 `module_store/`를 씀 |
 
 `.env.example`에는 `OPENAI_API_KEY`, `JEJU_HUB_PROJECT_KEY`, `DATA_GO_KR_SERVICE_KEY`, `JEJU_DATA_MODE`만 있습니다. `JEJU_LLM`은 필요할 때만 셸 환경변수로 지정합니다(`run-demo.bat`이 지정).
@@ -81,7 +81,7 @@ cd backend
 
 서버는 `127.0.0.1`에만 열리고 API에 인증이 없으므로 공용 PC나 원격 접속에서는 쓰지 마세요. 지도 타일(OpenStreetMap)은 인터넷이 필요합니다. 포트가 사용 중이면 안내 메시지가 나옵니다.
 
-키 없이 화면만 보려면 `JEJU_LLM=fake`로 실행합니다(`run-demo.bat`, 또는 PowerShell: `$env:JEJU_LLM="fake"` 후 같은 명령). 이때는 도메인 밖 요청("주식 추천해줘")을 거절하는 동작 정도만 확인됩니다.
+키 없이 화면만 보려면 `JEJU_LLM=fake`로 실행합니다(`run-demo.bat`, 또는 PowerShell: `$env:JEJU_LLM="fake"` 후 같은 명령). 이때는 어떤 요청이든 "데모 모드라 분석하지 않는다"는 불가 응답으로 끝나며, 입력→단계 진행→결과 화면의 흐름만 확인됩니다.
 
 ### 개발자용 (화면 코드를 고칠 때)
 

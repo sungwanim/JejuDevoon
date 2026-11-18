@@ -5,7 +5,7 @@ from test_eval_metrics import q, r
 
 
 def build(**kw):
-    qs = [q("a", needs={"point_analysis": True}, must_include=["D"], must_exclude=["C"], in_domain=True),
+    qs = [q("a", needs={"point_analysis": True}, must_include=["D"], must_exclude=["C"]),
           q("b", amb=True), q("c", "infeasible")]
     rs = [r("a", selected=[{"dataset_id": "C", "role": "primary"}], excluded=[{"dataset_id": "D", "reason_code": "irrelevant", "by": "llm"}],
            tasks=[{"id": "t1", "title": "t", "status": "failed", "failure": {"why": "형식이 다르다", "classification": "format_error"},

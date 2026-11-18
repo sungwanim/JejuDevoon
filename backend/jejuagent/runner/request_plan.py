@@ -28,13 +28,11 @@ REQUEST_PLAN_SCHEMA = {
         "style": {"enum": ["report", "easy", "unspecified"]},   # 보고서 / 쉬운 설명
         "missing": {"type": "array", "items": _S},     # 빠진 필수 정보 이름
         "clarify_question": _NS,                       # missing이 있을 때 물을 질문 1개
-        "in_domain": {"type": "boolean"},
-        "domain_reason": _S,
         "profit_guarantee": {"type": "boolean"},       # 수익 보장을 요구하는가
         "tags": {"type": "array", "items": _S},        # 경로 결정에 쓰지 않는 분류용 태그
     },
     "required": ["goal", "sub_questions", "needs", "location", "crop", "period", "style", "missing",
-                 "clarify_question", "in_domain", "domain_reason", "profit_guarantee", "tags"],
+                 "clarify_question", "profit_guarantee", "tags"],
     "additionalProperties": False,
 }
 
@@ -74,8 +72,6 @@ def normalize(raw: dict, click: dict | None, prev_plan: dict | None) -> dict:
         p.setdefault(k, None)
     p.setdefault("style", "unspecified")
     p["missing"] = list(p.get("missing") or [])
-    p.setdefault("in_domain", True)
-    p.setdefault("domain_reason", p.get("reason", ""))
     p.setdefault("profit_guarantee", False)
     p.setdefault("tags", [])
     loc = p["location"]

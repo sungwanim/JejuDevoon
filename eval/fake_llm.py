@@ -49,8 +49,6 @@ class ExpectationLLM(LLMClient):
                 "crop": next((c for c in CROPS if c in text), None), "period": f"{years[0]}년" if years else None,
                 "style": "easy" if ex.get("output_format") == "visual" else "unspecified", "missing": [],
                 "clarify_question": "어느 위치를 분석할까요? 지도에서 위치를 클릭하고 다시 보내 주세요.",
-                "in_domain": ex.get("in_domain") is not False,
-                "domain_reason": "제주 농업·기후·시장 데이터 분석이 아닌 요청입니다.",
                 "profit_guarantee": bool(ex.get("profit_guarantee")), "tags": []}
 
     def _select(self, user: str) -> dict:

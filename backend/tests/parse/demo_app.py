@@ -15,7 +15,7 @@ def _respond(system, user):
             "location": {"kind": "none", "text": None, "lat": None, "lon": None},
             "crop": None, "period": None, "style": "unspecified",
             "missing": ["위치"] if point and not has else [], "clarify_question": "어느 위치인가요? 지도를 클릭하세요.",
-            "in_domain": "주식" not in user, "domain_reason": "범위 밖", "profit_guarantee": False, "tags": []}
+            "profit_guarantee": False, "tags": []}
 
 
 app = create_app(lambda: FakeLLM([_respond] * 50))

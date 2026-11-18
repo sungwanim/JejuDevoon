@@ -3,7 +3,7 @@ import metrics as M
 
 
 def q(i, status="answered", amb=False, **ex):
-    base = {"status": status, "output_format": None, "needs": None, "clarify": status == "clarify", "in_domain": None,
+    base = {"status": status, "output_format": None, "needs": None, "clarify": status == "clarify",
             "must_include": [], "must_exclude": [], "infeasible": status == "infeasible", "synthetic_warning": None,
             "profit_guarantee": False}
     return {"id": i, "category": "c", "question": i, "click": None, "expect": {**base, **ex}, "ambiguous": amb, "note": ""}
@@ -11,14 +11,14 @@ def q(i, status="answered", amb=False, **ex):
 
 def r(i, status="answered", **kw):
     base = {"id": i, "status": status, "needs": {"point_analysis": False, "time_series": False, "spatial_comparison": False},
-            "output_format": "report", "in_domain": True, "selected": [], "tasks": [], "llm_calls": 4, "input_tokens": 1000,
+            "output_format": "report", "selected": [], "tasks": [], "llm_calls": 4, "input_tokens": 1000,
             "output_tokens": 100, "seconds": 2.0, "cost_usd": 0.01, "html_len": 100}
     return {**base, **kw}
 
 
 def test_parse_and_selection_metrics():
-    qs = [q("a", needs={"point_analysis": True}, output_format="map", in_domain=True, must_include=["D", "A"], must_exclude=["C"]),
-          q("b", needs={"point_analysis": False}, output_format="report", in_domain=True, must_include=["E"], must_exclude=["C", "D"])]
+    qs = [q("a", needs={"point_analysis": True}, output_format="map", must_include=["D", "A"], must_exclude=["C"]),
+          q("b", needs={"point_analysis": False}, output_format="report", must_include=["E"], must_exclude=["C", "D"])]
     rs = [r("a", needs={"point_analysis": True, "time_series": True, "spatial_comparison": False}, output_format="map",
             selected=[{"dataset_id": "D", "role": "primary"}, {"dataset_id": "C", "role": "primary"}]),
           r("b", selected=[{"dataset_id": "E", "role": "primary"}])]
@@ -58,17 +58,17 @@ def test_code_success_rates_and_real_failure():
 
 def test_zero_denominators_are_not_applicable_not_zero():
     m = M.compute([q("a")], [r("a")])
-    for k in ("needs", "format", "domain", "include_recall", "exclude_accuracy", "code_first", "code_within2",
+    for k in ("needs", "format", "include_recall", "exclude_accuracy", "code_first", "code_within2",
               "real_after_mock_fail", "module_reuse", "synthetic", "profit", "granularity"):
         assert m[k]["value"] is None and m[k]["den"] == 0, k
     assert M.compute([], [])["status"]["value"] is None
 
 
 def test_errored_runs_count_as_wrong_and_not_in_code_stats():
-    qs = [q("a", needs={"point_analysis": True}, must_exclude=["C"], in_domain=True)]
+    qs = [q("a", needs={"point_analysis": True}, must_exclude=["C"])]
     m = M.compute(qs, [{"id": "a", "status": "error", "error": "boom", "selected": [],
                         "tasks": [{"status": "ok", "attempts": [{"n": 1, "ok": True}]}]}])
-    assert m["needs"]["value"] == 0.0 and m["domain"]["value"] == 0.0 and m["exclude_accuracy"]["value"] == 0.0
+    assert m["needs"]["value"] == 0.0 and m["exclude_accuracy"]["value"] == 0.0
     assert m["errors"] == {"value": 1.0, "num": 1, "den": 1} and m["code_first"]["value"] is None
 
 

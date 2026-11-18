@@ -2,7 +2,7 @@
 
 입력: state.request, state.click, state.prev ({"plan": 이전 RequestPlan, "request": 이전 요청}, 되묻기 답변일 때)
 출력: state.plan = RequestPlan dict + output_format("map"|"report"|"visual") (+ notice: 재구성 안내).
-종료: infeasible(도메인 밖·범위 밖), clarify(질문 1개는 state.reason). clarify 때도 state.plan을 남긴다.
+종료: infeasible(범위 밖 좌표). 도메인 밖 요청은 여기서 거르지 않는다(② 데이터 선택에서 맞는 데이터가 없어 불가), clarify(질문 1개는 state.reason). clarify 때도 state.plan을 남긴다.
 """
 from __future__ import annotations
 
@@ -17,9 +17,9 @@ SYSTEM = (
     "- needs: 특정 지점 분석(point_analysis), 시계열(time_series), 지역 간 공간 비교(spatial_comparison) 필요 여부.\n"
     "- location: 클릭 좌표가 주어지면 그것을 쓰고, 없고 텍스트만 있으면 kind=region/point와 text, 좌표는 모르면 null.\n"
     "- style: 보고서 형태를 원하면 report, 쉬운 설명을 원하면 easy, 언급 없으면 unspecified.\n"
+    "- 데이터 분석과 무관한 요청도 판정하거나 거절하지 말고 그대로 규격화하세요(데이터 선택 단계가 처리). 그런 요청은 missing을 비우세요.\n"
     "- missing: 답하려면 꼭 필요한데 요청에 없는 정보(예: 위치, 작목). 없으면 빈 목록. 있으면 clarify_question에 질문 1개.\n"
-    "- in_domain: 제주 농업·기후·농산물 시장 데이터 분석이면 true, 아니면 false와 domain_reason(한국어 한 문장).\n"
-    "- profit_guarantee: 수익·이익을 보장해 달라는 요청이면 true (이 경우에도 in_domain은 true로 둔다).\n"
+    "- profit_guarantee: 수익·이익을 보장해 달라는 요청이면 true.\n"
     "- tags: 분류용 짧은 태그. 이전 계획이 주어지면 사용자의 새 답변을 합쳐 계획 전체를 다시 작성하세요."
 )
 
@@ -44,11 +44,7 @@ def run(state, ctx):
     state.plan = plan
     loc = plan["location"]
 
-    if not plan["in_domain"]:
-        why = plan["domain_reason"] or "제주 농업·기후·시장 데이터 분석과 관련 없는 요청입니다."
-        state.finish("infeasible", why)
-        state.needed_data = ["제주 농업·기후·시장 관련 데이터 분석 요청만 처리할 수 있습니다."]
-    elif loc.get("lat") is not None and (msg := out_of_range(loc["lat"], loc["lon"])):
+    if loc.get("lat") is not None and (msg := out_of_range(loc["lat"], loc["lon"])):
         state.finish("infeasible", msg)
         state.needed_data = ["제주 본섬 안의 위치"]
     elif plan["missing"]:
@@ -58,5 +54,5 @@ def run(state, ctx):
         state.extra.setdefault("notices", []).append(PROFIT_NOTICE)
 
     ctx.trace.add("decision", stage="s1_parse", status=state.status, output_format=plan["output_format"],
-                  missing=plan["missing"], in_domain=plan["in_domain"], profit_guarantee=plan["profit_guarantee"])
+                  missing=plan["missing"], profit_guarantee=plan["profit_guarantee"])
     return state

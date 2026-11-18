@@ -118,3 +118,19 @@ def test_candidate_reduction():
 def test_empty_catalog_passthrough():
     st, llm = go(plan(), {}, Fake([]))
     assert st.status is None and st.selection is None and not llm.calls
+
+
+def _rel(plausible, asked=True, reason="연결할 근거가 없는 조합입니다."):
+    return {**llm_out(selected=[(CIT, []), (TRADE, [])]), "relation": {"asked": asked, "plausible": plausible, "reason": reason}}
+
+
+def test_implausible_relation_is_infeasible_with_reason():
+    st, _ = go(plan(), _rel(False))
+    assert st.status == "infeasible" and st.reason == "연결할 근거가 없는 조합입니다."
+    assert st.needed_data == ["각 데이터를 따로 분석하는 요청"]
+
+
+def test_plausible_or_unasked_relation_passes():
+    assert go(plan(), _rel(True))[0].status is None
+    assert go(plan(), _rel(False, asked=False))[0].status is None   # 관계를 묻지 않았으면 판단하지 않는다
+    assert go(plan(), llm_out(selected=[(CIT, [])]))[0].status is None   # relation 누락도 통과

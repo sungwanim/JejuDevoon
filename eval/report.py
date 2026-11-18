@@ -19,11 +19,10 @@ import metrics  # noqa: E402
 
 # (키, 이름, 형식, 설명)
 ROWS = [
-    ("parse_all", "규격화 정확도 (필요성격·형식·되묻기·도메인 모두 일치)", "pct", "정답이 있는 4항목이 전부 맞은 질문 비율"),
+    ("parse_all", "규격화 정확도 (필요성격·형식·되묻기 모두 일치)", "pct", "정답이 있는 3항목이 전부 맞은 질문 비율"),
     ("needs", "- 필요한 성격(needs)", "pct", "지정한 키만 비교"),
     ("format", "- 산출물 형식", "pct", "map/report/visual"),
     ("clarify", "- 되묻기 판정", "pct", ""),
-    ("domain", "- 도메인 판정", "pct", ""),
     ("status", "종료 상태 일치율", "pct", "answered/partial/clarify/infeasible"),
     ("include_recall", "데이터 선택 재현율", "pct", "반드시 포함할 데이터 중 선택된 비율(합산)"),
     ("exclude_accuracy", "데이터 제외 정확도", "pct", "반드시 제외할 데이터 중 선택되지 않은 비율(합산)"),
@@ -43,7 +42,7 @@ ROWS = [
 COST_ROWS = [("avg_llm_calls", "질문당 평균 LLM 호출 수", "num"), ("avg_input_tokens", "질문당 평균 입력 토큰", "num"),
              ("avg_output_tokens", "질문당 평균 출력 토큰", "num"), ("avg_seconds", "질문당 평균 소요(초)", "num"),
              ("avg_cost_usd", "질문당 평균 비용(USD, 어림)", "usd")]
-TAG_LABEL = {"status": "종료 상태", "needs": "필요한 성격", "format": "산출물 형식", "clarify": "되묻기", "domain": "도메인 판정",
+TAG_LABEL = {"status": "종료 상태", "needs": "필요한 성격", "format": "산출물 형식", "clarify": "되묻기",
              "include": "필요 데이터 누락", "exclude": "제외할 데이터를 선택함", "infeasible": "불가 판정", "synthetic": "합성 경고",
              "profit": "수익 보장 처리", "granularity": "해상도 함정"}
 
@@ -78,8 +77,6 @@ def _expected_observed(tag: str, q: dict, r: dict) -> tuple[str, str]:
         return str(ex.get("output_format")), str(r.get("output_format"))
     if tag == "clarify":
         return str(ex.get("clarify")), str(r.get("status") == "clarify")
-    if tag == "domain":
-        return str(ex.get("in_domain")), str(r.get("in_domain"))
     if tag == "include":
         return f"포함 {ex.get('must_include')}", f"선택 {sel}"
     if tag == "exclude":

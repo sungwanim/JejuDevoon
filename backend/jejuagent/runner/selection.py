@@ -30,8 +30,10 @@ def selection_schema(ids: list[str]) -> dict:
                 "required": ["sub_question", "reason"], "additionalProperties": False}},
             "infeasible_reason": _s,
             "needed_data": {"type": "array", "items": _s},
+            "relation": {"type": "object", "properties": {"asked": {"type": "boolean"}, "plausible": {"type": "boolean"}, "reason": _s},
+                         "required": ["asked", "plausible", "reason"], "additionalProperties": False},
         },
-        "required": ["feasible", "selected", "excluded", "unanswerable", "infeasible_reason", "needed_data"],
+        "required": ["feasible", "selected", "excluded", "unanswerable", "infeasible_reason", "needed_data", "relation"],
         "additionalProperties": False,
     }
 

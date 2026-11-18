@@ -9,21 +9,12 @@ from jejuagent.llm import FakeLLM, LLMError, OpenAILLM
 from jejuagent.runner import Limits, run_agent
 from jejuagent.runner.pipeline import STAGES, Stage
 
-IN = {"in_domain": True, "reason": ""}
-OUT = {"in_domain": False, "reason": "주식은 제주 농업 데이터 분석이 아닙니다."}
+IN = {}
 
 
 def run(req, responses, tmp_path, **kw):
     llm = FakeLLM(responses)
     return run_agent(req, llm=llm, runs_dir=tmp_path, **kw), llm
-
-
-def test_out_of_domain_is_infeasible(tmp_path):
-    res, llm = run("주식 추천해줘", [OUT], tmp_path)
-    assert res.status == "infeasible"
-    assert "주식" in res.message
-    assert res.html is None
-    assert [e["name"] for e in res.events if e["type"] == "stage"] == ["s1_parse"]  # 이후 단계는 돌지 않음
 
 
 def test_in_domain_passes_through_all_stages(tmp_path):
@@ -33,11 +24,11 @@ def test_in_domain_passes_through_all_stages(tmp_path):
 
 
 def test_trace_saved_with_llm_call_info(tmp_path):
-    res, llm = run("주식 추천해줘", [OUT], tmp_path)
+    res, llm = run("제주 월동무 가격 알려줘", [IN], tmp_path)
     saved = json.loads((tmp_path / res.state.run_id / "trace.json").read_text(encoding="utf-8"))
-    assert saved["state"]["status"] == "infeasible"
+    assert saved["state"]["status"] == "answered"
     calls = [e for e in saved["events"] if e["type"] == "llm_call"]
-    assert len(calls) == 1
+    assert len(calls) >= 1
     assert {"model", "prompt_hash", "input_tokens", "output_tokens", "ms", "stage"} <= calls[0].keys()
     assert any(e["type"] == "transition" for e in saved["events"])
 
@@ -102,15 +93,15 @@ def test_openai_without_key_raises_llm_error(monkeypatch):
 def test_api_roundtrip(tmp_path):
     import time
     from fastapi.testclient import TestClient
-    c = TestClient(create_app(lambda: FakeLLM([OUT]), runs_dir=tmp_path))
+    c = TestClient(create_app(lambda: FakeLLM([IN]), runs_dir=tmp_path))
     assert c.get("/api/catalog").json() == []
-    rid = c.post("/api/runs", json={"request": "주식 추천해줘"}).json()["run_id"]
+    rid = c.post("/api/runs", json={"request": "제주 월동무 가격 알려줘"}).json()["run_id"]
     for _ in range(50):
         st = c.get(f"/api/runs/{rid}").json()
         if not st["running"]:
             break
         time.sleep(0.05)
-    assert st["status"] == "infeasible"
+    assert st["status"] == "answered"
     full = c.get(f"/api/runs/{rid}/result").json()
-    assert full["status"] == "infeasible" and full["events"]
+    assert full["status"] == "answered" and full["events"]
     assert c.get("/api/runs/nope").status_code == 404

@@ -108,8 +108,8 @@ def test_cost_estimate_is_printed_and_no_input_aborts(tmp_path, monkeypatch, cap
 
 def test_estimate_scales_with_expected_paths():
     e = run_eval.estimate(list(QS.values()))
-    assert e["questions"] == 44 and e["calls_low"] < e["calls_high"] and 0 < e["usd_low"] < e["usd_high"]
-    assert run_eval.estimate([QS["q22"]])["calls_high"] == 1       # 도메인 밖은 호출 1회
+    assert e["questions"] == 47 and e["calls_low"] < e["calls_high"] and 0 < e["usd_low"] < e["usd_high"]
+    assert run_eval.estimate([QS["q22"]])["calls_high"] == 2       # 도메인 밖은 규격화 + 데이터 선택 2회
 
 
 def test_repro_check_with_verified_modules_is_identical(tmp_path):

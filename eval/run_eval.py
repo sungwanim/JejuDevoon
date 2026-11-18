@@ -54,7 +54,7 @@ def estimate(questions: list[dict], model: str = "gpt-4o") -> dict:
     lo = hi = 0
     for q in questions:
         ex = q["expect"]
-        if ex.get("in_domain") is False or ex.get("status") == "clarify" or (q.get("click") and ex.get("status") == "infeasible"):
+        if ex.get("status") == "clarify" or (q.get("click") and ex.get("status") == "infeasible"):
             lo += 1; hi += 1
         elif ex.get("status") == "infeasible":
             lo += 2; hi += 2
@@ -94,7 +94,7 @@ def summarize(q: dict, res, seconds: float, model: str) -> dict:
     sel = st.selection or {}
     return {
         "id": q["id"], "category": q["category"], "status": res.status, "message": (res.message or "")[:300],
-        "output_format": plan.get("output_format"), "needs": plan.get("needs"), "in_domain": plan.get("in_domain"),
+        "output_format": plan.get("output_format"), "needs": plan.get("needs"),
         "profit_guarantee": plan.get("profit_guarantee"), "profit_notice": bool(plan.get("notice")),
         "missing": plan.get("missing"),
         "selected": [{"dataset_id": s["dataset_id"], "role": s.get("role")} for s in sel.get("selected", [])],

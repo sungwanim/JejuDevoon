@@ -22,11 +22,13 @@ def _plan(user: str) -> dict:
             "location": {"kind": "none", "text": "제주시" if "제주시" in user else None, "lat": None, "lon": None},
             "crop": crop, "period": None, "style": "unspecified", "missing": [],
             "clarify_question": "어느 위치를 분석할까요? 지도에서 위치를 클릭하고 다시 보내 주세요.",
-            "in_domain": not off, "domain_reason": "제주 농업·기후·시장 데이터 분석이 아닌 요청입니다.",
             "profit_guarantee": False, "tags": []}
 
 
 def _select(user: str) -> dict:
+    if "주식" in user.split("[카탈로그]")[0]:   # 카탈로그에 맞는 데이터가 없는 요청
+        return {"feasible": False, "selected": [], "excluded": [], "unanswerable": [], "needed_data": ["주식 시세 데이터"],
+                "infeasible_reason": "요청에 쓸 수 있는 데이터가 없습니다."}
     plan = json.loads(user.split("[RequestPlan] ")[1].split("\n[카탈로그]")[0])
     sel = [{"dataset_id": "synthetic_aws_daily", "reason": "지점 기후", "columns": []}]
     if plan.get("crop") == "월동무":
