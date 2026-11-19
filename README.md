@@ -61,12 +61,13 @@ notepad .env
 |---|---|---|---|
 | `OPENAI_API_KEY` | 실제 분석에 필수 | OpenAI GPT-4o 호출 | 없으면 요청 시 "OPENAI_API_KEY가 없습니다" 오류 |
 | `JEJU_HUB_PROJECT_KEY` | 실데이터 수집 때 | 제주데이터허브 API 프로젝트 키 | 키가 호출 URL 경로에 쓰이므로 예외·로그에 URL을 남기지 않게 처리됨 |
-| `DATA_GO_KR_SERVICE_KEY` | 선택 | 공공데이터포털 API 서비스 키 | 현재 기능에서 필수 아님. 지점정보 수집 코드가 읽음 |
+| `KMA_API_HUB_KEY` | 선택 | 기상청 API허브 인증키(authKey). AWS 매분자료를 일자료로 모을 때 | 공공데이터포털 키와 다른 키. 수집 명령은 `collect aws-hub` |
+| `DATA_GO_KR_SERVICE_KEY` | 선택 | 공공데이터포털 서비스 키 | 농업기상(농촌진흥청) 제주 지점 일자료 수집에 씀(`collect agri-weather`). 수집하지 않으면 합성 관측소로 동작 |
 | `JEJU_DATA_MODE` | 선택 | `live`이면 허브 API 호출 + 실패 시 스냅샷 폴백. 비우면 스냅샷만 | `.env.example`에 있음 |
 | `JEJU_LLM` | 선택 | `fake`이면 키 없이 화면만 확인하는 데모(단계 진행 화면만 확인) | 실제 분석 불가. 화면 확인용 |
 | `JEJU_MODULE_STORE` | 선택 | 분석 모듈 저장소 폴더. `1`/`on`/`true`는 기본 `module_store/` | `api/main.py`는 `ModuleStore()`를 직접 연결하므로 웹앱 실행에서는 이 변수 없이도 `module_store/`를 씀 |
 
-`.env.example`에는 `OPENAI_API_KEY`, `JEJU_HUB_PROJECT_KEY`, `DATA_GO_KR_SERVICE_KEY`, `JEJU_DATA_MODE`만 있습니다. `JEJU_LLM`은 필요할 때만 셸 환경변수로 지정합니다(`run-demo.bat`이 지정).
+`.env.example`에는 `OPENAI_API_KEY`, `JEJU_HUB_PROJECT_KEY`, `DATA_GO_KR_SERVICE_KEY`, `KMA_API_HUB_KEY`, `JEJU_DATA_MODE`만 있습니다. `JEJU_LLM`은 필요할 때만 셸 환경변수로 지정합니다(`run-demo.bat`이 지정).
 
 ## 4. 실행
 
@@ -102,7 +103,16 @@ cd backend
 ..\.venv\Scripts\python.exe -m jejuagent.data.live.collect hub 20150101 20251231
 ```
 
-합성 샘플 재생성(키 불필요): `..\.venv\Scripts\python.exe -m jejuagent.catalog.make_snapshots`
+제주 기상 관측소 일자료(기온·강수) 실데이터 수집 — 둘 중 하나만 하면 됩니다. 결과는 같은 스냅샷(`snapshots/live/jeju_weather_daily.json`)에 저장되고, 생기면 합성 관측소 대신 이것이 카탈로그에 나타납니다(합성 경고도 사라짐). 한도·오류로 멈추면 같은 명령을 다시 실행하면 이어받습니다:
+
+```powershell
+# (a) 농촌진흥청 농업기상: DATA_GO_KR_SERVICE_KEY. 제주 지점의 위경도·고도까지 자동. 지점당 연 4건 안팎
+..\.venv\Scripts\python.exe -m jejuagent.data.live.collect agri-weather --days 20240101 20241231
+# (b) 기상청 API허브 AWS 매분자료: KMA_API_HUB_KEY + 지점 CSV(열: code,name,lat,lon[,elevation_m]). 지점·하루당 1건
+..\.venv\Scripts\python.exe -m jejuagent.data.live.collect aws-hub --stations-file 지점.csv --days 20240101 20241231
+```
+
+실호출은 해 보지 못했습니다(응답 형식·오류 응답은 명세 기준). 합성 샘플 재생성(키 불필요): `..\.venv\Scripts\python.exe -m jejuagent.catalog.make_snapshots`
 
 ## 5. 테스트
 

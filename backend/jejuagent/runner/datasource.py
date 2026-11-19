@@ -39,8 +39,11 @@ class SnapshotRegistry(DataSourceRegistry):
         self.root = ROOT if catalog_dir is None else self.catalog_dir.parent
 
     def catalog(self) -> list[dict]:
+        """optional 항목은 스냅샷 파일이 있을 때만 보인다(수집 전에는 로드 실패하는 데이터를 고르지 않게). replaced_by 항목은 대체 데이터가 보이면 숨긴다."""
         from ..catalog.catalog import load_catalog
-        return load_catalog(self.catalog_dir)
+        cat = load_catalog(self.catalog_dir)
+        shown = {e["id"] for e in cat if not e.get("optional") or (self.snapshots_dir / e.get("snapshot", "")).is_file()}
+        return [e for e in cat if e["id"] in shown and e.get("replaced_by") not in shown]
 
     def load(self, dataset_id: str):
         from ..catalog.loader import load_dataset

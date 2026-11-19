@@ -40,7 +40,7 @@ LLM이 하는 일은 5단계 흐름의 판단·생성 부분이다. 계산, 데�
 | OpenAI API (GPT-4o) | 런타임 LLM | 분석 요청 때마다 | `OPENAI_API_KEY` |
 | 제주데이터허브 API (`open.jejudatahub.net`) | 농산물 거래 통계·이동평균 수집 | `JEJU_DATA_MODE=live`일 때와 수집 명령. 실호출은 확인하지 못함 | `JEJU_HUB_PROJECT_KEY` |
 | 공공데이터포털 (`apis.data.go.kr`) | 기상청 AWS 지점정보 수집 코드가 있음 | 수집 명령을 직접 실행할 때만. 현재 분석 흐름에서는 호출하지 않으며 실호출 미확인 | `DATA_GO_KR_SERVICE_KEY` |
-| 농업기상 API (농촌진흥청, 공공데이터포털) | 관측지점 상세정보·상세 관측데이터·생장도일 | **호출하지 않음.** 명세서만 확보했고 코드에 연결하지 않음 | 필요(미보유) |
+| 농업기상 API (농촌진흥청, 공공데이터포털) | 관측지점 상세정보·상세 관측데이터 | 제주 관측소의 일자료(기온·강수)를 수집해 지점 기후 분석에 사용 | 필요(`DATA_GO_KR_SERVICE_KEY`) |
 | OpenStreetMap 타일 (`tile.openstreetmap.org`) | 앱 지도와 지점 결과 지도 배경 | 화면 사용 시 브라우저가 호출 | 없음 |
 | CDN: cdn.jsdelivr.net (Chart.js 4.4.7, Mermaid 10.9.3), unpkg.com (Leaflet 1.9.4) | 결과 HTML의 차트·흐름도·지도 | 결과를 열 때 브라우저가 호출 | 없음 |
 

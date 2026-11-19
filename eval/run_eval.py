@@ -44,7 +44,7 @@ def scrub(text: str) -> str:
         v = os.environ.get(name, "")
         if len(v) >= 6:
             text = text.replace(v, "***")
-    return re.sub(r"sk-[A-Za-z0-9_\-]{8,}", "sk-***", text)
+    return re.sub(r"sk-[A-Za-z0-9_\-*]+", "sk-***", text)
 
 
 # ---------------------------------------------------------------- 비용 예상

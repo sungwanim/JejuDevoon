@@ -105,3 +105,14 @@ def test_api_roundtrip(tmp_path):
     full = c.get(f"/api/runs/{rid}/result").json()
     assert full["status"] == "answered" and full["events"]
     assert c.get("/api/runs/nope").status_code == 404
+
+
+def test_openai_error_message_does_not_keep_masked_key_fragment():
+    msg = "Error code: 401 - Incorrect API key provided: sk-ant-u*****************JAAA. You can find your API key"
+
+    def boom(**kw):
+        raise ValueError(msg)
+    client = types.SimpleNamespace(chat=types.SimpleNamespace(completions=types.SimpleNamespace(create=boom)))
+    with pytest.raises(LLMError) as e:
+        OpenAILLM(client=client).text("s", "u")
+    assert "sk-***" in str(e.value) and "JAAA" not in str(e.value) and "ant-u" not in str(e.value)

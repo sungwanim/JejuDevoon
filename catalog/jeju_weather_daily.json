@@ -1,0 +1,82 @@
+{
+  "id": "jeju_weather_daily",
+  "title": "제주 기상 관측소 일자료 (일평균·최저·최고기온, 강수량)",
+  "source": "실데이터. 농촌진흥청 농업기상 관측데이터(일자료) 또는 기상청 API허브 AWS 매분자료를 일자료로 집계한 것 (수집한 쪽이 스냅샷 meta에 기록됨)",
+  "access": "snapshot",
+  "snapshot": "live/jeju_weather_daily.json",
+  "optional": true,
+  "license": "농업기상 관측데이터는 공공누리 제4유형(출처표시·상업적 이용금지·변경금지), 기상청 API허브는 이용조건 확인 필요",
+  "spatial_unit": "관측소",
+  "temporal_unit": "day",
+  "coverage": {
+    "region": "제주 본섬 관측소"
+  },
+  "columns": [
+    {
+      "name": "station",
+      "meaning": "관측소 코드",
+      "unit": "",
+      "role_hint": "station"
+    },
+    {
+      "name": "name",
+      "meaning": "관측소 이름",
+      "unit": "",
+      "role_hint": "station_name"
+    },
+    {
+      "name": "lat",
+      "meaning": "관측소 위도",
+      "unit": "도",
+      "role_hint": "lat"
+    },
+    {
+      "name": "lon",
+      "meaning": "관측소 경도",
+      "unit": "도",
+      "role_hint": "lon"
+    },
+    {
+      "name": "elevation_m",
+      "meaning": "관측소 해발고도(농업기상은 설치 고도, 기상청은 DEM 90m 값)",
+      "unit": "m",
+      "role_hint": "elevation"
+    },
+    {
+      "name": "date",
+      "meaning": "관측일",
+      "unit": "",
+      "role_hint": "date",
+      "parse": "date"
+    },
+    {
+      "name": "tmean",
+      "meaning": "일평균기온(지상 150cm)",
+      "unit": "℃",
+      "role_hint": "tmean",
+      "parse": "numeric"
+    },
+    {
+      "name": "tmin",
+      "meaning": "일최저기온",
+      "unit": "℃",
+      "role_hint": "tmin",
+      "parse": "numeric"
+    },
+    {
+      "name": "tmax",
+      "meaning": "일최고기온",
+      "unit": "℃",
+      "role_hint": "tmax",
+      "parse": "numeric"
+    },
+    {
+      "name": "precip",
+      "meaning": "일강수량. 기상청 자료는 일 누적 강수량의 하루 최댓값(0시 초기화 가정)",
+      "unit": "mm",
+      "role_hint": "precip",
+      "parse": "numeric"
+    }
+  ],
+  "notes": "스냅샷이 있을 때만 카탈로그에 나타나고, 나타나면 합성 관측소(synthetic_aws_daily)를 대체한다. 수집 명령은 README의 collect agri-weather 또는 aws-hub. 결측일(기온이 없는 날, 기상청은 유효 분 70% 미만인 날)은 행이 없다. 기상청 값은 분 자료 집계라 평균은 분 평균, 강수는 가정이 들어 있다."
+}

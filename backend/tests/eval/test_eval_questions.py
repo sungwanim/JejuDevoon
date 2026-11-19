@@ -4,12 +4,12 @@ from collections import Counter
 import pytest
 from run_eval import QUESTIONS, load_questions
 
-from jejuagent.runner.datasource import SnapshotRegistry
+from jejuagent.catalog.catalog import load_catalog
 from jejuagent.runner.request_plan import out_of_range
 from jejuagent.runner.state import STATUSES
 
 QS = load_questions(QUESTIONS)
-IDS = {e["id"] for e in SnapshotRegistry().catalog()}
+IDS = {e["id"] for e in load_catalog()}   # 수집 전엔 숨는 항목(jeju_weather_daily)도 질문이 가리킬 수 있다
 EXPECT_KEYS = {"status", "output_format", "needs", "clarify", "must_include", "must_exclude", "infeasible",
                "synthetic_warning", "profit_guarantee"}
 

@@ -77,3 +77,17 @@ def test_new_domain_datasets_load():
     assert len(forest) == 28 and forest["사업량(ha)"].dtype.kind == "f"
     noise = reg.load("jeju_environmental_noise")
     assert len(noise) == 140 and noise["위도"].between(33.2, 33.6).all() and noise["경도"].between(126.4, 126.7).all()
+
+
+def test_real_weather_hidden_until_collected_then_replaces_synthetic(tmp_path):
+    from jejuagent.runner.datasource import SnapshotRegistry as R
+    ids = lambda r: {e["id"] for e in r.catalog()}
+    r = R(snapshots_dir=tmp_path)
+    assert "synthetic_aws_daily" in ids(r) and "jeju_weather_daily" not in ids(r)      # 수집 전
+    (tmp_path / "live").mkdir()
+    rows = [{"station": "A1", "name": "n", "lat": 33.4, "lon": 126.5, "elevation_m": 20.0, "date": "2024-01-01", "tmean": 5.0,
+             "tmin": 2.0, "tmax": 8.0, "precip": 0.0}]
+    (tmp_path / "live" / "jeju_weather_daily.json").write_text(json.dumps({"meta": {"synthetic": False}, "data": rows}), encoding="utf-8")
+    assert "jeju_weather_daily" in ids(r) and "synthetic_aws_daily" not in ids(r)       # 수집 후
+    df = r.load("jeju_weather_daily")
+    assert len(df) == 1 and df["tmean"].iloc[0] == 5.0 and not df.attrs.get("synthetic")

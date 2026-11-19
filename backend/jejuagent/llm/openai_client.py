@@ -3,12 +3,16 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import time
 
 from .base import CallInfo, LLMClient, LLMError, LLMResponse, prompt_hash
 
 DEFAULT_MODEL = "gpt-4o"
 SEED = 20261120
+
+
+_KEY_LIKE = re.compile(r"sk-[A-Za-z0-9_\-*]+")   # sk-...(마스킹 별표 포함)
 
 
 class OpenAILLM(LLMClient):
@@ -49,7 +53,7 @@ class OpenAILLM(LLMClient):
         except LLMError:
             raise
         except Exception as e:  # 네트워크·키 오류 등
-            raise LLMError(f"OpenAI 호출 실패: {type(e).__name__}: {e}") from e
+            raise LLMError(f"OpenAI 호출 실패: {type(e).__name__}: {_KEY_LIKE.sub('sk-***', str(e))}") from e   # 401 메시지에 마스킹된 키 조각이 들어온다
         return self.parse_response(resp, kind, purpose, phash, int((time.monotonic() - t0) * 1000))
 
     def parse_response(self, resp, kind: str, purpose: str, phash: str, ms: int = 0) -> LLMResponse:
