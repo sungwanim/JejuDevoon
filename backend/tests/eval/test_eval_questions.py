@@ -11,7 +11,7 @@ from jejuagent.runner.state import STATUSES
 QS = load_questions(QUESTIONS)
 IDS = {e["id"] for e in load_catalog()}   # 수집 전엔 숨는 항목(jeju_weather_daily)도 질문이 가리킬 수 있다
 EXPECT_KEYS = {"status", "output_format", "needs", "clarify", "must_include", "must_exclude", "infeasible",
-               "synthetic_warning", "profit_guarantee"}
+               "profit_guarantee"}
 
 
 def test_count_and_distribution():
@@ -35,8 +35,6 @@ def test_question_schema(q):
     assert set(ex.get("auxiliary_only", [])) <= IDS
     assert set(ex["needs"] or {}) <= {"point_analysis", "time_series", "spatial_comparison"}
     assert ex["clarify"] == (ex["status"] == "clarify")
-    if ex["status"] in ("answered", "partial"):
-        assert ex["synthetic_warning"] is not None      # 결과가 나오는 질문은 합성 경고 여부가 정해져 있다
     if ex["status"] == "infeasible":
         assert not ex["must_include"]
     if q["click"]:

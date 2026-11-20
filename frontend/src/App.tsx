@@ -5,6 +5,7 @@ import ChatInput from "./components/ChatInput";
 import ResultView from "./components/ResultView";
 import StageStatus from "./components/StageStatus";
 import SelectionPanel from "./components/SelectionPanel";
+import ThoughtStream from "./components/ThoughtStream";
 import TracePanel from "./components/TracePanel";
 
 type Msg = { role: "user" | "agent"; text: string };
@@ -42,7 +43,7 @@ export default function App() {
 
   return (
     <main>
-      <h1>제주 농업 데이터 분석 Agent</h1>
+      <h1>제주 공공데이터 분석 Agent</h1>
       <div className="log">
         {msgs.map((m, i) => (
           <div key={i} className={"msg " + m.role}>
@@ -52,6 +53,7 @@ export default function App() {
       </div>
       <JejuMap value={click} onPick={setClick} />
       <StageStatus s={status} />
+      <ThoughtStream thoughts={status?.thoughts ?? []} running={busy} />
       {status?.status === "clarify" && !busy && (
         <div className="muted">되묻기에 답하면 이전 요청과 이어서 분석합니다. 위치가 필요하면 지도를 클릭한 뒤 보내세요.</div>
       )}

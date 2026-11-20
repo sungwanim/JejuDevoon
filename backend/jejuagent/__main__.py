@@ -34,7 +34,7 @@ def main() -> None:
     url = f"http://{HOST}:{a.port}/"
     if not a.no_browser:
         threading.Thread(target=open_when_ready, args=(url, a.port), daemon=True).start()
-    print(f"제주 농업 데이터 분석 Agent: {url}  (종료: Ctrl+C)")
+    print(f"제주 공공데이터 분석 Agent: {url}  (종료: Ctrl+C)")
     uvicorn.run("jejuagent.api.main:app", host=HOST, port=a.port, log_level="warning")
 
 

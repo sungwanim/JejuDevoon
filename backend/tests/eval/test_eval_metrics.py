@@ -4,7 +4,7 @@ import metrics as M
 
 def q(i, status="answered", amb=False, **ex):
     base = {"status": status, "output_format": None, "needs": None, "clarify": status == "clarify",
-            "must_include": [], "must_exclude": [], "infeasible": status == "infeasible", "synthetic_warning": None,
+            "must_include": [], "must_exclude": [], "infeasible": status == "infeasible",
             "profit_guarantee": False}
     return {"id": i, "category": "c", "question": i, "click": None, "expect": {**base, **ex}, "ambiguous": amb, "note": ""}
 
@@ -30,13 +30,12 @@ def test_parse_and_selection_metrics():
     assert set(M.mismatches(qs[0], rs[0])) == {"include", "exclude"} and M.mismatches(qs[1], rs[1]) == []
 
 
-def test_status_infeasible_clarify_and_synthetic():
-    qs = [q("a", "infeasible"), q("b", "clarify"), q("c", "answered", synthetic_warning=True), q("d", "answered", synthetic_warning=False)]
-    rs = [r("a", "infeasible"), r("b", "answered"), r("c", synthetic_warning=True), r("d", synthetic_warning=True)]
+def test_status_infeasible_and_clarify():
+    qs = [q("a", "infeasible"), q("b", "clarify"), q("c", "answered"), q("d", "answered")]
+    rs = [r("a", "infeasible"), r("b", "answered"), r("c"), r("d")]
     m = M.compute(qs, rs)
     assert m["status"] == {"value": 0.75, "num": 3, "den": 4}                # b만 틀림
     assert m["infeasible"]["value"] == 1.0 and m["clarify"]["value"] == 0.75   # b는 되묻지 않음
-    assert m["synthetic"] == {"value": 0.5, "num": 1, "den": 2}
 
 
 def test_code_success_rates_and_real_failure():
@@ -59,7 +58,7 @@ def test_code_success_rates_and_real_failure():
 def test_zero_denominators_are_not_applicable_not_zero():
     m = M.compute([q("a")], [r("a")])
     for k in ("needs", "format", "include_recall", "exclude_accuracy", "code_first", "code_within2",
-              "real_after_mock_fail", "module_reuse", "synthetic", "profit", "granularity"):
+              "real_after_mock_fail", "module_reuse", "profit", "granularity"):
         assert m[k]["value"] is None and m[k]["den"] == 0, k
     assert M.compute([], [])["status"]["value"] is None
 

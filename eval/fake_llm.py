@@ -75,9 +75,9 @@ class ExpectationLLM(LLMClient):
     def _tasks(self, user: str) -> dict:
         chosen = user.split("[Profile")[0]
         tasks = []
-        if '"dataset_id": "synthetic_aws_daily"' in chosen and '"site_point"' in user:
+        if '"dataset_id": "jeju_weather_daily"' in chosen and '"site_point"' in user:
             tasks.append({"id": "site", "title": "지점 기후 추정", "description": "AWS 관측소 값을 고도 보정 보간으로 지점 기온 지표와 교차검증 오차를 낸다",
-                          "inputs": ["synthetic_aws_daily", "site_point"], "outputs": [
+                          "inputs": ["jeju_weather_daily", "site_point"], "outputs": [
                               _out("site_markers", "geo", "지점과 관측소 위치", [_col("lat"), _col("lon")]),
                               _out("site_indicators", "metrics", "지점 기온 지표", []),
                               _out("cross_validation", "table", "교차검증 오차", [_col("mae_daily_c")]),
@@ -114,7 +114,7 @@ class ExpectationLLM(LLMClient):
         if "[작업] 지점 기후" in user:
             roles = seed_module().MANIFEST["input_roles"]
             return {"decision": "reuse", "module_id": "site_climate", "reason": "verified 모듈이 맞다",
-                    "input_binding": [{"module_input": "aws", "task_input": "synthetic_aws_daily"},
+                    "input_binding": [{"module_input": "aws", "task_input": "jeju_weather_daily"},
                                       {"module_input": "site", "task_input": "site_point"}],
                     "role_mapping": [{"input": i, "role": r, "column": r} for i, rs in roles.items() for r in rs]}
         if "[작업] 품목별 가격" in user:

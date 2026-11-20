@@ -47,6 +47,7 @@ def run_agent(request: str, *, llm: LLMClient, data: DataSourceRegistry | None =
         if on_progress:
             on_progress(state, trace)
 
+    trace.listener = checkpoint
     checkpoint()
     i = 0
     while i < len(stages) and state.status is None:

@@ -25,7 +25,7 @@ MANIFEST = {
                 "tmean": "float", "tmin": "float", "precip": "float"},
         "site": {"lat": "float", "lon": "float", "elevation_m": "float"},
     },
-    "params": {"lapse_c_per_km": "float", "idw_power": "float", "growing_months": "str", "synthetic": "bool"},
+    "params": {"lapse_c_per_km": "float", "idw_power": "float", "growing_months": "str"},
     "outputs": ["site_markers", "site_indicators", "cross_validation", "limitations"],
     "output_schema": [
         {"id": "site_markers", "kind": "geo", "columns": [
@@ -53,7 +53,6 @@ LIMITATIONS = [
     "극최저기온·-5℃ 이하 일수·0℃ 이하 일수는 참고 지표다. 동해·저온 한계온도로 합격/불합격을 판정하지 않는다(신뢰할 만한 한계온도 자료가 없다).",
     "재배 적합도는 공공데이터셋 근거가 없어 판정하지 않는다.",
 ]
-SYNTHETIC_NOTE = "합성 데이터로 계산한 결과다. 오차 수치를 실제 성능으로 해석하면 안 된다."
 REFERENCE_NOTE = "참고 지표(판정 아님)"
 
 
@@ -185,13 +184,9 @@ def run(inputs, params):
     st, dates, arrays = prepare(inputs["aws"])
     ind = site_indicators(st, dates, arrays, lat, lon, z, lapse, power, months)
     cv = cross_validate(st, arrays, lapse, power)
-    syn = bool(params.get("synthetic", False))
-    cv["note"] = SYNTHETIC_NOTE if syn else ""
     pick = lambda m: float(cv[(cv.method == m) & (cv.variable == "tmean")].mae_daily_c.iloc[0])
     ind["cv_mae_daily_tmean_c"] = pick("idw_lapse_fixed")
     ind["cv_mae_daily_tmean_nearest_c"] = pick("nearest_station")
-    ind["synthetic"] = syn
-    ind["data_note"] = SYNTHETIC_NOTE if syn else ""
     ind["elevation_m"] = z
     markers = pd.concat([
         pd.DataFrame([{"name": "선택 지점(추정)", "role": "site", "lat": lat, "lon": lon, "elevation_m": z,
@@ -199,7 +194,7 @@ def run(inputs, params):
         pd.DataFrame({"name": st.index, "role": "station", "lat": st.lat.to_numpy(), "lon": st.lon.to_numpy(),
                       "elevation_m": st.elevation_m.to_numpy(), "annual_mean_c": np.nanmean(arrays["tmean"], 0)}),
     ], ignore_index=True)
-    lim = list(LIMITATIONS) + ([SYNTHETIC_NOTE] if syn else []) + [f"관측소 {len(st)}개, 관측 {ind['n_years']}년분으로 추정했다."]
+    lim = list(LIMITATIONS) + [f"관측소 {len(st)}개, 관측 {ind['n_years']}년분으로 추정했다."]
     return {
         "site_markers": markers,
         "site_indicators": ind,

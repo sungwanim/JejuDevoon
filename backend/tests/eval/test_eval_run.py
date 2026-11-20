@@ -33,7 +33,7 @@ def test_dry_run_runs_to_the_end_and_writes_jsonl_meta_report(dry):
     meta = json.loads((dry / "meta.json").read_text(encoding="utf-8"))
     assert meta["dry_run"] and meta["temperature"] == 0 and meta["seed"] and meta["n_questions"] == 4
     text = (dry / "report.md").read_text(encoding="utf-8")
-    assert "드라이런" in text and "## 1. 지표" in text and "합성 데이터 기준, 실제 성능 아님" in text
+    assert "드라이런" in text and "## 1. 지표" in text and "jeju_weather_daily" in text
     assert (dry / "traces" / "q03" / "trace.json").exists()
 
 

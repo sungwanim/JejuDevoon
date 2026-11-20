@@ -8,17 +8,22 @@ from __future__ import annotations
 
 import json
 
+from ... import thoughts
 from ..request_plan import (PROFIT_NOTICE, REQUEST_PLAN_SCHEMA, apply_rules, clarify_question, normalize,
                             out_of_range)
 
 SYSTEM = (
-    "당신은 제주 농업·기후·시장 데이터 분석 도우미의 요청 규격화 담당입니다. 사용자 요청을 RequestPlan으로 바꾸세요.\n"
+    "당신은 제주 공공데이터 분석 도우미의 요청 규격화 담당입니다. 사용자 요청을 RequestPlan으로 바꾸세요.\n"
     "- goal: 요청을 한 문장으로. sub_questions: 요청을 답할 수 있는 하위 질문들로 직접 분해.\n"
     "- needs: 특정 지점 분석(point_analysis), 시계열(time_series), 지역 간 공간 비교(spatial_comparison) 필요 여부.\n"
     "- location: 클릭 좌표가 주어지면 그것을 쓰고, 없고 텍스트만 있으면 kind=region/point와 text, 좌표는 모르면 null.\n"
     "- style: 보고서 형태를 원하면 report, 쉬운 설명을 원하면 easy, 언급 없으면 unspecified.\n"
     "- 데이터 분석과 무관한 요청도 판정하거나 거절하지 말고 그대로 규격화하세요(데이터 선택 단계가 처리). 그런 요청은 missing을 비우세요.\n"
-    "- missing: 답하려면 꼭 필요한데 요청에 없는 정보(예: 위치, 작목). 없으면 빈 목록. 있으면 clarify_question에 질문 1개.\n"
+    "- missing: 답하려면 꼭 필요한데 요청에 없는 정보. 없으면 빈 목록. 있으면 clarify_question에 질문 1개.\n"
+    "  위치(지도 클릭)는 '여기', '이 땅', '내 밭'처럼 특정 지점을 가리키는 요청에서 좌표가 없을 때만 missing에 넣는다. "
+    "지역을 말하지 않은 일반 질문은 제주 전체로 보고 되묻지 않는다.\n"
+    "  주식·맛집·번역처럼 데이터 분석이 아닌 요청은 되묻지 말고 missing을 비운다(데이터 선택 단계가 처리한다).\n"
+    "- 모든 문장(goal, sub_questions, clarify_question)은 한국어로 쓴다.\n"
     "- profit_guarantee: 수익·이익을 보장해 달라는 요청이면 true.\n"
     "- tags: 분류용 짧은 태그. 이전 계획이 주어지면 사용자의 새 답변을 합쳐 계획 전체를 다시 작성하세요."
 )
@@ -53,6 +58,8 @@ def run(state, ctx):
         plan["notice"] = PROFIT_NOTICE
         state.extra.setdefault("notices", []).append(PROFIT_NOTICE)
 
+    for line in thoughts.after_parse(plan):
+        thoughts.say(ctx, "s1_parse", line)
     ctx.trace.add("decision", stage="s1_parse", status=state.status, output_format=plan["output_format"],
                   missing=plan["missing"], profit_guarantee=plan["profit_guarantee"])
     return state

@@ -18,7 +18,7 @@ def version_hash(rows: list[dict]) -> str:
 def save_snapshot(name: str, rows: list[dict], meta: dict | None = None, directory: Path | None = None) -> Path:
     d = Path(directory) if directory else LIVE_DIR
     d.mkdir(parents=True, exist_ok=True)
-    m = {**(meta or {}), "synthetic": False, "fetched_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+    m = {**(meta or {}), "fetched_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
          "n_rows": len(rows), "version_hash": version_hash(rows)}
     p = d / f"{name}.json"
     p.write_text(json.dumps({"meta": m, "data": rows}, ensure_ascii=False), encoding="utf-8")

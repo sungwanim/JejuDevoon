@@ -27,8 +27,6 @@ def check_question(q: dict, r: dict) -> dict:
     out["include"] = (sum(d in sel for d in inc), len(inc))
     out["exclude"] = (sum(d not in sel for d in exc), len(exc))
     out["infeasible"] = None if ex.get("infeasible") is None else (r.get("status") == "infeasible") == ex["infeasible"]
-    # 합성 경고: 기대(True/False)가 있을 때만. HTML이 없으면(그 전에 끝남) 경고도 없다
-    out["synthetic"] = None if ex.get("synthetic_warning") is None else bool(r.get("synthetic_warning")) == ex["synthetic_warning"]
     out["profit"] = None if not ex.get("profit_guarantee") else bool(r.get("profit_guarantee")) and bool(r.get("profit_notice"))
     aux = ex.get("auxiliary_only") or []
     out["granularity"] = None if not aux else all(sel.get(d) in (None, "auxiliary") for d in aux)
@@ -65,7 +63,7 @@ def compute(questions: list[dict], records: list[dict]) -> dict:
         vals = [c[name] for c in ck if c[name] is not None]
         return rate(sum(vals), len(vals))
 
-    for k in ("status", "needs", "format", "clarify", "infeasible", "synthetic", "profit", "granularity"):
+    for k in ("status", "needs", "format", "clarify", "infeasible", "profit", "granularity"):
         m[k] = frac(k)
     parse = [all(v for v in (c["needs"], c["format"], c["clarify"]) if v is not None)
              for c in ck if any(c[k] is not None for k in ("needs", "format", "clarify"))]

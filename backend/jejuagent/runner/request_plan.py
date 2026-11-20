@@ -90,7 +90,7 @@ def apply_rules(plan: dict) -> dict:
     has_point = loc.get("lat") is not None and loc.get("lon") is not None
     if plan["needs"]["point_analysis"] and not has_point and "위치" not in plan["missing"]:
         plan["missing"].append("위치")
-    if has_point:
+    if has_point or not plan["needs"]["point_analysis"]:   # 좌표가 있거나, 지점 분석이 아니면 위치를 되묻지 않는다
         plan["missing"] = [m for m in plan["missing"] if m != "위치"]
     plan["output_format"] = output_format(plan)
     return plan

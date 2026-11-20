@@ -1,0 +1,46 @@
+{
+ "id": "채소-가격-데이터-제공-기간-확인-97d942",
+ "version": 1,
+ "status": "auto",
+ "title": "채소 가격 데이터 제공 기간 확인",
+ "description": "채소 가격 데이터의 제공 기간을 확인하기 위해 두 데이터셋의 거래 기준일 컬럼의 최소 및 최대 날짜를 비교하여 전체 제공 기간을 산출합니다.",
+ "tags": [
+  "price"
+ ],
+ "input_roles": {
+  "jdh_agri_daily_trade": {
+   "date": "date"
+  },
+  "jdh_agri_trade_moving_avg": {
+   "date": "date"
+  }
+ },
+ "output_schema": [
+  {
+   "id": "vegetable_price_data_period",
+   "kind": "metrics",
+   "columns": []
+  }
+ ],
+ "params": {},
+ "validation": {
+  "mock": true,
+  "real": true,
+  "at": "2026-11-20T08:19:39"
+ },
+ "tested_on": [
+  {
+   "dataset_id": "jdh_agri_daily_trade",
+   "version_hash": "e615fb87cd8e1138"
+  },
+  {
+   "dataset_id": "jdh_agri_trade_moving_avg",
+   "version_hash": "0cf1693601f24ade"
+  }
+ ],
+ "model": "gpt-4o",
+ "created": "2026-11-20",
+ "goal": "채소 가격 데이터의 제공 기간을 알고 싶다.",
+ "code_hash": "97d9423038df4802",
+ "reviewed_by": ""
+}

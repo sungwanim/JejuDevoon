@@ -79,7 +79,7 @@ def _crop_llm(selected):
             return {"feasible": True, "selected": [{"dataset_id": i, "reason": "r", "columns": []} for i in selected],
                     "excluded": [], "unanswerable": [], "infeasible_reason": "", "needed_data": []}
         if "작업 계획자" in system:
-            if "synthetic_aws_daily" in selected:
+            if "jeju_weather_daily" in selected:
                 return respond(system, user)
             return {"tasks": [{"id": "econ", "title": "작목별 면적당 조수입과 재배면적 추세",
                                "description": "채소 재배현황의 작목별 면적당 조수입, 수량, 단가, 재배면적 증감과 순위",
@@ -123,9 +123,9 @@ def test_location_free_questions_use_cultivation_data(tmp_path, q):
 
 @pytest.mark.skipif(not dem._files(), reason="DEM 도엽 없음")
 def test_point_question_uses_cultivation_only_as_auxiliary(tmp_path):
-    res = go(tmp_path, "제주시 여기에 어떤 작목이 좋을까?", ["synthetic_aws_daily", DS], click=CLICK)
+    res = go(tmp_path, "제주시 여기에 어떤 작목이 좋을까?", ["jeju_weather_daily", DS], click=CLICK)
     st = res.state
-    assert {s["dataset_id"]: s["role"] for s in st.selection["selected"]} == {"synthetic_aws_daily": "primary", DS: "auxiliary"}
+    assert {s["dataset_id"]: s["role"] for s in st.selection["selected"]} == {"jeju_weather_daily": "primary", DS: "auxiliary"}
     assert not any("지점 단위" in u["what"] for u in st.unanswered)
 
 

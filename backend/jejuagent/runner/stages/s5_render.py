@@ -6,12 +6,16 @@
 상한에 걸리면 ctx.llm이 막혀 있어 render 패키지가 LLM 없이 결정적 폴백으로 렌더한다.
 """
 from ...render import build_html
+from ... import thoughts
 
 
 def run(state, ctx):
     if not (state.artifacts or state.unanswered or state.limit_hit or state.load_failures):
         return state
+    thoughts.say(ctx, "s5_render", thoughts.before_render(state.plan or {}))
     state.html, info = build_html(state, ctx)
+    if line := thoughts.after_render(info["removed"], bool(info["fallback"])):
+        thoughts.say(ctx, "s5_render", line)
     ctx.trace.add("decision", stage="s5_render", format=(state.plan or {}).get("output_format"), fallback=info["fallback"],
                   fallback_reason=info["reason"], removed_sentences=info["removed"])
     incomplete = (state.limit_hit or state.load_failures or state.unanswered

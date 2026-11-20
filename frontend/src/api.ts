@@ -7,7 +7,10 @@ export type RunStatus = {
   status: string | null; // answered | partial | clarify | infeasible | failed | null(진행 중)
   reason: string;
   message: string;
+  thoughts: Thought[]; // 단계별로 내린 결정과 이유(쉬운 말). 진행 중에도 쌓인다
 };
+
+export type Thought = { stage: string; text: string; t: number };
 
 export type RunResult = RunStatus & {
   needed_data: string[];

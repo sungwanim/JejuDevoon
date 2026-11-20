@@ -131,15 +131,6 @@ def test_failed_task_makes_partial(tmp_path):
     assert res.status == "partial"
 
 
-def test_synthetic_warning(tmp_path):
-    res, _ = go(tmp_path, [spec()], selected=(DS,))
-    assert "합성 샘플 데이터로 만든 결과입니다. 실제 값이 아닙니다" in res.html
-    assert res.html.index("합성 샘플 데이터로 만든 결과입니다") < res.html.index("<h1>")  # 최상단
-    real = "seogwipo_citrus_production"
-    res2, _ = go(tmp_path, [spec()], selected=(real,))
-    assert "합성 샘플 데이터로 만든 결과입니다" not in res2.html
-
-
 def test_excluded_and_limit_phrases_and_notice(tmp_path):
     ex = [{"dataset_id": "seogwipo_citrus_production", "reason_code": "out_of_region", "note": "제주시 데이터 없음", "by": "rule"}]
     res, _ = go(tmp_path, [spec()], fmt="map", excluded=ex, plan_extra={"notice": "수익은 보장할 수 없습니다."})
@@ -191,7 +182,6 @@ def test_fallback_when_limit_hit_has_no_llm(tmp_path):
     assert res.state.limit_hit == "llm_calls" and res.status == "partial"
     assert len(llm.calls) == 1                                    # 렌더에서 LLM을 다시 부르지 않았다
     assert "<table>" in res.html and "AI 요약 없이" in res.html and "상한" in res.html
-    assert "합성 샘플 데이터로 만든 결과입니다" in res.html
     for s in COMMON:
         assert s in res.html
 

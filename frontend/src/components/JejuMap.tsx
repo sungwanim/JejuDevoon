@@ -26,8 +26,9 @@ export default function JejuMap({ value, onPick }: { value: Click | null; onPick
     <div className="map-box">
       <MapContainer center={[33.38, 126.55]} zoom={10} style={{ height: 320, width: "100%" }}>
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+          url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+          subdomains="abcd"
         />
         <ClickCatcher onPick={onPick} />
         {value && <Marker position={[value.lat, value.lon]} icon={icon} />}

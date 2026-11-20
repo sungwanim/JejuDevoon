@@ -39,10 +39,10 @@ def test_dry_run_banner():
     assert "드라이런(가짜 LLM)입니다" in build(dry_run=True)
 
 
-def test_crossval_marks_synthetic_data():
+def test_crossval_uses_collected_weather():
     pytest.importorskip("rasterio")
     from jejuagent.geo import dem
     if not dem._files():
         pytest.skip("DEM 도엽 없음")
     t = "\n".join(report.crossval_markdown())
-    assert "합성 데이터 기준, 실제 성능 아님" in t and "idw_lapse_fixed" in t and "nearest_station" in t
+    assert "jeju_weather_daily" in t and "idw_lapse_fixed" in t and "nearest_station" in t

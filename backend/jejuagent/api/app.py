@@ -28,7 +28,7 @@ class RunRequest(BaseModel):
 def create_app(llm_factory: Callable[[], LLMClient], data: DataSourceRegistry | None = None,
                runs_dir: str | Path | None = DEFAULT_RUNS_DIR, modules=None,
                web_dir: str | Path | None = DEFAULT_WEB_DIR) -> FastAPI:
-    app = FastAPI(title="제주 농업 데이터 분석 Agent")
+    app = FastAPI(title="제주 공공데이터 분석 Agent")
     registry = data or EmptyRegistry()
     runs: dict[str, dict] = {}                 # run_id -> {"state": dict, "events": list, "done": bool}
     conversations: dict[str, dict] = {}        # conversation_id -> prev(되묻기 이전 상태)
@@ -71,8 +71,9 @@ def create_app(llm_factory: Callable[[], LLMClient], data: DataSourceRegistry | 
     @app.get("/api/runs/{run_id}")
     def run_status(run_id: str):
         r, s = get(run_id), get(run_id)["state"]
+        thoughts = [{"stage": e["stage"], "text": e["text"], "t": e["t"]} for e in r["events"] if e["type"] == "thought"]
         return {"run_id": run_id, "running": not r["done"], "stage": s.get("stage"), "status": s.get("status"),
-                "reason": s.get("reason", ""), "message": s.get("message", "")}
+                "reason": s.get("reason", ""), "message": s.get("message", ""), "thoughts": thoughts}
 
     @app.get("/api/runs/{run_id}/result")
     def run_result(run_id: str):

@@ -10,6 +10,7 @@
  - 상한(LimitExceeded)은 그대로 올려 러너가 그때까지의 결과로 렌더하게 한다. 남은 작업은 status="not_run".
 """
 from ...analysis.tasks import STAGE, plan_tasks, run_task
+from ... import thoughts
 from ..context import LimitExceeded
 
 
@@ -20,9 +21,12 @@ def run(state, ctx):
         return state
     state.tasks = tasks = plan_tasks(state, ctx)
     ctx.trace.add("decision", stage=STAGE, tasks=[{k: t[k] for k in ("id", "title", "inputs")} for t in tasks])
+    if tasks:
+        thoughts.say(ctx, STAGE, thoughts.plan_tasks(tasks))
     try:
         for t in tasks:
             run_task(t, state, ctx)
+            thoughts.say(ctx, STAGE, thoughts.task_done(t))
             if t["status"] == "failed":
                 state.unanswered.append(t["failure"])
                 ctx.trace.add("decision", stage=STAGE, task_id=t["id"], task_failed=t["failure"])

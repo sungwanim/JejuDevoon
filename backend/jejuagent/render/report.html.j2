@@ -70,10 +70,6 @@ ul,ol{padding-left:1.3em}
 {% endif %}
 {%- endmacro %}
 
-{% if synth %}
-<div class="banner" role="alert">{{ synth_warning }}.
-  <small>합성 샘플 데이터: {{ synth_ids|join(', ') }}. 아래 모든 숫자와 그래프는 실제 거래·시세가 아니며 의사결정에 쓸 수 없습니다.</small></div>
-{% endif %}
 <h1>{{ title }}</h1>
 {% for n in notices %}<div class="notice">{{ n }}</div>{% endfor %}
 {% if unanswered %}<div class="partial">일부만 답했습니다. 답하지 못한 부분은 아래 '답하지 못한 부분'에 이유와 함께 적었습니다.</div>{% endif %}
@@ -99,7 +95,7 @@ ul,ol{padding-left:1.3em}
   {% else %}<p class="muted">없음. 요청한 모든 부분에 답했습니다.</p>{% endif %}</section>
 {% elif part == 'method' %}
   <section id="method"><h2>사용한 데이터</h2>
-  {% if used %}<ul>{% for d in used %}<li><strong>{{ d.title }}</strong>{% if d.synthetic %}<span class="tag">합성 샘플</span>{% endif %}
+  {% if used %}<ul>{% for d in used %}<li><strong>{{ d.title }}</strong>
     {% if d.reason %} 선택 이유: {{ d.reason }}{% endif %}{% if d.role == 'auxiliary' %} (보조 자료){% endif %}</li>{% endfor %}</ul>
   {% else %}<p class="muted">사용한 데이터가 없습니다.</p>{% endif %}
   <h2>제외한 데이터와 이유</h2>
@@ -144,7 +140,7 @@ ul,ol{padding-left:1.3em}
     try{
       var pts=$(el.dataset.map);
       var m=L.map(el).setView([33.38,126.55],9);
-      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'&copy; OpenStreetMap'}).addTo(m);
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{subdomains:'abcd',maxZoom:18,attribution:'&copy; OpenStreetMap contributors &copy; CARTO'}).addTo(m);   /* OSM 공식 타일은 출처(Referer)가 없는 iframe·파일 열기에서 차단된다 */
       var b=[];
       pts.forEach(function(p){var c=L.circleMarker([p.lat,p.lon],{radius:7}).addTo(m);
         var t=document.createElement('div');t.textContent=p.label||'';if(p.label)c.bindPopup(t);b.push([p.lat,p.lon]);});

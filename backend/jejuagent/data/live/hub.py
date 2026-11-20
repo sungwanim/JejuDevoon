@@ -15,7 +15,7 @@ from .errors import LiveError
 log = logging.getLogger(__name__)
 BASE = "https://open.jejudatahub.net/api/proxy"
 KEY_ENV = "JEJU_HUB_PROJECT_KEY"
-API_ID = {"daily": "b1t41a11tD124baa4D42b7Dtt44b74tt", "moving_avg": "2t77t2tDtt22t4a22D24abta7ttbab4D"}  # 제주데이터허브 공개 명세서의 API ID (비밀값 아님)
+API_ID = {"daily": "13t6aat1at6166111Dtt1taa1ta1661t", "moving_avg": "0106aa36D6363Da1ttaatat3t3031a1a"}  # 제주데이터허브 API 화면의 호출 주소에 있는 API ID (비밀값 아님). 명세서(hwpx)의 ID와 달라서 허브 화면 값을 썼다
 PERIODS = (1, 2, 7, 30, 90)
 CULTIVARS = ["당근(일반)", "세척당근", "흙당근", "깐마늘", "마늘", "마늘(수입)", "저장형 난지", "저장형 남도", "햇마늘 남도",
              "세척무", "월동무", "양배추(수입)", "양배추(일반)", "저장양배추", "만생양파", "저장양파", "조생양파", "중만생양파"]

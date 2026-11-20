@@ -40,7 +40,7 @@ def selection_schema(ids: list[str]) -> dict:
 
 def summarize(entry: dict) -> dict:
     """LLM에 보낼 카탈로그 요약. 데이터 값·notes 같은 본문은 보내지 않는다."""
-    return {"id": entry["id"], "title": entry.get("title"), "source": entry.get("source"), "synthetic": bool(entry.get("synthetic")),
+    return {"id": entry["id"], "title": entry.get("title"), "source": entry.get("source"),
             "spatial_unit": entry.get("spatial_unit"), "temporal_unit": entry.get("temporal_unit"),
             "coverage": entry.get("coverage"),
             "columns": [{"name": c["name"], "meaning": c.get("meaning", ""), "unit": c.get("unit", "")}

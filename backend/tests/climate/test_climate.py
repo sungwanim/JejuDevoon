@@ -3,8 +3,9 @@ import pytest
 
 from jejuagent.catalog.profile import profile
 from jejuagent.geo import dem
-from jejuagent.geo.climate import SEED_PATH, estimate_site, limitations, seed_module, site_inputs, synthetic_aws
+from jejuagent.geo.climate import SEED_PATH, estimate_site, limitations, seed_module, site_inputs
 from jejuagent.sandbox import run_generated_code
+from synth_fixtures import fake_weather
 
 pytestmark = pytest.mark.skipif(not dem._files(), reason="DEM 도엽 없음")
 COAST, HIGH = (33.5170, 126.5300), (33.38, 126.54)   # 제주시 해안, 한라산 고지대
@@ -12,7 +13,7 @@ COAST, HIGH = (33.5170, 126.5300), (33.38, 126.54)   # 제주시 해안, 한라�
 
 @pytest.fixture(scope="module")
 def aws():
-    return synthetic_aws()
+    return fake_weather()
 
 
 def _station(aws, i):
@@ -20,8 +21,8 @@ def _station(aws, i):
     return r.lat, r.lon
 
 
-def test_synthetic_is_marked_and_on_land(aws):
-    assert aws.attrs["synthetic"] and aws.station.str.startswith("SYN").all()
+def test_fixture_stations_are_on_land(aws):
+    assert aws.station.str.startswith("SYN").all()
     st = aws.groupby("station")[["lat", "lon"]].first()
     assert all(dem.is_land(a, b) for a, b in st.itertuples(index=False))
     assert aws.groupby("station").elevation_m.first().max() > 600     # 고지대 관측소가 있다
@@ -49,7 +50,6 @@ def test_cross_validation_beats_nearest(aws):
     assert g.loc["idw_lapse_fixed", "mae_daily_c"] < g.loc["nearest_station", "mae_daily_c"]
     assert g.loc["idw_lapse_fixed", "mae_daily_c"] < g.loc["idw_no_elevation", "mae_daily_c"]
     assert 5 < g.loc["idw_lapse_fitted", "lapse_c_per_km"] < 8        # 합성 진값 6.5 근처
-    assert (cv.note.str.contains("합성")).all()
 
 
 def test_derived_indicators_are_reference_only(aws):
@@ -58,7 +58,7 @@ def test_derived_indicators_are_reference_only(aws):
     for k in ("annual_mean_c", "extreme_min_c", "days_le_minus5_per_year", "days_le_0_per_year",
               "growing_mean_c", "precip_mm_per_year"):
         assert np.isfinite(ind[k])
-    assert ind["days_le_0_per_year"] >= ind["days_le_minus5_per_year"] and ind["synthetic"]
+    assert ind["days_le_0_per_year"] >= ind["days_le_minus5_per_year"]
     text = " ".join(map(str, out["limitations"].text))
     assert "한계 초과" not in text and "동해 위험" not in text
 
@@ -70,9 +70,9 @@ def test_out_of_range_site_rejected(aws):
 
 def test_limitations_present(aws):
     joined = "\n".join(estimate_site(aws, *COAST)["limitations"].text)
-    for key in ("90m DEM", "경사", "일사", "관측소 수", "판정하지 않는다", "합성"):
+    for key in ("90m DEM", "경사", "일사", "관측소 수", "판정하지 않는다"):
         assert key in joined
-    assert limitations(True)[-1] == seed_module().SYNTHETIC_NOTE and len(limitations()) == len(limitations(True)) - 1
+    assert limitations() == list(seed_module().LIMITATIONS)
 
 
 ARTIFACTS = [
@@ -82,7 +82,7 @@ ARTIFACTS = [
     {"id": "cross_validation", "kind": "table", "columns": [{"name": "mae_daily_c", "dtype": "float"}]},
     {"id": "limitations", "kind": "table", "columns": [{"name": "text", "dtype": "str"}]},
 ]
-PARAMS = {"lapse_c_per_km": 6.5, "idw_power": 2.0, "growing_months": "10,11,12,1,2,3", "synthetic": True}
+PARAMS = {"lapse_c_per_km": 6.5, "idw_power": 2.0, "growing_months": "10,11,12,1,2,3"}
 
 
 def test_sandbox_run_real_inputs(aws):

@@ -30,7 +30,7 @@ def _select(user: str) -> dict:
         return {"feasible": False, "selected": [], "excluded": [], "unanswerable": [], "needed_data": ["주식 시세 데이터"],
                 "infeasible_reason": "요청에 쓸 수 있는 데이터가 없습니다."}
     plan = json.loads(user.split("[RequestPlan] ")[1].split("\n[카탈로그]")[0])
-    sel = [{"dataset_id": "synthetic_aws_daily", "reason": "지점 기후", "columns": []}]
+    sel = [{"dataset_id": "jeju_weather_daily", "reason": "지점 기후", "columns": []}]
     if plan.get("crop") == "월동무":
         sel.append({"dataset_id": "jdh_agri_daily_trade", "reason": "월동무 시세", "columns": []})
     if plan.get("crop") == "감귤":
@@ -41,7 +41,7 @@ def _select(user: str) -> dict:
 def _tasks(user: str) -> dict:
     chosen = user.split("[Profile")[0]
     site = {"id": "site", "title": "지점 기후 추정", "description": "AWS 관측소 값을 고도 보정 보간으로 지점 기온 지표와 교차검증 오차를 낸다",
-            "inputs": ["synthetic_aws_daily", "site_point"],
+            "inputs": ["jeju_weather_daily", "site_point"],
             "outputs": [{"id": "site_markers", "kind": "geo", "description": "지점과 관측소 위치", "columns": [COL("lat"), COL("lon")]},
                         {"id": "site_indicators", "kind": "metrics", "description": "지점 기온 지표", "columns": []},
                         {"id": "cross_validation", "kind": "table", "description": "교차검증 오차", "columns": [COL("mae_daily_c")]},
@@ -58,7 +58,7 @@ def _decide(user: str) -> dict:
     if "[작업] 지점 기후" in user:
         roles = seed_module().MANIFEST["input_roles"]
         return {"decision": "reuse", "module_id": "site_climate", "reason": "verified 모듈이 그대로 맞다",
-                "input_binding": [{"module_input": "aws", "task_input": "synthetic_aws_daily"},
+                "input_binding": [{"module_input": "aws", "task_input": "jeju_weather_daily"},
                                   {"module_input": "site", "task_input": "site_point"}],
                 "role_mapping": [{"input": i, "role": r, "column": r} for i, rs in roles.items() for r in rs]}
     return {"decision": "reuse", "module_id": "market-price-trend-volatility", "reason": "verified 모듈이 그대로 맞다",

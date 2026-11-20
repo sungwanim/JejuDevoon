@@ -91,7 +91,7 @@ def test_collect_resumes_and_snapshots(tmp_path):
     second = collect_agri_weather(AgriWeatherClient(KEY, server(days=2)), date(2024, 1, 1), date(2024, 1, 2), "t", tmp_path)
     assert second["done"] and second["stations"] == 1
     snap = json.loads((tmp_path / "t.json").read_text(encoding="utf-8"))
-    assert len(snap["data"]) == 2 and snap["meta"]["synthetic"] is False and not (tmp_path / "_state_t.json").exists()
+    assert len(snap["data"]) == 2 and not (tmp_path / "_state_t.json").exists()
 
 
 def test_implausible_temperature_day_is_dropped():

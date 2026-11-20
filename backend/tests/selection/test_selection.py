@@ -55,7 +55,7 @@ def test_select_and_exclude():
     assert ex[CIT]["reason_code"] == "irrelevant" and ex["jdh_agri_trade_moving_avg"]["by"] == "rule"
     # LLM 입력에는 id enum과 요약만, 데이터 값(notes)은 없다
     enum = llm.calls[0]["schema"]["properties"]["selected"]["items"]["properties"]["dataset_id"]["enum"]
-    assert set(enum) == {CIT, TRADE, "jdh_agri_trade_moving_avg", "synthetic_aws_daily", "jeju_vegetable_cultivation",
+    assert set(enum) == {CIT, TRADE, "jdh_agri_trade_moving_avg", "jeju_weather_daily", "jeju_vegetable_cultivation",
                     "jeju_airport_noise", "jeju_urban_forest", "jeju_environmental_noise"}
     assert "notes" not in llm.calls[0]["user"] and "averagePrice" in llm.calls[0]["user"]
 

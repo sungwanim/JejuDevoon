@@ -29,9 +29,9 @@ def seed_module():
     return _seed
 
 
-def limitations(synthetic: bool = False) -> list[str]:
+def limitations() -> list[str]:
     m = seed_module()
-    return list(m.LIMITATIONS) + ([m.SYNTHETIC_NOTE] if synthetic else [])
+    return list(m.LIMITATIONS)
 
 
 def site_inputs(aws: pd.DataFrame, lat: float, lon: float) -> dict:
@@ -43,41 +43,13 @@ def site_inputs(aws: pd.DataFrame, lat: float, lon: float) -> dict:
 
 
 def estimate_site(aws: pd.DataFrame, lat: float, lon: float, *, lapse_c_per_km: float = 6.5,
-                  idw_power: float = 2.0, growing_months: str = "10,11,12,1,2,3", synthetic: bool | None = None) -> dict:
-    """지점 기후 지표·교차검증 결과(dict, 모듈 출력과 같은 형식). synthetic=None이면 aws.attrs['synthetic']를 따른다."""
-    syn = bool(aws.attrs.get("synthetic")) if synthetic is None else synthetic
+                  idw_power: float = 2.0, growing_months: str = "10,11,12,1,2,3") -> dict:
+    """지점 기후 지표·교차검증 결과(dict, 모듈 출력과 같은 형식). """
     m = seed_module()
-    params = {"lapse_c_per_km": lapse_c_per_km, "idw_power": idw_power, "growing_months": growing_months, "synthetic": syn}
+    params = {"lapse_c_per_km": lapse_c_per_km, "idw_power": idw_power, "growing_months": growing_months}
     inputs = site_inputs(aws, lat, lon)
     out = m.run(inputs, params)
     problems = m.check(out, inputs)
     if problems:
         raise ValueError("; ".join(problems))
     return out
-
-
-def synthetic_aws(n_stations: int = 24, days: int = 365, seed: int = 0, start: str = "2023-01-01") -> pd.DataFrame:
-    """[합성, 실데이터 아님] 표준 스키마 AWS 일자료. 관측소는 DEM 육지 칸(일부는 한라산 부근)에 무작위로 놓는다.
-    기온 = 계절 + 고도 효과(-6.5℃/km) + 남북 완만한 차이 + 잡음. 관측소 위치·값 모두 지어낸 것이다."""
-    rng = np.random.default_rng(seed)
-    pts = []
-    while len(pts) < n_stations:
-        near = len(pts) % 3 == 0
-        lat, lon = (rng.normal(33.36, 0.05), rng.normal(126.53, 0.07)) if near else (rng.uniform(33.2, 33.55), rng.uniform(126.2, 126.95))
-        z = get_elevation(lat, lon) if is_land(lat, lon) else None
-        if z is not None:
-            pts.append((f"SYN{len(pts) + 1:02d}", round(lat, 4), round(lon, 4), round(z, 1)))
-    dates = pd.date_range(start, periods=days)
-    doy = dates.day_of_year.to_numpy()
-    season = 15.5 + 11 * np.sin(2 * np.pi * (doy - 110) / 365.25)
-    common = rng.normal(0, 2.0, days)
-    rows = []
-    for sid, lat, lon, z in pts:
-        t = season + common - 0.0065 * z - 1.0 * (lat - 33.4) / 0.15 + rng.normal(0, 0.3) + rng.normal(0, 0.4, days)
-        rain = np.where(rng.random(days) < 0.25, rng.exponential(12, days) * (1 + z / 1500), 0.0)
-        rows.append(pd.DataFrame({"station": sid, "lat": lat, "lon": lon, "elevation_m": z, "date": dates,
-                                  "tmean": t, "tmin": t - 4 + rng.normal(0, 0.8, days), "tmax": t + 4 + rng.normal(0, 0.8, days),
-                                  "precip": rain.round(1)}))
-    df = pd.concat(rows, ignore_index=True)
-    df.attrs["synthetic"] = True
-    return df

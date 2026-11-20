@@ -54,7 +54,7 @@
 3. **정답과 다른 질문**: 틀린 항목의 기대/관측, 선택·제외 데이터와 이유 코드, 작업 시도(1회·2회와 실패 분류), 미답변, 안내문. 실패 원인을 짚는 출발점이다. 자세한 건 `traces/<id>/trace.json`.
 4. **실패 분류별 집계**: 질문 수준(상태·needs·형식·데이터 선택 등)과 코드 실행 실패 분류(`column_role_mismatch`, `format_error`, `validation_failed` ...).
 5. **비용·시간**: 질문당 평균과 합계. 비용은 토큰 x 공개 단가(gpt-4o 입력 $2.50, 출력 $10.00 / 100만 토큰)의 어림값이다. 실제 청구액은 OpenAI 대시보드로 확인.
-6. **지점 기온 교차검증 오차**: 관측소 하나씩 빼고 추정한 평균 절대오차. 현재는 합성 관측소라 **"합성 데이터 기준, 실제 성능 아님"**이 붙는다.
+6. **지점 기온 교차검증 오차**: 관측소 하나씩 빼고 추정한 평균 절대오차. 수집한 실데이터(농업기상 제주 지점)로 계산하며, 관측소가 저지대 위주라 고지대 성능은 알 수 없다.
 
 드라이런 리포트에는 맨 위에 드라이런 경고가 있다. 가짜 LLM은 정답 정보를 보고 답하므로 지표(대부분 100%)는 모델 성능이 아니다.
 
@@ -69,7 +69,7 @@
 | 불가 판정 정확도 | `infeasible` 여부(상태가 infeasible인가) 일치 |
 | 해상도 함정 통과율 | `auxiliary_only` 데이터(도 전체 단위)를 지점 분석의 주 데이터(primary)로 쓰지 않음 |
 | 수익 보장 처리율 | 수익 보장을 요구한 질문에서 판정하고 재구성 안내(notice)를 냄 |
-| 합성 경고 정확도 | 결과 HTML에 합성 경고가 있어야 할 때만 있음. HTML이 안 나오면 경고 없음으로 본다 |
+| (삭제됨) 합성 경고 정확도 | 앱에서 합성 데이터를 없애 이 지표도 없앴다 |
 | 코드 1회 성공률 | 코드 생성·수정까지 간 작업 중 1차 시도 성공. 모듈 재사용만으로 끝난 작업은 분모에서 뺀다 |
 | 코드 2회 내 성공률 | 같은 분모에서 작업 성공 |
 | mock 통과 후 실데이터 실패율 | 실데이터 단계까지 간 시도 중 실패. **근사**: trace에 "mock 통과"가 따로 없어 `phase == real`인 시도 중 실패를 센다(mock이 `data_problem`이라 실데이터로 넘어간 경우도 섞인다) |
@@ -88,17 +88,17 @@
  "expect": {"status": "answered", "output_format": "map",
             "needs": {"point_analysis": true, "time_series": true, "spatial_comparison": false},
             "clarify": false, "in_domain": true,
-            "must_include": ["synthetic_aws_daily"], "must_exclude": ["seogwipo_citrus_production"],
-            "infeasible": false, "synthetic_warning": true, "profit_guarantee": false,
+            "must_include": ["jeju_weather_daily"], "must_exclude": ["seogwipo_citrus_production"],
+            "infeasible": false, "profit_guarantee": false,
             "auxiliary_only": ["jeju_vegetable_cultivation"]},
  "ambiguous": false, "note": ""}
 ```
 
 - `status`: answered / partial / clarify / infeasible. `output_format`, `in_domain`, `needs`는 `null`이면 그 항목은 채점하지 않는다. `needs` 안에서도 적은 키만 채점한다.
 - `must_include` / `must_exclude`: 카탈로그 데이터셋 id. `auxiliary_only`(선택): 선택돼도 되지만 보조(auxiliary)로만.
-- `synthetic_warning`: 결과가 나오는 질문은 필수. 합성 데이터(`jdh_agri_daily_trade`, `jdh_agri_trade_moving_avg`, `synthetic_aws_daily`)를 쓰면 `true`.
+- 결과가 나오는 질문은 `must_include`(반드시 고를 데이터)를 적는다.
 - 정답이 애매하면 `"ambiguous": true`로 두고 `note`에 이유를 적는다. 지표가 따로 집계된다.
-- 카탈로그가 바뀌면(데이터 추가, 실데이터 교체) `must_include`/`must_exclude`와 `synthetic_warning`을 다시 봐야 한다. 실데이터로 바뀌면 합성 경고 기대값이 달라진다.
+- 카탈로그가 바뀌면(데이터 추가·교체) `must_include`/`must_exclude`를 다시 봐야 한다.
 - `backend/tests/eval/test_eval_questions.py`가 스키마(필수 필드, 데이터셋 id 존재, 30~50개, 유형 분포)를 검사한다. 고친 뒤 `pytest backend/tests/eval`을 돌리면 된다.
 - **정답을 시스템 출력에 맞춰 고치지 말 것.** 실제 LLM이 틀릴 수 있어야 평가가 의미 있다. 틀린 게 시스템 규칙 탓이라 정답이 정말 틀렸다고 판단될 때만 고친다.
 
@@ -125,7 +125,7 @@ verified 모듈과 스냅샷만으로 끝나는 질문을 골라 가짜 LLM으�
 
 - **실제 GPT-4o로 실행한 적이 없다.** 질문·정답·지표 정의는 현재 시스템 규칙(spec, `selection.py`, `request_plan.py`)을 읽고 정했다. 첫 실행에서 정답 쪽이 틀린 곳이 나올 수 있다.
 - 드라이런의 가짜 LLM은 정답을 보고 답한다. 도구 검증용이지 시스템 성능이 아니다.
-- 현재 카탈로그는 합성 데이터 위주라 합성 경고와 교차검증 오차는 실제 성능이 아니다. 허브 실데이터를 수집하면 질문·기대값(`synthetic_warning`)을 다시 봐야 한다.
+- 교차검증 오차는 농업기상 제주 16개 지점(고도 18~208m) 기준이다. 고지대는 알 수 없다.
 - 데이터 문의 질문(`q06`, `q07`)은 전용 경로가 없어 관련 데이터 선택 여부만 본다(애매로 표시).
 - 근거 없는 숫자 문장 제거는 "전체 문장 수 대비 비율"이 아니라 실행 단위로만 낸다. mock 통과 후 실패율은 근사다.
 - 비용은 토큰 x 공개 단가의 어림값이다. 같은 질문 세트를 다시 돌려도 GPT-4o 출력은 조금 달라질 수 있다.

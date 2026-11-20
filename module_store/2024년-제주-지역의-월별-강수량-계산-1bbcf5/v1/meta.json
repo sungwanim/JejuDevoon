@@ -1,0 +1,61 @@
+{
+ "id": "2024년-제주-지역의-월별-강수량-계산-1bbcf5",
+ "version": 1,
+ "status": "auto",
+ "title": "2024년 제주 지역의 월별 강수량 계산",
+ "description": "2024년 제주 지역의 일별 강수량 데이터를 이용하여 월별로 강수량을 합산한다.",
+ "tags": [
+  "precipitation",
+  "monthly",
+  "Jeju"
+ ],
+ "input_roles": {
+  "jeju_weather_daily": {
+   "station": "str",
+   "station_name": "str",
+   "lat": "float",
+   "lon": "float",
+   "elevation": "float",
+   "date": "date",
+   "tmean": "float",
+   "tmin": "float",
+   "tmax": "float",
+   "precip": "float"
+  }
+ },
+ "output_schema": [
+  {
+   "id": "monthly_precipitation",
+   "kind": "table",
+   "columns": [
+    {
+     "name": "month",
+     "dtype": "date",
+     "unit": ""
+    },
+    {
+     "name": "total_precipitation",
+     "dtype": "float",
+     "unit": "mm"
+    }
+   ]
+  }
+ ],
+ "params": {},
+ "validation": {
+  "mock": true,
+  "real": true,
+  "at": "2026-11-20T08:21:08"
+ },
+ "tested_on": [
+  {
+   "dataset_id": "jeju_weather_daily",
+   "version_hash": "1574f9d183ec064e"
+  }
+ ],
+ "model": "gpt-4o",
+ "created": "2026-11-20",
+ "goal": "2024년 제주에서 비가 가장 많이 온 달을 알고 싶다.",
+ "code_hash": "1bbcf5faeb1eda7e",
+ "reviewed_by": ""
+}

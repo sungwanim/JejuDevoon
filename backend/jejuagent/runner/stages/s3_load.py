@@ -9,6 +9,7 @@ import pandas as pd
 
 from ...catalog.profile import profile
 from ...geo import get_elevation, out_of_range_message
+from ... import thoughts
 from ..selection import POINT_UNITS
 
 SITE_ENTRY = {"id": "site_point", "title": "선택 지점 (DEM 고도)", "columns": [
@@ -35,9 +36,6 @@ def _site_inputs(state, entries) -> None:
         return
     df = pd.DataFrame([{"lat": loc["lat"], "lon": loc["lon"], "elevation_m": z}])
     state.data["site_point"], state.profiles["site_point"] = df, profile(df, "site_point", SITE_ENTRY)
-    # 모듈 파라미터: 합성 데이터면 모듈 출력에도 합성 표시가 들어가게 한다
-    state.extra["module_params"] = {"synthetic": any(
-        entries[d].get("synthetic") or state.data[d].attrs.get("synthetic") for d in stations)}
 
 
 def run(state, ctx):
@@ -55,4 +53,7 @@ def run(state, ctx):
             state.load_failures.append({"dataset_id": did, "error": f"{type(e).__name__}: {e}"})
             ctx.trace.add("decision", stage="s3_load", dataset_id=did, load_failed=str(e))
     _site_inputs(state, entries)
+    titles = {k: v.get("title") or k for k, v in entries.items()}
+    for line in thoughts.after_load(state.data, titles, state.load_failures):
+        thoughts.say(ctx, "s3_load", line)
     return state

@@ -16,16 +16,14 @@ reg = SnapshotRegistry()
 def test_catalog_has_entries_with_required_fields():
     cat = reg.catalog()
     assert {e["id"] for e in cat} == {"seogwipo_citrus_production", "jdh_agri_daily_trade", "jdh_agri_trade_moving_avg",
-                                         "synthetic_aws_daily", "jeju_vegetable_cultivation", "jeju_airport_noise",
+                                         "jeju_weather_daily", "jeju_vegetable_cultivation", "jeju_airport_noise",
                                          "jeju_urban_forest", "jeju_environmental_noise"}
     for e in cat:
         assert all(k in e for k in ("title", "source", "access", "license", "spatial_unit", "temporal_unit", "coverage", "columns", "notes"))
     assert "제주시" in next(e for e in cat if e["id"].startswith("seogwipo"))["notes"]
-    assert all(e["synthetic"] and "합성" in e["notes"] for e in cat if e["id"].startswith("jdh_"))
-    aws = next(e for e in cat if e["id"] == "synthetic_aws_daily")   # 티켓 16: 지점 기후용 합성 관측소 (실데이터 아님)
-    assert aws["synthetic"] and aws["spatial_unit"] == "관측소" and "합성" in aws["title"] + aws["source"] + aws["notes"]
-    assert reg.load("synthetic_aws_daily").attrs["synthetic"] is True
-    assert json.load(open(reg.snapshots_dir / "jdh_agri_daily_trade.json", encoding="utf-8"))["meta"]["synthetic"] is True
+    assert all("합성" not in e["title"] + e["notes"] and "synthetic" not in e for e in cat)   # 앱은 실데이터만 쓴다
+    w = next(e for e in cat if e["id"] == "jeju_weather_daily")
+    assert w["spatial_unit"] == "관측소" and w["optional"] is True
 
 
 def test_citrus_cp949_wide_and_profile():
@@ -79,15 +77,16 @@ def test_new_domain_datasets_load():
     assert len(noise) == 140 and noise["위도"].between(33.2, 33.6).all() and noise["경도"].between(126.4, 126.7).all()
 
 
-def test_real_weather_hidden_until_collected_then_replaces_synthetic(tmp_path):
+def test_optional_datasets_hidden_until_collected(tmp_path):
     from jejuagent.runner.datasource import SnapshotRegistry as R
     ids = lambda r: {e["id"] for e in r.catalog()}
     r = R(snapshots_dir=tmp_path)
-    assert "synthetic_aws_daily" in ids(r) and "jeju_weather_daily" not in ids(r)      # 수집 전
+    optional = {"jeju_weather_daily", "jdh_agri_daily_trade", "jdh_agri_trade_moving_avg"}
+    assert not optional & ids(r) and "seogwipo_citrus_production" in ids(r)              # 수집 전
     (tmp_path / "live").mkdir()
     rows = [{"station": "A1", "name": "n", "lat": 33.4, "lon": 126.5, "elevation_m": 20.0, "date": "2024-01-01", "tmean": 5.0,
              "tmin": 2.0, "tmax": 8.0, "precip": 0.0}]
-    (tmp_path / "live" / "jeju_weather_daily.json").write_text(json.dumps({"meta": {"synthetic": False}, "data": rows}), encoding="utf-8")
-    assert "jeju_weather_daily" in ids(r) and "synthetic_aws_daily" not in ids(r)       # 수집 후
+    (tmp_path / "live" / "jeju_weather_daily.json").write_text(json.dumps({"meta": {}, "data": rows}), encoding="utf-8")
+    assert "jeju_weather_daily" in ids(r) and not {"jdh_agri_daily_trade", "jdh_agri_trade_moving_avg"} & ids(r)   # 수집 후
     df = r.load("jeju_weather_daily")
-    assert len(df) == 1 and df["tmean"].iloc[0] == 5.0 and not df.attrs.get("synthetic")
+    assert len(df) == 1 and df["tmean"].iloc[0] == 5.0

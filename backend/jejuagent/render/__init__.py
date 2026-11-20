@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from ..llm.base import LLMError
-from .html import SYNTH_WARNING, render_html  # noqa: F401
+from .html import render_html  # noqa: F401
 from .numbers import check_sentence, extract_numbers, grounded_numbers  # noqa: F401
 from .spec import REPORT_SPEC_SCHEMA, SYSTEM, fallback_spec, sanitize, user_prompt
 

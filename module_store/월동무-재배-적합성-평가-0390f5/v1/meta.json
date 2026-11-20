@@ -1,0 +1,50 @@
+{
+ "id": "월동무-재배-적합성-평가-0390f5",
+ "version": 1,
+ "status": "auto",
+ "title": "월동무 재배 적합성 평가",
+ "description": "선택된 위치의 기후 조건을 분석하여 월동무 재배에 적합한지 평가합니다.",
+ "tags": [
+  "climate",
+  "agriculture",
+  "suitability"
+ ],
+ "input_roles": {
+  "jeju_weather_daily": {
+   "station": "str",
+   "station_name": "str",
+   "lat": "float",
+   "lon": "float",
+   "elevation": "float",
+   "date": "date",
+   "tmean": "float",
+   "tmin": "float",
+   "tmax": "float",
+   "precip": "float"
+  }
+ },
+ "output_schema": [
+  {
+   "id": "suitability_assessment",
+   "kind": "metrics",
+   "columns": []
+  }
+ ],
+ "params": {},
+ "validation": {
+  "mock": true,
+  "real": true,
+  "at": "2026-11-20T08:26:00"
+ },
+ "tested_on": [
+  {
+   "dataset_id": "jeju_weather_daily",
+   "version_hash": "1574f9d183ec064e"
+  }
+ ],
+ "model": "gpt-4o",
+ "created": "2026-11-20",
+ "goal": "해당 위치에 월동무를 심어도 되는지와 시세를 알고 싶다.",
+ "code_hash": "0390f5b86e98b298",
+ "reviewed_by": ""
+}

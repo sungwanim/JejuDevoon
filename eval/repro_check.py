@@ -20,7 +20,7 @@ for p in (EVAL_DIR.parent / "backend", EVAL_DIR):
     if str(p) not in sys.path:
         sys.path.insert(0, str(p))
 
-VERIFIED_ONLY = {"synthetic_aws_daily", "jdh_agri_daily_trade", "jeju_vegetable_cultivation"}   # verified 모듈이 있는 데이터셋
+VERIFIED_ONLY = {"jeju_weather_daily", "jdh_agri_daily_trade", "jeju_vegetable_cultivation"}   # verified 모듈이 있는 데이터셋
 
 
 def artifact_hash(value) -> str:

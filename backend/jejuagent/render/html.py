@@ -8,7 +8,6 @@ from pathlib import Path
 import pandas as pd
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
-SYNTH_WARNING = "합성 샘플 데이터로 만든 결과입니다. 실제 값이 아닙니다"
 REASON_LABEL = {"irrelevant": "요청과 관련 없음", "granularity_mismatch": "공간 단위가 맞지 않음", "out_of_region": "지역이 맞지 않음",
                 "out_of_period": "기간이 맞지 않음", "missing_columns": "필요한 컬럼이 없음"}
 TASK_LABEL = {"ok": "성공", "failed": "실패", "not_run": "실행 못함", "pending": "대기"}
@@ -128,9 +127,8 @@ def _site_limits(state) -> list[str]:
     mine = [a for a in state.artifacts.values() if a.module_title == title]
     if not mine:
         return []
-    syn = bool((state.extra or {}).get("module_params", {}).get("synthetic"))
     texts = [t for a in mine if isinstance(a.value, pd.DataFrame) and list(a.value.columns) == ["text"] for t in a.value["text"]]
-    return list(dict.fromkeys([*limitations(syn), *texts]))
+    return list(dict.fromkeys([*limitations(), *texts]))
 
 
 def _crop_limits(state) -> list[str]:
@@ -151,8 +149,6 @@ def _crop_limits(state) -> list[str]:
 def auto_limits(state, used: list[dict]) -> list[str]:
     plan, out = state.plan or {}, []
     needs = plan.get("needs") or {}
-    if any(d["synthetic"] for d in used):
-        out.append("거래 데이터가 합성 샘플이라 가격·거래량 값은 실제와 다릅니다. 실데이터가 연결되면 결과가 달라집니다.")
     if needs.get("point_analysis") or plan.get("output_format") == "map":
         out.append("지점의 고도는 90m 격자 DEM에서 읽은 값이라 격자 크기만큼의 오차가 있고, 경사·일사는 반영하지 않았습니다.")
         out.append("한계온도(작물이 견디는 임계 기온)로 재배 가능 여부를 판정하지 않았습니다.")
@@ -176,7 +172,7 @@ def render_html(state, spec: dict, catalog: list[dict], removed: list[str], fall
     for i in _used_ids(state):
         e = cat.get(i, {})
         used.append({"id": i, "title": e.get("title") or i, "reason": (sel.get(i) or {}).get("reason", ""),
-                     "role": (sel.get(i) or {}).get("role", ""), "synthetic": bool(e.get("synthetic")),
+                     "role": (sel.get(i) or {}).get("role", ""),
                      "source": e.get("source", ""), "license": e.get("license", ""), "notes": e.get("notes", "")})
     excluded = [{"id": x["dataset_id"], "title": (cat.get(x["dataset_id"]) or {}).get("title") or x["dataset_id"],
                  "why": REASON_LABEL.get(x.get("reason_code"), x.get("reason_code", "")), "note": x.get("note", "")}
@@ -219,6 +215,5 @@ def render_html(state, spec: dict, catalog: list[dict], removed: list[str], fall
         sections=sections, map_blocks=map_blocks, flow=flow, used=used, excluded=excluded, tasks=tasks,
         unanswered=unanswered, limits=limits,
         notices=list(dict.fromkeys(n for n in [plan.get("notice"), *(state.extra or {}).get("notices", [])] if n)),
-        synth=any(d["synthetic"] for d in used), synth_warning=SYNTH_WARNING,
-        synth_ids=[d["title"] for d in used if d["synthetic"]], removed=len(removed), fallback=fallback,
+        removed=len(removed), fallback=fallback,
         partial=bool(unanswered), status_note=state.message if state.limit_hit else "")

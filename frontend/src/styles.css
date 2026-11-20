@@ -27,3 +27,9 @@ h1 { font-size: 1.3rem; }
 .map-box { margin: 8px 0; border: 1px solid #d5ddd5; border-radius: 8px; overflow: hidden; background: #fff; }
 .map-box .muted { padding: 4px 10px; font-size: .85rem; }
 .selection h3,.selection h4{margin:6px 0 2px;font-size:.95rem}.selection ul{margin:0;padding-left:18px;font-size:.85rem}
+
+.thoughts summary { cursor: pointer; font-weight: 600; }
+.thoughts ol { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-direction: column; gap: 6px; max-height: 18rem; overflow-y: auto; font-size: .9rem; }
+.thoughts li { line-height: 1.5; }
+.thoughts .tag { display: inline-block; margin-right: 6px; padding: 0 8px; border-radius: 10px; background: #e6ebe6; color: #445; font-size: .78rem; }
+.thoughts .end { height: 0; }

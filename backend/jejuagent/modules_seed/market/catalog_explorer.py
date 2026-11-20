@@ -1,7 +1,7 @@
 MANIFEST = {
     "id": "market-catalog-explorer",
     "version": 1,
-    "verified_by": "미검토 (검토 필요: 합성 스냅샷 카탈로그로만 확인)",
+    "verified_by": "미검토 (검토 필요)",
     "title": "카탈로그 탐색",
     "description": "데이터셋 카탈로그 요약 표에서 어떤 데이터가 있는지, 기간 길이와 공간·시간 단위별 개수를 정리한다",
     "tags": ["catalog", "explore", "metadata"],

@@ -20,6 +20,7 @@ from pathlib import Path
 
 import pandas as pd
 
+from .. import thoughts
 from ..catalog.profile import profile as make_profile
 from ..modules_lib import ModuleStore, search
 from ..sandbox import SandboxResult, run_generated_code
@@ -54,7 +55,9 @@ def _mapping(items: list[dict]) -> dict:
 # ---------------------------------------------------------------- 작업 목록
 
 def plan_tasks(state, ctx) -> list[dict]:
-    resp = ctx.llm.structured(prompts.PLAN_SYSTEM, prompts.plan_user(state.plan, state.selection, state.profiles),
+    lib = _library(ctx)
+    verified = lib.all() if lib is not None else []
+    resp = ctx.llm.structured(prompts.PLAN_SYSTEM, prompts.plan_user(state.plan, state.selection, state.profiles, verified),
                               prompts.TASKS_SCHEMA, schema_name="analysis_tasks", purpose="s4_plan_tasks")
     tasks = []
     for i, t in enumerate(resp.data.get("tasks", []), 1):
@@ -171,6 +174,7 @@ def _log(task, ctx, n, kind, code, mapping, res, phase):
     task["attempts"].append(rec)
     ctx.trace.add("decision", stage=STAGE, task_id=task["id"], attempt=n, kind=kind, ok=res.ok,
                   failure=res.failure, phase=phase, message=res.message[:300], code_hash=rec["code_hash"])
+    thoughts.say(ctx, STAGE, thoughts.attempt(task["title"], n, res.ok, phase, res.failure, res.message or ""))
 
 
 def _success(task, state, code, mapping, res, on_ok=None, columns=None) -> None:
@@ -205,6 +209,7 @@ def _decide(task, ctx, lib, profiles):
     cands = search(lib, f"{task['title']} {task['description']}", profiles, n_outputs=len(task["outputs"]))
     task["module"] = {"decision": "new", "candidates": [(c.module.id, c.module.status, round(c.score, 3)) for c in cands]}
     if not cands:
+        thoughts.say(ctx, STAGE, thoughts.module_decision(task["title"], "new", None, "저장소에 비슷한 모듈이 없음"))
         return None
     dec = ctx.llm.structured(prompts.DECIDE_SYSTEM, prompts.decide_user(task, profiles, cands), prompts.DECISION_SCHEMA,
                              schema_name="module_decision", purpose=f"s4_module_decision:{task['id']}").data
@@ -214,6 +219,7 @@ def _decide(task, ctx, lib, profiles):
         task["module"].update(decision=kind, module_id=m.id, version=m.version, status=m.status)
     ctx.trace.add("decision", stage=STAGE, task_id=task["id"], module_decision=kind, module_id=m.id if m else None,
                   reason=dec.get("reason", "")[:300])
+    thoughts.say(ctx, STAGE, thoughts.module_decision(task["title"], kind, m.id if m else None, dec.get("reason", "")[:120]))
     return (kind, m, dec) if kind != "new" else None
 
 
@@ -229,8 +235,7 @@ def _try_reuse(task, state, ctx, lib, cx, m, dec):
                profiles={mi: cx["profiles"][ti] for mi, ti in binding.items()},
                designs=[{"id": o["id"], "kind": o["kind"], "columns": o["columns"]} for o in m.output_schema],
                ranges=cx["ranges"],
-               # 부모가 정한 파라미터(예: 합성 데이터 표시)는 모듈이 선언한 것만 넘긴다
-               params={k: v for k, v in state.extra.get("module_params", {}).items() if k in m.params})
+               params={})
     tested = [{"dataset_id": n, "version_hash": p.get("version_hash", "")} for n, p in cx["profiles"].items()]
     # 캐시 키에 데이터 버전 해시가 들어 있어서, 데이터가 바뀌면 키가 달라져 이전 결과는 버려진다
     key = hashlib.sha256(json.dumps([m.id, m.version, binding, mapping, tested, cx2["params"]], sort_keys=True).encode()).hexdigest()

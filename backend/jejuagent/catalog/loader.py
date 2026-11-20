@@ -40,7 +40,6 @@ def load_dataset(entry: dict, root: str | Path, snapshots_dir: str | Path) -> pd
         raw = json.loads((Path(snapshots_dir) / entry["snapshot"]).read_text(encoding="utf-8"))
         df = pd.DataFrame(raw["data"])
         df.attrs["encoding"] = "utf-8"
-        df.attrs["synthetic"] = bool(raw.get("meta", {}).get("synthetic"))
     else:
         raise ValueError(f"file 또는 snapshot이 없는 카탈로그 항목: {entry.get('id')}")
     enc = df.attrs["encoding"]

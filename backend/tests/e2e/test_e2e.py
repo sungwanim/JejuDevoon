@@ -11,7 +11,6 @@ from jejuagent.runner.datasource import SnapshotRegistry
 
 pytestmark = pytest.mark.skipif(not dem._files(), reason="DEM 도엽 없음")
 SOUTH, CITY = {"lat": 33.30, "lon": 126.55}, {"lat": 33.5170, "lon": 126.5300}   # 서귀포 쪽 내륙, 제주시 해안
-SYN = "합성 샘플 데이터로 만든 결과입니다"
 
 
 def go(tmp_path, req, click=None, prev=None):
@@ -37,14 +36,19 @@ def test_click_and_radish_question_gives_map_with_site_climate_and_price(tmp_pat
     assert [t["module"]["decision"] for t in st.tasks] == ["reuse", "reuse"]
     assert {t["module"]["status"] for t in st.tasks} == {"verified"}
     assert not [c for c in llm.calls if "codegen" in c["purpose"] or "revise" in c["purpose"]]
+    # 사용자에게 보이는 생각 과정: 다섯 단계 모두에서 결정과 이유가 쉬운 말로 남는다
+    ts = [(e["stage"], e["text"]) for e in res.events if e["type"] == "thought"]
+    assert {s for s, _ in ts} == {"s1_parse", "s2_select", "s3_load", "s4_analyze", "s5_render"}
+    joined = "\n".join(t for _, t in ts)
+    assert "지점 고도" not in joined and "고도를 지형 자료(DEM)에서 읽었어요" in joined and "분석을 2개 작업으로 나눴어요" in joined
+    assert joined.count("이미 검증된 모듈") == 2 and "결과 화면을 지도 형식으로" in joined
     assert st.artifacts["site_markers"].kind == "geo" and len(st.artifacts["site_markers"].value) == 13   # 지점 1 + 관측소 12
     # 지도 HTML: 지도 블록, 관측소 마커, 지점 기후 지표(고도·교차검증), 시세 차트
     assert 'data-map="' in html and "SYN01" in html and "선택 지점(추정)" in html
     assert "elevation_m" in html and "idw_lapse_fixed" in html and "data-chart" in html
-    # 합성 경고가 제목보다 위에 있다. 한계 문구에 적합도 미판정이 들어간다
-    assert SYN in html and html.index(SYN) < html.index("<h1")
+    # 합성 경고는 없다(앱은 실데이터만 쓴다). 한계 문구에 적합도 미판정이 들어간다
+    assert "합성" not in html
     assert "재배 적합도는 공공데이터셋 근거가 없어 판정하지 않는다" in html
-    assert "합성 데이터로 계산한 결과다" in html                       # 모듈 출력의 합성 표시(파라미터로 전달됨)
     assert "suitability" not in st.artifacts and "충족" not in html   # 문헌 기준 적합도는 없다
 
 
@@ -74,7 +78,7 @@ def test_jeju_city_citrus_is_partial_with_seogwipo_only_notice(tmp_path):
     assert any(x["dataset_id"] == "seogwipo_citrus_production" and x["reason_code"] == "out_of_region"
                for x in st.selection["excluded"])
     assert any("서귀포" in u["why"] for u in st.unanswered)
-    assert "서귀포" in res.html and 'data-map="' in res.html and SYN in res.html
+    assert "서귀포" in res.html and 'data-map="' in res.html
     assert "답하지 못한 부분" in res.html
 
 

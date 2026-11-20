@@ -63,3 +63,8 @@ def test_click_outside_jeju(tmp_path):
     res, _ = go("x", [plan(needs={"point_analysis": True})], tmp_path, click={"lat": 35.0, "lon": 129.0})
     assert res.status == "infeasible" and "범위 밖" in res.message
     assert out_of_range(33.4, 126.5) is None
+
+
+def test_location_is_not_asked_when_not_a_point_analysis(tmp_path):
+    res, _ = go("제주공항 소음이 어떻게 변했어?", [plan(needs={"time_series": True}, missing=["위치"], clarify_question="어느 위치인가요?")], tmp_path)
+    assert res.status == "answered" and res.state.plan["missing"] == []

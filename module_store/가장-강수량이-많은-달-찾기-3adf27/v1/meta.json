@@ -1,0 +1,42 @@
+{
+ "id": "가장-강수량이-많은-달-찾기-3adf27",
+ "version": 1,
+ "status": "auto",
+ "title": "가장 강수량이 많은 달 찾기",
+ "description": "월별 강수량 데이터에서 가장 강수량이 많은 달을 찾는다.",
+ "tags": [
+  "precipitation",
+  "monthly",
+  "max"
+ ],
+ "input_roles": {
+  "monthly_precipitation": {
+   "month": "date",
+   "total_precipitation": "float"
+  }
+ },
+ "output_schema": [
+  {
+   "id": "max_precipitation_month",
+   "kind": "metrics",
+   "columns": []
+  }
+ ],
+ "params": {},
+ "validation": {
+  "mock": true,
+  "real": true,
+  "at": "2026-11-20T08:21:15"
+ },
+ "tested_on": [
+  {
+   "dataset_id": "monthly_precipitation",
+   "version_hash": "879f28223bc426fa"
+  }
+ ],
+ "model": "gpt-4o",
+ "created": "2026-11-20",
+ "goal": "2024년 제주에서 비가 가장 많이 온 달을 알고 싶다.",
+ "code_hash": "3adf27321e0a2fe8",
+ "reviewed_by": ""
+}

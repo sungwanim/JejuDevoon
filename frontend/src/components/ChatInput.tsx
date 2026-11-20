@@ -11,7 +11,7 @@ export default function ChatInput({ disabled, onSend }: { disabled: boolean; onS
     <div className="chat-input">
       <textarea
         value={text}
-        placeholder="예: 제주 월동무 최근 가격 추세 알려줘"
+        placeholder="예: 제주공항 소음측정소 중 소음도가 가장 높은 곳은?"
         onChange={(e) => setText(e.target.value)}
         onKeyDown={(e) => {
           if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing) {

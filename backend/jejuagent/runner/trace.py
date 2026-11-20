@@ -12,10 +12,13 @@ class Trace:
         self.dir = Path(runs_dir) / run_id if runs_dir else None
         self.events: list[dict] = []
         self._t0 = time.monotonic()
+        self.listener = None   # thought 이벤트가 생길 때 부르는 함수(화면이 진행 중에도 생각 과정을 받게 한다)
 
     def add(self, type: str, **fields) -> dict:
         ev = {"type": type, "t": round(time.monotonic() - self._t0, 3), **fields}
         self.events.append(ev)
+        if type == "thought" and self.listener:
+            self.listener()
         return ev
 
     def save(self, state_dict: dict, html: str | None = None) -> Path | None:

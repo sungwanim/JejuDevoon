@@ -44,22 +44,36 @@ TASKS_SCHEMA = {
                        "outputs": {"type": "array", "items": _OUT}}}}},
 }
 
-PLAN_SYSTEM = """당신은 제주 농업 데이터 분석 Agent의 작업 계획자다.
+PLAN_SYSTEM = """당신은 제주 공공데이터 분석 Agent의 작업 계획자다.
 하위 질문과 선택된 데이터로 **순서 있는 작업 목록**을 만든다. 규칙:
 - 작업 하나는 '어떤 중간산출물을 어떤 데이터로 만드는가'다. inputs에는 선택된 데이터셋 id 또는 앞 작업이 만든 중간산출물 id만 쓴다.
 - 앞 작업의 산출물(kind가 metrics가 아닌 것)을 뒤 작업의 입력으로 쓸 수 있다. 앞에서 만든 것만 쓴다. 재계획은 없다.
 - 작업은 필요한 만큼만(보통 1~3개). 중간산출물 id는 영문 소문자 snake_case이고 전체에서 유일해야 한다.
 - 중간산출물 설계: kind는 table|series|metrics|geo. table/series/geo는 표(컬럼 이름·dtype·단위를 모두 적는다), metrics는 dict(columns는 빈 목록).
   컬럼의 min/max는 단위 기준 상식 범위(모르면 null)다. 숫자 값을 꾸며내지 말고, 계산은 코드가 한다.
-- 데이터에 없는 것을 요구하는 작업은 만들지 않는다.
+- 데이터에 없는 것을 요구하는 작업은 만들지 않는다. 재배 적합성·가능 여부처럼 판정 기준이 되는 데이터가 없는 판단은 작업으로 만들지 않는다.
+- 지도에서 고른 한 지점에 대한 질문('여기', '이 위치')이면 입력으로 주어진 선택 지점(site_point: 위도·경도·고도)과 선택된 데이터로 그 지점의 값을 구하는 작업을 만든다.
+  다른 지점·지역을 추천하거나 순위를 매기는 작업은 만들지 않는다.
+- [재사용할 수 있는 검증된 모듈]이 작업을 풀 수 있으면, 그 모듈의 outputs와 같은 id·kind·개수·순서로 작업의 outputs를 설계하고(컬럼은 모듈의 설계를 따른다)
+  inputs에는 그 모듈이 쓰는 데이터를 넣고 title·description은 모듈의 말을 따른다. 맞는 모듈이 없을 때만 새로 설계한다.
+- 작업 title과 description은 반드시 한국어로 쓴다(영어 금지). 저장소의 검증된 모듈을 한국어로 찾기 때문이다.
+- 출력 표의 컬럼 이름은 입력 데이터의 컬럼 이름(한글 포함)을 그대로 쓰지 말고 영문 소문자 snake_case로 새로 정한다(예: season, crop, revenue_per_ha).
+  코드는 입력을 '역할 이름'으로 받아 처리하므로, 계획의 컬럼 이름과 코드 출력의 컬럼 이름이 달라지는 것을 막으려는 규칙이다.
 도구(코드 생성 단계에서 import 가능한 고정 도구)는 참고용이다."""
 
 
-def plan_user(plan: dict, selection: dict, profiles: dict) -> str:
+def module_hints(modules) -> list[dict]:
+    """계획 LLM에게 보여 줄 검증된 모듈 요약. 모듈 재사용은 작업 출력 개수가 모듈과 같아야 하므로, 계획이 모듈의 출력 구성을 따를 수 있게 알려 준다."""
+    return [{"title": m.title, "description": m.description, "inputs": {k: sorted(v) for k, v in m.input_roles.items()},
+             "outputs": [{"id": o["id"], "kind": o["kind"]} for o in m.output_schema]} for m in modules if m.status == "verified"]
+
+
+def plan_user(plan: dict, selection: dict, profiles: dict, modules=()) -> str:
     return (f"[목표]\n{(plan or {}).get('goal', '')}\n\n[하위 질문]\n{_j((plan or {}).get('sub_questions', []))}\n\n"
             f"[기간/작목/위치]\n{_j({k: (plan or {}).get(k) for k in ('period', 'crop', 'location')})}\n\n"
             f"[선택된 데이터]\n{_j((selection or {}).get('selected', []))}\n\n"
-            f"[Profile (요약 통계와 샘플 값만, 원본 행 없음)]\n{_j(profiles)}\n\n[고정 도구]\n{tool_list()}")
+            f"[Profile (요약 통계와 샘플 값만, 원본 행 없음)]\n{_j(profiles)}\n\n[고정 도구]\n{tool_list()}\n\n"
+            f"[재사용할 수 있는 검증된 모듈]\n{_j(module_hints(modules))}")
 
 
 # ---------------------------------------------------------------- 코드 생성
@@ -81,6 +95,7 @@ def check(outputs, inputs) -> list[str]:
 - 허용 import: {", ".join(sorted(ALLOWED_IMPORTS - {"__future__"}))}. 그 밖은 금지(eval/exec/open 쓰기/네트워크 등).
 - 입력 데이터가 비었거나 필요한 기간·값이 없으면 `raise DataProblem("이유")` (import 없이 쓰는 builtin).
 - 출력 DataFrame은 설계한 컬럼 이름과 dtype(float|int|str|date|bool)을 정확히 지킨다. date는 datetime64.
+  설계(outputs.columns)에 적힌 컬럼은 이름이 한 글자도 다르지 않게 전부 있어야 한다. 입력의 역할 이름을 그대로 내보내려면 설계에도 같은 이름이 있어야 한다.
 - 행 단위 파이썬 루프 대신 pandas/numpy 벡터 연산을 쓴다. 결과는 결정적이어야 한다 (무작위 금지).
 - role_mapping: 입력마다 {{역할: 실제 컬럼 이름}}. 실행 직전에 이 매핑으로 컬럼 이름이 역할 이름으로 바뀐다.
   실제 컬럼 이름은 Profile의 name을 그대로 쓴다. 코드는 실제 컬럼 이름을 쓰지 않고 역할 이름만 쓴다.'''

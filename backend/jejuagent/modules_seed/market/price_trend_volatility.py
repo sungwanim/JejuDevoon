@@ -1,7 +1,7 @@
 MANIFEST = {
     "id": "market-price-trend-volatility",
     "version": 1,
-    "verified_by": "미검토 (검토 필요: 합성 스냅샷으로만 확인)",
+    "verified_by": "미검토 (검토 필요)",
     "title": "품목별 가격 추세와 변동성",
     "description": "품목(품종)별 일별 도매가격의 기간 변화율, 일평균 기울기(추세), 변동성(일수익률 표준편차, 변동계수)과 7일 이동평균을 계산한다",
     "tags": ["price", "trend", "volatility", "market"],

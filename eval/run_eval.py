@@ -90,7 +90,6 @@ def summarize(q: dict, res, seconds: float, model: str) -> dict:
     tin, tout = sum(e.get("input_tokens", 0) for e in calls), sum(e.get("output_tokens", 0) for e in calls)
     pin, pout = PRICES.get(model, PRICES["gpt-4o"])
     render = next((e for e in ev if e["type"] == "decision" and e.get("stage") == "s5_render"), {})
-    from jejuagent.render import SYNTH_WARNING
     sel = st.selection or {}
     return {
         "id": q["id"], "category": q["category"], "status": res.status, "message": (res.message or "")[:300],
@@ -103,7 +102,7 @@ def summarize(q: dict, res, seconds: float, model: str) -> dict:
         "load_failures": st.load_failures, "needed_data": st.needed_data,
         "tasks": [_task_view(t) for t in st.tasks],
         "removed_sentences": (render.get("removed_sentences") or [])[:10], "render_fallback": render.get("fallback"),
-        "html_len": len(res.html or ""), "synthetic_warning": bool(res.html and SYNTH_WARNING in res.html),
+        "html_len": len(res.html or ""),
         "limit_hit": st.limit_hit, "llm_calls": len(calls), "input_tokens": tin, "output_tokens": tout,
         "cost_usd": round((tin * pin + tout * pout) / 1e6, 6), "llm_seconds": round(sum(e.get("ms", 0) for e in calls) / 1000, 2),
         "seconds": round(seconds, 2), "stage_errors": [f"{e.get('stage')}: {e.get('error')}" for e in ev if e["type"] == "error"],

@@ -29,7 +29,6 @@ ROWS = [
     ("infeasible", "불가 판정 정확도", "pct", "infeasible 여부 일치"),
     ("granularity", "해상도 함정 통과율", "pct", "도 전체 단위 데이터를 지점 분석의 주 데이터로 쓰지 않음"),
     ("profit", "수익 보장 요구 처리율", "pct", "판정하고 재구성 안내를 낸 비율"),
-    ("synthetic", "합성 경고 정확도", "pct", "합성 데이터를 쓴 결과에만 경고"),
     ("code_first", "코드 1회 성공률", "pct", "코드 생성·수정까지 간 작업 중 1차 성공(모듈 재사용만으로 끝난 작업 제외)"),
     ("code_within2", "코드 2회 내 성공률", "pct", "같은 작업 집합에서 2회 안에 성공"),
     ("real_after_mock_fail", "mock 통과 후 실데이터 실패율", "pct", "실데이터 단계까지 간 시도 중 실패(근사: 실데이터 단계 실패 / 도달)"),
@@ -43,7 +42,7 @@ COST_ROWS = [("avg_llm_calls", "질문당 평균 LLM 호출 수", "num"), ("avg_
              ("avg_output_tokens", "질문당 평균 출력 토큰", "num"), ("avg_seconds", "질문당 평균 소요(초)", "num"),
              ("avg_cost_usd", "질문당 평균 비용(USD, 어림)", "usd")]
 TAG_LABEL = {"status": "종료 상태", "needs": "필요한 성격", "format": "산출물 형식", "clarify": "되묻기",
-             "include": "필요 데이터 누락", "exclude": "제외할 데이터를 선택함", "infeasible": "불가 판정", "synthetic": "합성 경고",
+             "include": "필요 데이터 누락", "exclude": "제외할 데이터를 선택함", "infeasible": "불가 판정",
              "profit": "수익 보장 처리", "granularity": "해상도 함정"}
 
 
@@ -83,8 +82,6 @@ def _expected_observed(tag: str, q: dict, r: dict) -> tuple[str, str]:
         return f"제외 {ex.get('must_exclude')}", f"선택 {sel}"
     if tag == "infeasible":
         return str(ex.get("infeasible")), str(r.get("status") == "infeasible")
-    if tag == "synthetic":
-        return str(ex.get("synthetic_warning")), str(bool(r.get("synthetic_warning")))
     if tag == "profit":
         return "판정+안내", f"판정 {r.get('profit_guarantee')}, 안내 {r.get('profit_notice')}"
     return f"보조로만 {ex.get('auxiliary_only')}", f"선택 {r.get('selected')}"
@@ -147,17 +144,15 @@ def failure_counts(qs: list[dict], by_id: dict) -> tuple[Counter, Counter]:
 
 
 def crossval_markdown() -> list[str]:
-    """지점 기온 교차검증(관측소 하나씩 빼기) 평균 절대 오차. 합성 데이터면 반드시 그렇게 표기한다."""
+    """지점 기온 교차검증(관측소 하나씩 빼기) 평균 절대 오차. 수집한 실데이터가 있어야 계산된다."""
     try:
         from jejuagent.geo.climate import estimate_site
         from jejuagent.runner.datasource import SnapshotRegistry
-        aws = SnapshotRegistry().load("synthetic_aws_daily")
+        aws = SnapshotRegistry().load("jeju_weather_daily")
         cv = estimate_site(aws, 33.30, 126.55)["cross_validation"]
-        synthetic = bool(aws.attrs.get("synthetic"))
     except Exception as e:  # DEM 파일 없음 등
         return [f"계산하지 못했습니다: {type(e).__name__}: {e}", ""]
-    out = ["**합성 데이터 기준, 실제 성능 아님.** (합성 관측소 자료의 참값이 6.5℃/km 기울기로 만들어져 있어 오차가 낮게 나온다)" if synthetic
-           else "실데이터 기준.", "",
+    out = ["실데이터(jeju_weather_daily) 기준. 관측소가 농경지 위주(고도 18~208m)라 고지대 성능은 보장하지 않는다.", "",
            "| 방법 | 변수 | 일 평균 절대오차(℃) | 기간평균 절대오차(℃) | 관측소 수 |", "|---|---|---|---|---|"]
     for _, x in cv.iterrows():
         out.append(f"| {x['method']} | {x['variable']} | {x['mae_daily_c']:.2f} | {x['mae_period_mean_c']:.2f} | {int(x['n_stations'])} |")
